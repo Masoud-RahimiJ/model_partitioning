@@ -1,8 +1,9 @@
 from torch import load, save
-import os, sys, io
+import os, io
 import boto3
 from botocore.client import Config
 from collections import OrderedDict
+from pympler import asizeof
 
 
 BUCKET="dnn-models"
@@ -25,7 +26,7 @@ previous_layer_name = ""
 for key, value in  model.items():
 #    print(key)
     layer_name = extract_layer_name(key)    
-    if layer_name != previous_layer_name and sys.getsizeof(splitted_model[-1]) > MIN_LAYER_SIZE:
+    if layer_name != previous_layer_name and (len(splitted_model) == 0 or asizeof.asizeof(splitted_model[-1]) > MIN_LAYER_SIZE):
         splitted_model.append(OrderedDict())
         splitted_model[-1]._metadata = getattr(model, "_metadata", None)
     splitted_model[-1][key] = value
