@@ -9,6 +9,7 @@ def extract_module_params(module):
 
 def wrap_param_copy(param, cp):
     def wrapped_function(input_param, non_blocking=False):
+        print(param.is_loaded , non_blocking)
         result = cp(input_param, non_blocking)
         param.is_loaded = True
         return result
@@ -37,11 +38,7 @@ def wrap_module(module):
         module.is_loaded_lock = Semaphore(0)
         module.register_forward_pre_hook(forward_pre_hook)
         module.register_load_state_dict_post_hook(load_state_dict_post_hook)
-        if getattr(module.__class__, "set_extra_state", Module.set_extra_state) is not Module.set_extra_state:
-            print("eeeeeeeeee")
-        for hook in module._load_state_dict_pre_hooks.values():
-            print("eeeaaaaaaaaaaae")
-        print(module._non_persistent_buffers_set)
+
             
             
 
