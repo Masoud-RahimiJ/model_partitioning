@@ -12,7 +12,7 @@ from concurrent import futures
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet101-63fe2227"
-LAYER_COUNT = 209
+LAYER_COUNT = 18
 COUNT_THREADS = int(os.getenv("COUNT_THREADS",2))
 
 # device = torch.device("cpu")
