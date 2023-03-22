@@ -1,6 +1,6 @@
 from PIL import Image
 from torchvision import transforms
-input_image = Image.open("./dataset/dog.jpg")
+input_image = Image.open("../dataset/dog.jpg")
 preprocess = transforms.Compose([
     transforms.Resize(256),
     transforms.CenterCrop(224),

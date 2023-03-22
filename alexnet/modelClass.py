@@ -1,5 +1,4 @@
-from torch import nn
-import torch
+from torch import nn, flatten
 
 class AlexNet(nn.Module):
     def __init__(self, num_classes: int = 1000, dropout: float = 0.5) -> None:
@@ -30,9 +29,9 @@ class AlexNet(nn.Module):
             nn.Linear(4096, num_classes),
         )
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x):
         x = self.features(x)
         x = self.avgpool(x)
-        x = torch.flatten(x, 1)
+        x = flatten(x, 1)
         x = self.classifier(x)
         return x

@@ -1,16 +1,22 @@
 from torch import load, save
+import io
+import boto3
+from botocore.client import Config
 from collections import OrderedDict
 
-PATH = "./models/alexnet-owt-4df8aa71"
-FORMAT = "pth"
+BUCKET="dnn-models"
+OBJECT_NAME="alexnet-owt-4df8aa71"
+
+s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='minioadmin', config=Config(signature_version='s3v4'),)
+bucket = s3.Bucket(BUCKET)
 
 def extract_layer_name(layer):
     return '.'.join(layer.split('.')[0:-1])
 
 def get_layer_file_name(part):
-    return PATH + '_' + str(part+1) + '.' + FORMAT
+    return OBJECT_NAME + '_' + str(part+1)
 
-model = load(PATH + '.' + FORMAT)
+model = load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
 splitted_model = []
 previous_layer_name = ""
 
@@ -24,6 +30,9 @@ for key, value in  model.items():
     
 
 for i in range(len(splitted_model)):
-    save(splitted_model[i], get_layer_file_name(i))
+    buffer = io.BytesIO()
+    save(splitted_model[i], buffer)
+    buffer=buffer.getvalue()
+    bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
     
     
