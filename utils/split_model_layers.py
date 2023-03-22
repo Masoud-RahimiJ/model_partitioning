@@ -8,7 +8,7 @@ from pympler import asizeof
 
 BUCKET="dnn-models"
 OBJECT_NAME=os.getenv("OBJECT_NAME")
-MIN_LAYER_SIZE = 10*1000*1000*8
+MIN_LAYER_SIZE = 10000
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='minioadmin', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket(BUCKET)
