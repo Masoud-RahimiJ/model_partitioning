@@ -24,9 +24,9 @@ splitted_model = []
 previous_layer_name = ""
 
 for key, value in  model.items():
-    print(key)
     layer_name = extract_layer_name(key)    
     if layer_name != previous_layer_name and (len(splitted_model) == 0 or asizeof.asizeof(splitted_model[-1]) > MIN_LAYER_SIZE):
+        print(layer_name)
         splitted_model.append(OrderedDict())
         splitted_model[-1]._metadata = getattr(model, "_metadata", None)
     splitted_model[-1][key] = value
