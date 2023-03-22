@@ -1,11 +1,13 @@
 from torch import load, save
-import io
+import os, sys, io
 import boto3
 from botocore.client import Config
 from collections import OrderedDict
 
+
 BUCKET="dnn-models"
-OBJECT_NAME="alexnet-owt-4df8aa71"
+OBJECT_NAME=os.getenv("OBJECT_NAME")
+MIN_LAYER_SIZE = 10*1000*1000*8
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='minioadmin', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket(BUCKET)
@@ -21,8 +23,9 @@ splitted_model = []
 previous_layer_name = ""
 
 for key, value in  model.items():
+#    print(key)
     layer_name = extract_layer_name(key)    
-    if layer_name != previous_layer_name:
+    if layer_name != previous_layer_name and sys.getsizeof(splitted_model[-1]) > MIN_LAYER_SIZE:
         splitted_model.append(OrderedDict())
         splitted_model[-1]._metadata = getattr(model, "_metadata", None)
     splitted_model[-1][key] = value
@@ -35,4 +38,4 @@ for i in range(len(splitted_model)):
     buffer=buffer.getvalue()
     bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
     
-    
+print(len(splitted_model))
