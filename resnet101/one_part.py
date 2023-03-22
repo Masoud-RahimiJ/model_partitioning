@@ -14,7 +14,7 @@ s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id
 bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
-model = torchvision.models.resnet101(pretrained=False)
+model = torchvision.models.resnet101(weights=None)
 
 start_time =time.time()
 model_state_dict = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
