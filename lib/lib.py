@@ -39,6 +39,10 @@ def wrap_module(module):
         module.register_load_state_dict_post_hook(load_state_dict_post_hook)
         if getattr(module.__class__, "set_extra_state", Module.set_extra_state) is not Module.set_extra_state:
             print("eeeeeeeeee")
+        for hook in module._load_state_dict_pre_hooks.values():
+            print("eeeaaaaaaaaaaae")
+            
+            
 
 def wrap_model(model):
     wrap_module(model)
