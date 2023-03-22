@@ -10,7 +10,9 @@ def extract_module_params(module):
 def wrap_param_copy(param, cp, module):
     def wrapped_function(input_param, non_blocking=False):
         if param.is_loaded:
-            print(module)
+            params = extract_module_params(module)
+            for k, _ in params.items():
+                print(k)
         result = cp(input_param, non_blocking)
         param.is_loaded = True
         return result
@@ -32,9 +34,9 @@ def forward_pre_hook(module, _):
 def wrap_module(module):
     params = extract_module_params(module)
     if len(params) > 0:
-        for key, param in params.items():
+        for _, param in params.items():
             param.is_loaded = False
-            param.copy_ = wrap_param_copy(param, param.copy_, key)
+            param.copy_ = wrap_param_copy(param, param.copy_, module)
         module.must_be_loaded = True
         module.is_loaded_lock = Semaphore(0)
         module.register_forward_pre_hook(forward_pre_hook)
