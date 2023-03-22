@@ -15,12 +15,9 @@ def wrap_param_copy(param, cp):
     
 def load_state_dict_post_hook(module, _):
     if getattr(module, "must_be_loaded", False):
-        for buf in module.buffers(False):
-            if buf is not None and not getattr(buf, "is_loaded", True):
-                return
-        for param in module.parameters(False):
-            if param is not None and not getattr(param, "is_loaded", True):
-                return
+        params = extract_module_params(module)
+        for _, param in params.items():
+            if param.is_loaded == False: return
         module.must_be_loaded = False
         module.is_loaded_lock.release()
     
