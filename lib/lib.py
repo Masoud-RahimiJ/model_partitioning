@@ -9,7 +9,8 @@ def extract_module_params(module):
 
 def wrap_param_copy(param, cp):
     def wrapped_function(input_param, non_blocking=False):
-        print(param.is_loaded , non_blocking)
+        if param.is_loaded:
+            print("eee")
         result = cp(input_param, non_blocking)
         param.is_loaded = True
         return result
