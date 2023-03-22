@@ -8,11 +8,13 @@ import io
 import boto3
 from botocore.client import Config
 from concurrent import futures
-
+import os
 
 BUCKET="dnn-models"
 OBJECT_NAME="alexnet-owt-4df8aa71"
 LAYER_COUNT = 8
+COUNT_THREADS = int(os.getenv("COUNT_THREADS",2))
+
 # device = torch.device("cpu")
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='minioadmin', config=Config(signature_version='s3v4'),)
@@ -34,7 +36,7 @@ def load_model(i):
 
 start_time =time.time()
 wrap_model(model)
-executor = futures.ThreadPoolExecutor(max_workers=2):
+executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 future_to_key = {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
 output = model.forward(image)
 end_time =time.time()

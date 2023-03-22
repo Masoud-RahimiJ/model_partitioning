@@ -2,7 +2,6 @@ FROM python:3.9.16-slim
 WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-COPY ./alexnet .
-COPY ./utils .
-COPY ./lib .
-CMD [ "python3", "one_part.py" ]
+COPY . .
+WORKDIR /app/alexnet
+CMD "python3 -m alexnet.one_part" 
