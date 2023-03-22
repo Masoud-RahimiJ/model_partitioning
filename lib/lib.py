@@ -41,6 +41,7 @@ def wrap_module(module):
             print("eeeeeeeeee")
         for hook in module._load_state_dict_pre_hooks.values():
             print("eeeaaaaaaaaaaae")
+        print(module._non_persistent_buffers_set)
             
             
 
