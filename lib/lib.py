@@ -1,5 +1,6 @@
 import itertools
 from threading import Semaphore
+from torch.nn import Module
 
 def extract_module_params(module):
     persistent_buffers = {k: v for k, v in module._buffers.items() if k not in module._non_persistent_buffers_set}
@@ -36,6 +37,8 @@ def wrap_module(module):
         module.is_loaded_lock = Semaphore(0)
         module.register_forward_pre_hook(forward_pre_hook)
         module.register_load_state_dict_post_hook(load_state_dict_post_hook)
+        if getattr(module.__class__, "set_extra_state", Module.set_extra_state) is not Module.set_extra_state:
+            print("eeeeeeeeee")
 
 def wrap_model(model):
     wrap_module(model)
