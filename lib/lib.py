@@ -36,7 +36,7 @@ def wrap_module(module):
     if len(params) > 0:
         for ll, param in params.items():
             param.is_loaded = False
-            param.copy_ = wrap_param_copy(param, param.copy_, module. ll)
+            param.copy_ = wrap_param_copy(param, param.copy_, module, ll)
         module.must_be_loaded = True
         module.is_loaded_lock = Semaphore(0)
         module.register_forward_pre_hook(forward_pre_hook)
