@@ -51,7 +51,4 @@ top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
     for i in range(top5_prob.size(0)):
-        # print(categories[top5_catid[i]], top5_prob[i].item())
-        pass
-    if top5_prob[0].item() > 0.9510017634 or top5_prob[0].item() < 0.9510017632 :
-        print("!!!!!!!!    ",top5_prob[0].item())
+        print(categories[top5_catid[i]], top5_prob[i].item())
