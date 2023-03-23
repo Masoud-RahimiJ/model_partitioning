@@ -34,10 +34,9 @@ def load_model(i):
     file_name = get_layer_file_name(i)
     state_dict_buffer = io.BytesIO(bucket.Object(file_name).get()['Body'].read())
     loading_lock.acquire()
-    print("s")
+    print(i)
     layer = torch.load(state_dict_buffer)
     model.load_state_dict(layer, strict=False)
-    print("e")
     loading_lock.release()
     model.eval()
 
