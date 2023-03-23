@@ -8,6 +8,7 @@ from botocore.client import Config
 import os
 from lib.lib import wrap_model
 from concurrent import futures
+from threading import Lock
 
 
 BUCKET="dnn-models"
@@ -23,6 +24,7 @@ bucket = s3.Bucket("dnn-models")
 
 model = torchvision.models.resnet101(weights=None)
 
+loading_lock = Lock()
 
 def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
@@ -31,9 +33,9 @@ def get_layer_file_name(part):
 def load_model(i):
     file_name = get_layer_file_name(i)
     layer = torch.load(io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
-    print("s", i)
+    loading_lock.acquire()
     model.load_state_dict(layer, strict=False)
-    print("e", i)
+    loading_lock.release()
     model.eval()
 
 
