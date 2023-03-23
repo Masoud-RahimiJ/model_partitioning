@@ -11,6 +11,7 @@ from concurrent import futures
 from threading import Lock
 
 
+
 BUCKET="dnn-models"
 OBJECT_NAME="resnet101-63fe2227"
 LAYER_COUNT = 9
@@ -32,12 +33,8 @@ def get_layer_file_name(part):
 
 def load_model(i):
     file_name = get_layer_file_name(i)
-    state_dict_buffer = io.BytesIO(bucket.Object(file_name).get()['Body'].read())
-    loading_lock.acquire()
-    print(i)
-    layer = torch.load(state_dict_buffer)
+    layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
     model.load_state_dict(layer, strict=False)
-    loading_lock.release()
     model.eval()
 
 
@@ -45,6 +42,7 @@ start_time =time.time()
 wrap_model(model)
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
+model.forward(image)
 output = model.forward(image)
 end_time =time.time()
 # print(end_time-start_time)
