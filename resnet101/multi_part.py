@@ -9,8 +9,6 @@ import os
 from lib.lib import wrap_model
 from concurrent import futures
 from threading import Lock
-from collections import OrderedDict
-
 
 
 BUCKET="dnn-models"
@@ -28,25 +26,18 @@ model = torchvision.models.resnet101(weights=None)
 
 loading_lock = Lock()
 
-model_dict = OrderedDict()
-
-
 def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
 
-
 def load_model(i):
-    print(i)
     file_name = get_layer_file_name(i)
-    layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
-    print(layer._metadata)
-    for k,v in layer.items():
-        model_dict[k]=v
-    if i==LAYER_COUNT-1:
-        model.load_state_dict(model_dict, strict=False)
+    state_dict_buffer = io.BytesIO(bucket.Object(file_name).get()['Body'].read())
+    loading_lock.acquire()
+    layer = torch.load(state_dict_buffer)
+    model.load_state_dict(layer, strict=False)
+    loading_lock.release()
     model.eval()
-    print(i)
 
 
 start_time =time.time()
@@ -54,25 +45,11 @@ wrap_model(model)
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
 output = model.forward(image)
-output2 = model.forward(image)
-output3 = model.forward(image)
 end_time =time.time()
 # print(end_time-start_time)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
-    print(categories[top5_catid[0]], top5_prob[0].item())
-probabilities = torch.nn.functional.softmax(output2[0], dim=0)
-top5_prob, top5_catid = torch.topk(probabilities, 5)
-with open("./utils/imagenet_classes.txt", "r") as f:
-    categories = [s.strip() for s in f.readlines()]
-    print(categories[top5_catid[0]], top5_prob[0].item())
-probabilities = torch.nn.functional.softmax(output3[0], dim=0)
-top5_prob, top5_catid = torch.topk(probabilities, 5)
-with open("./utils/imagenet_classes.txt", "r") as f:
-    categories = [s.strip() for s in f.readlines()]
-    print(categories[top5_catid[0]], top5_prob[0].item())
-    #     pass
-    # if top5_prob[0].item() > 0.9510017634 or top5_prob[0].item() < 0.9510017632 :
-    #     print("!!!!!!!!    ",top5_prob[0].item())
+    for i in range(top5_prob.size(0)):
+        print(categories[top5_catid[i]], top5_prob[i].item())
