@@ -31,7 +31,9 @@ def get_layer_file_name(part):
 def load_model(i):
     file_name = get_layer_file_name(i)
     layer = torch.load(io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
+    print("s", i)
     model.load_state_dict(layer, strict=False)
+    print("e", i)
     model.eval()
 
 
