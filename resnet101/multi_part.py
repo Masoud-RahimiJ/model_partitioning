@@ -9,6 +9,7 @@ import os
 from lib.lib import wrap_model
 from concurrent import futures
 from threading import Lock
+from collections import OrderedDict
 
 
 
@@ -27,22 +28,21 @@ model = torchvision.models.resnet101(weights=None)
 
 loading_lock = Lock()
 
+model_dict = OrderedDict()
+
+
 def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
-model_dict = []
 
 
 def load_model(i):
     print(i)
     file_name = get_layer_file_name(i)
     layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
-    if i==0:
-        model_dict=layer
-    else:
-        for k,v in layer.items():
-            print(k)
-            model_dict[k]=v
+    for k,v in layer.items():
+        print(k)
+        model_dict[k]=v
     if i==LAYER_COUNT-1:
         model.load_state_dict(model_dict, strict=False)
     model.eval()
