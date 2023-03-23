@@ -24,6 +24,7 @@ def load_state_dict_post_hook(module, _):
     
 def forward_pre_hook(module, _):
     if getattr(module, "must_be_loaded", False) :
+        print(module)
         module.is_loaded_lock.acquire()
         module.is_loaded_lock.release()
         
