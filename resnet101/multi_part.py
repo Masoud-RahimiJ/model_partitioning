@@ -46,20 +46,24 @@ executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
 output = model.forward(image)
 output2 = model.forward(image)
+output3 = model.forward(image)
 end_time =time.time()
 # print(end_time-start_time)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
-    for i in range(top5_prob.size(0)):
-        print(categories[top5_catid[i]], top5_prob[i].item())
+    print(categories[top5_catid[0]], top5_prob[0].item())
 probabilities = torch.nn.functional.softmax(output2[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
-    for i in range(top5_prob.size(0)):
-        print(categories[top5_catid[i]], top5_prob[i].item())
+    print(categories[top5_catid[0]], top5_prob[0].item())
+probabilities = torch.nn.functional.softmax(output3[0], dim=0)
+top5_prob, top5_catid = torch.topk(probabilities, 5)
+with open("./utils/imagenet_classes.txt", "r") as f:
+    categories = [s.strip() for s in f.readlines()]
+    print(categories[top5_catid[0]], top5_prob[0].item())
     #     pass
     # if top5_prob[0].item() > 0.9510017634 or top5_prob[0].item() < 0.9510017632 :
     #     print("!!!!!!!!    ",top5_prob[0].item())
