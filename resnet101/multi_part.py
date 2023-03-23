@@ -46,6 +46,7 @@ executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 # for i in range(LAYER_COUNT):
 #     load_model(i)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
+time.sleep(1)
 output = model.forward(image)
 end_time =time.time()
 # print(end_time-start_time)
