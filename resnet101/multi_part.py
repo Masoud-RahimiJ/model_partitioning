@@ -30,12 +30,20 @@ loading_lock = Lock()
 def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
+model_dict = []
+
 
 def load_model(i):
     print(i)
     file_name = get_layer_file_name(i)
     layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
-    model.load_state_dict(layer, strict=False)
+    if i==0:
+        model_dict=layer
+    else:
+        for k,v in layer.items():
+            model_dict[k]=v
+    if i==LAYER_COUNT-1:
+        model.load_state_dict(model_dict, strict=False)
     model.eval()
     print(i)
 
