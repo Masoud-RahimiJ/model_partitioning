@@ -42,6 +42,7 @@ def load_model(i):
 
 start_time =time.time()
 wrap_model(model)
+model.eval()
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 # for i in range(LAYER_COUNT):
 #     load_model(i)
