@@ -41,6 +41,7 @@ def load_model(i):
         model_dict=layer
     else:
         for k,v in layer.items():
+            print(k)
             model_dict[k]=v
     if i==LAYER_COUNT-1:
         model.load_state_dict(model_dict, strict=False)
