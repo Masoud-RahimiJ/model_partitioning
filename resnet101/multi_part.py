@@ -14,6 +14,8 @@ BUCKET="dnn-models"
 OBJECT_NAME="resnet101-63fe2227"
 LAYER_COUNT = 9
 COUNT_THREADS = int(os.getenv("COUNT_THREADS",2))
+DD = int(os.getenv("DD",0))
+
 
 # device = torch.device("cpu")
 
@@ -28,6 +30,8 @@ def get_layer_file_name(part):
 
 
 def load_model(i):
+    if i == DD:
+        time.sleep(1)
     file_name = get_layer_file_name(i)
     layer = torch.load(io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
     model.load_state_dict(layer, strict=False)
