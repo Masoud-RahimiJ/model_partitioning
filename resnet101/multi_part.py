@@ -41,7 +41,6 @@ def load_model(i):
     file_name = get_layer_file_name(i)
     layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
     for k,v in layer.items():
-        print(k)
         model_dict[k]=v
     if i==LAYER_COUNT-1:
         model.load_state_dict(model_dict, strict=False)
