@@ -2,7 +2,6 @@ import torch
 from alexnet.modelClass import AlexNet
 import time
 from utils.image_loader import image
-import threading
 from lib.lib import wrap_model
 import io
 import boto3
