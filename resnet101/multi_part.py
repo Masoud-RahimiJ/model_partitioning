@@ -32,21 +32,29 @@ def get_layer_file_name(part):
 
 
 def load_model(i):
+    print(i)
     file_name = get_layer_file_name(i)
     layer = torch.load( io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
     model.load_state_dict(layer, strict=False)
     model.eval()
+    print(i)
 
 
 start_time =time.time()
 wrap_model(model)
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
-model.forward(image)
 output = model.forward(image)
+output2 = model.forward(image)
 end_time =time.time()
 # print(end_time-start_time)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
+top5_prob, top5_catid = torch.topk(probabilities, 5)
+with open("./utils/imagenet_classes.txt", "r") as f:
+    categories = [s.strip() for s in f.readlines()]
+    for i in range(top5_prob.size(0)):
+        print(categories[top5_catid[i]], top5_prob[i].item())
+probabilities = torch.nn.functional.softmax(output2[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
