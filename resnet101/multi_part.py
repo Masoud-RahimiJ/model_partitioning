@@ -53,4 +53,4 @@ with open("./utils/imagenet_classes.txt", "r") as f:
         # print(categories[top5_catid[i]], top5_prob[i].item())
         pass
     if top5_prob[0].item() > 9510017634 or top5_prob[0].item() < 9510017632 :
-        print(DD,"      ",top5_prob[i].item())
+        print(DD,"      ",top5_prob[0].item())
