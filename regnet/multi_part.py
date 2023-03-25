@@ -6,7 +6,7 @@ import io
 import boto3
 from botocore.client import Config
 import os
-from lib.lib import wrap_model
+from lib.lib import wrap_module
 from concurrent import futures
 
 
@@ -35,7 +35,7 @@ def load_model(i):
 
 
 start_time =time.time()
-wrap_model(model)
+wrap_module(model)
 model.eval()
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}

@@ -2,7 +2,7 @@ import torch
 from alexnet.modelClass import AlexNet
 import time
 from utils.image_loader import image
-from lib.lib import wrap_model
+from lib.lib import wrap_module
 import io
 import boto3
 from botocore.client import Config
@@ -34,7 +34,7 @@ def load_model(i):
 
 
 start_time =time.time()
-wrap_model(model)
+wrap_module(model)
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 future_to_key = {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
 output = model.forward(image)

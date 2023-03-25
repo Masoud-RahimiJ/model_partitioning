@@ -1,6 +1,5 @@
 import itertools
-from threading import Semaphore
-from torch.nn import Module
+from threading import Event
 
 def extract_module_params(module):
     persistent_buffers = {k: v for k, v in module._buffers.items() if k not in module._non_persistent_buffers_set}
@@ -15,34 +14,27 @@ def wrap_param_copy(param, cp):
     return wrapped_function
     
 def load_state_dict_post_hook(module, _):
-    if getattr(module, "must_be_loaded", False):
+    if not module.is_loaded.is_set():
         params = extract_module_params(module)
         for _, param in params.items():
             if param.is_loaded == False: return
-        module.must_be_loaded = False
-        module.is_loaded_lock.release()
+        module.is_loaded.set()
     
 def forward_pre_hook(module, _):
-    if getattr(module, "must_be_loaded", False) :
-        # print(module)
-        module.is_loaded_lock.acquire()
-        module.is_loaded_lock.release()
+    if not module.is_loaded.is_set():
+        module.is_loaded.wait()
         
-def wrap_module(module):
+def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
         for _, param in params.items():
             param.is_loaded = False
             param.copy_ = wrap_param_copy(param, param.copy_)
-        module.must_be_loaded = True
-        module.is_loaded_lock = Semaphore(0)
+        module.is_loaded = Event()
         module.register_forward_pre_hook(forward_pre_hook)
         module.register_load_state_dict_post_hook(load_state_dict_post_hook)
-
-            
-            
-
-def wrap_model(model):
-    wrap_module(model)
+ 
+def wrap_module(model):
+    wrap_layer(model)
     for module in model.children():
-        wrap_model(module)
+        wrap_module(module)
