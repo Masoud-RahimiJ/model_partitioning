@@ -37,7 +37,10 @@ def load_model(i):
     layer_bin = io.BytesIO(layer_download_connection.read())
     download_lock.release()
     loading_lock.acquire()
+    size = layer_bin.__sizeof__()
+    s = time.time()
     layer = torch.load(layer_bin)
+    print(size/(time.time()-s))
     model.load_state_dict(layer, strict=False)
     loading_lock.release()
 
