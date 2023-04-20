@@ -33,16 +33,16 @@ def get_layer_file_name(part):
 def load_model(i):
     file_name = get_layer_file_name(i)
     layer_download_connection = bucket.Object(file_name).get()['Body']
-    # download_lock.acquire()
+    download_lock.acquire()
     print("download ", i)
     layer_bin = io.BytesIO(layer_download_connection.read())
     print("f download ", i)
-    # download_lock.release()
-    # loading_lock.acquire()
+    download_lock.release()
+    loading_lock.acquire()
     print("load ", i)
     layer = torch.load(layer_bin)
     model.load_state_dict(layer, strict=False)
-    # loading_lock.release()
+    loading_lock.release()
     print("f load ", i)
 
 
