@@ -37,7 +37,7 @@ def load_model(i):
     layer_bin = io.BytesIO(layer_download_connection.read())
     download_lock.release()
     loading_lock.acquire()
-    layer = torch.load()
+    layer = torch.load(layer_bin)
     model.load_state_dict(layer, strict=False)
     loading_lock.release()
 
