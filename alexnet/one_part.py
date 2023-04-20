@@ -14,7 +14,7 @@ s3 = boto3.resource('s3', endpoint_url='http://130.127.134.73:9000',aws_access_k
 bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
-model = AlexNet().device(device)
+model = AlexNet().to(device)
 
 start_time =time.time()
 model_state_dict = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
