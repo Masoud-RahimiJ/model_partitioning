@@ -18,7 +18,7 @@ COUNT_THREADS = int(os.getenv("COUNT_THREADS",2))
 
 device = torch.device("cpu")
 
-s3 = boto3.resource('s3', endpoint_url='http://130.127.134.73:9000',aws_access_key_id='masoud', aws_secret_access_key='minioadmin', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://130.127.134.73:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
 model = torchvision.models.regnet_y_128gf(weights=None).to(device)
