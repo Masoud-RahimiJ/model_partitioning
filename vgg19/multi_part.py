@@ -8,13 +8,15 @@ from botocore.client import Config
 import os
 from lib.lib import wrap_module
 from concurrent import futures
-
+from threading import Lock 
 
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19-dcbb9e9d"
 LAYER_COUNT = 10
 COUNT_THREADS = int(os.getenv("COUNT_THREADS",2))
 
+download_lock = Lock()
+loading_lock = Lock()
 
 # device = torch.device("cpu")
 
@@ -30,8 +32,14 @@ def get_layer_file_name(part):
 
 def load_model(i):
     file_name = get_layer_file_name(i)
-    layer = torch.load(io.BytesIO(bucket.Object(file_name).get()['Body'].read()))
+    layer_download_connection = bucket.Object(file_name).get()['Body']
+    download_lock.acquire()
+    layer_bin = io.BytesIO(layer_download_connection.read())
+    download_lock.release()
+    loading_lock.acquire()
+    layer = torch.load()
     model.load_state_dict(layer, strict=False)
+    loading_lock.release()
 
 
 start_time =time.time()
