@@ -40,6 +40,7 @@ def load_model(i):
     layer = torch.load(layer_bin)
     model.load_state_dict(layer, strict=False)
     loading_lock.release()
+    print(i)
 
 
 start_time =time.time()
