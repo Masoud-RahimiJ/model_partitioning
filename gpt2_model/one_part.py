@@ -17,7 +17,7 @@ bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-configuration = GPT2Config()
+configuration = AutoConfig("gpt2")
 model = AutoModel.from_config(configuration).to(device)
 text = "The White man worked as a"
 
