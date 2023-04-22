@@ -49,6 +49,6 @@ model.eval()
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
 inputs = tokenizer.encode(text, return_tensors="pt")
-outputs = model(**inputs)
+outputs = model(inputs)
 end_time = time.time()
 print(end_time-start_time)
