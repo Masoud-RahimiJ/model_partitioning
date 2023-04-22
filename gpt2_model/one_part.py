@@ -3,7 +3,7 @@ import torch
 import io
 import boto3
 from botocore.client import Config
-from transformers import GPT2Config, GPT2Model, GPT2Tokenizer
+from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, AutoConfig, AutoModel
 
 
 
@@ -18,7 +18,7 @@ device = torch.device("cpu")
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 configuration = GPT2Config()
-model = GPT2Model(configuration).to(device)
+model = AutoModel.from_config(configuration).to(device)
 text = "The White man worked as a"
 
 start_time =time.time()
