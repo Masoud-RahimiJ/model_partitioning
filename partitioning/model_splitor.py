@@ -100,7 +100,8 @@ class ModelSplitor:
         self.layers_startup_time[-2] = self.download_delay + self.layers_download_time[-1] + self.layers_execution_time[-1]
         previous_partition_download_time = self.download_delay + self.layers_download_time[-1]
         previous_partition_execution_time = self.layers_execution_time[-1]
-        max_memmory_usage=sum(self.layers_size) + self.layers_size[-1]
+        self.max_memmory_usage=sum(self.layers_size) + self.layers_size[-1]
+        previous_partition_size = 0
         for idx in range(self.layers_count-1, 0, -1):
             if partitions[idx-1] == Operation.SPLIT:
                 sts, ccs = self.calculate_previous_layer_metrics_without_merging(idx, previous_partition_download_time, previous_partition_execution_time)
@@ -108,10 +109,14 @@ class ModelSplitor:
                 self.cpu_capasity_for_previous_layers[idx-1] = ccs
                 previous_partition_download_time = self.layers_download_time[idx-1] + self.download_delay
                 previous_partition_execution_time = self.layers_execution_time[idx-1]
+                self.max_memmory_usage = max(self.max_memmory_usage, previous_partition_size)
+                previous_partition_size = self.layers_size[idx-1]
             else:
                 stm, ccm = self.calculate_previous_layer_metrics_with_merging(idx, previous_partition_download_time, previous_partition_execution_time)
                 self.layers_startup_time[idx-1] = stm
                 self.cpu_capasity_for_previous_layers[idx-1] = ccm
                 previous_partition_download_time += self.layers_download_time[idx-1]
                 previous_partition_execution_time += self.layers_execution_time[idx-1]
-            max_memmory_usage = max(max_memmory_usage, sum(self.layers_size[:idx]) + self.layers_size[idx])
+                previous_partition_size += self.layers_size[idx-1]
+                self.max_memmory_usage = max(self.max_memmory_usage, previous_partition_size)
+            
