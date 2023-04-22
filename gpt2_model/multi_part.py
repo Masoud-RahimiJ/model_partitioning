@@ -8,7 +8,7 @@ import boto3
 from botocore.client import Config
 from lib.lib import wrap_module
 from concurrent import futures
-from transformers import GPT2Config, GPT2LMHeadModel, GPT2Tokenizer, pipeline, set_seed
+from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, pipeline, set_seed
 from threading import Lock
 
 
@@ -40,17 +40,16 @@ def load_model(i):
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 configuration = GPT2Config()
-model = GPT2LMHeadModel(configuration).to(device)
-set_seed(42)
+model = GPT2Model(configuration).to(device)
 text = "The White man worked as a"
-generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
 
 start_time =time.time()
 wrap_module(model)
 model.eval()
 executor = futures.ThreadPoolExecutor(max_workers=COUNT_THREADS)
 {executor.submit(load_model, i): i for i in range(LAYER_COUNT)}
-output = generator(text, max_length=10, num_return_sequences=1)
+inputs = tokenizer(text, return_tensors="pt")
+outputs = model(**inputs)
 end_time = time.time()
 print(end_time-start_time)
-print(output)
+print(outputs)
