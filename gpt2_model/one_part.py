@@ -3,7 +3,7 @@ import torch
 import io
 import boto3
 from botocore.client import Config
-from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, pipeline, set_seed
+from transformers import GPT2Config, GPT2LMHeadModel, GPT2Tokenizer, pipeline, set_seed
 
 
 
@@ -18,7 +18,7 @@ device = torch.device("cpu")
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 configuration = GPT2Config()
-model = GPT2Model(configuration).to(device)
+model = GPT2LMHeadModel(configuration).to(device)
 set_seed(42)
 text = "The White man worked as a"
 generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
