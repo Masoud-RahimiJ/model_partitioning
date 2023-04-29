@@ -29,6 +29,7 @@ for key, value in  model.items():
         print(layer_name)
         splitted_model.append(OrderedDict())
         splitted_model[-1]._metadata = getattr(model, "_metadata", None)
+        print(getattr(model, "_metadata", None))
     splitted_model[-1][key] = value
     previous_layer_name = layer_name
     
