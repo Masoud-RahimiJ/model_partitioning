@@ -12,7 +12,7 @@ from threading import Lock
 
 BUCKET="dnn-models"
 OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
-LAYER_COUNT = 35
+LAYER_COUNT = 227
 COUNT_THREADS = int(os.getenv("COUNT_THREADS",3))
 
 download_lock = Lock()
