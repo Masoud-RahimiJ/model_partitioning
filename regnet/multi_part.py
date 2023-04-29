@@ -85,5 +85,6 @@ with open("./utils/imagenet_classes.txt", "r") as f:
         
 throuput = over["size"] / over["time"]
 delay = (firs["time"] - (firs["size"] / throuput))/firs["count"]
+print(over)
 print(throuput)
 print(delay)
