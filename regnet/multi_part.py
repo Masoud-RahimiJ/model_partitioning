@@ -38,9 +38,11 @@ def load_model(i):
         download_stream = download_body.iter_chunks(1000000)
         layer_bin = io.BytesIO()
         download_lock.acquire()
+        is_locked = True
         for chunk in download_stream:
-            if download_body.tell()/total_length > 0.9:
+            if download_body.tell()/total_length > 0.9 and is_locked:
                 download_lock.release()
+                is_locked = False
             layer_bin.write(chunk)
         layer_bin.seek(0)
         layer = torch.load(layer_bin)
