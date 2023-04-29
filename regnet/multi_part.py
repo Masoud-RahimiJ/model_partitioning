@@ -39,27 +39,28 @@ def load_model(i):
         download_body = layer_download_connection.get()['Body']
         download_stream = download_body.iter_chunks(1000000)
         layer_bin = io.BytesIO()
-        download_lock.acquire()
-        is_locked = True
-        fi=True
-        ll = time.time()
-        pr = 0
+        is_locked = False
+        if total_length > 6000000:
+            download_lock.acquire()
+            is_locked = True
+        # fi=True
+        # ll = time.time()
+        # pr = 0
         for chunk in download_stream:
-            if not fi:
-                over["size"] += download_body.tell() - pr
-                over["time"] += time.time() - ll
-            if fi:
-                firs["size"] += download_body.tell() - pr
-                firs["time"] += time.time() - ll
-                firs["count"] += 1
-                fi = False
-            pr = download_body.tell()
+            # if not fi:
+            #     over["size"] += download_body.tell() - pr
+            #     over["time"] += time.time() - ll
+            # if fi:
+            #     firs["size"] += download_body.tell() - pr
+            #     firs["time"] += time.time() - ll
+            #     firs["count"] += 1
+            #     fi = False
+            # pr = download_body.tell()
             if total_length - download_body.tell() < 6000000 and is_locked:
-                print((total_length - download_body.tell())/1000000)
                 download_lock.release()
                 is_locked = False
             layer_bin.write(chunk)
-            ll = time.time()
+            # ll = time.time()
         layer_bin.seek(0)
         layer = torch.load(layer_bin)
         model.load_state_dict(layer, strict=False)
