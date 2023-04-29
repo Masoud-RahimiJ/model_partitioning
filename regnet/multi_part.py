@@ -84,8 +84,8 @@ with open("./utils/imagenet_classes.txt", "r") as f:
     for i in range(top5_prob.size(0)):
         print(categories[top5_catid[i]], top5_prob[i].item())
         
-throuput = over["size"] / over["time"]
-delay = (firs["time"] - (firs["size"] / throuput))/firs["count"]
-print(over)
-print(throuput)
-print(delay)
+# throuput = over["size"] / over["time"]
+# delay = (firs["time"] - (firs["size"] / throuput))/firs["count"]
+# print(over)
+# print(throuput)
+# print(delay)
