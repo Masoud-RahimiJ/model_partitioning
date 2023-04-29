@@ -19,8 +19,8 @@ download_lock = Lock()
 
 device = torch.device("cpu")
 
-s3 = boto3.client('s3', endpoint_url='http://130.127.134.73:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
-# bucket = s3.Bucket("dnn-models")
+s3 = boto3.resource('s3', endpoint_url='http://130.127.134.73:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+bucket = s3.Bucket("dnn-models")
 
 model = torchvision.models.regnet_y_128gf(weights=None).to(device)
 
@@ -32,17 +32,15 @@ def get_layer_file_name(part):
 def load_model(i):
     try:
         file_name = get_layer_file_name(i)
-        meta_data = s3.head_object(Bucket=BUCKET, Key=file_name)
-        total_length = int(meta_data.get('ContentLength', 0))
-        downloaded = 0
-        def progress(chunk):
-            nonlocal downloaded
-            downloaded += chunk
-            if downloaded/total_length > 0.9 and download_lock.locked():
-                download_lock.release()
-        download_lock.acquire()
+        layer_download_connection = bucket.Object(file_name)
+        total_length = layer_download_connection.Content_length
+        download_body = layer_download_connection.get()['Body']
+        download_stream = download_body.iter_chunks(1000000)
         layer_bin = io.BytesIO()
-        s3.download_file(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
+        download_lock.acquire()
+        for chunk in download_stream:
+            print(download_body.tell()/total_length)
+            layer_bin.write(chunk)
         layer = torch.load(layer_bin)
         model.load_state_dict(layer, strict=False)
     except Exception as e:
