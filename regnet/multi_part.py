@@ -41,7 +41,7 @@ def load_model(i):
             download_lock.release()
     download_lock.acquire()
     layer_bin = io.BytesIO()
-    s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin)
+    s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
     layer = torch.load(layer_bin)
     model.load_state_dict(layer, strict=False)
 
