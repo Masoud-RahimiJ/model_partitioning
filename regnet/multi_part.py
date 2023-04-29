@@ -39,11 +39,11 @@ def load_model(i):
         download_stream = download_body.iter_chunks(500000)
         layer_bin = io.BytesIO()
         is_locked = False
-        if total_length > 1000000:
+        if total_length > 100000:
             download_lock.acquire()
             is_locked = True
         for chunk in download_stream:
-            if total_length - download_body.tell() < 1000000 and is_locked:
+            if total_length - download_body.tell() < 100000 and is_locked:
                 download_lock.release()
                 is_locked = False
             layer_bin.write(chunk)
