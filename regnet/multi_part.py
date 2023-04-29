@@ -13,7 +13,7 @@ from threading import Lock
 BUCKET="dnn-models"
 OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
 LAYER_COUNT = 114
-COUNT_THREADS = int(os.getenv("COUNT_THREADS",3))
+COUNT_THREADS = int(os.getenv("COUNT_THREADS",5))
 
 download_lock = Lock()
 
@@ -36,7 +36,7 @@ def load_model(i):
         layer_download_connection = bucket.Object(file_name)
         total_length = layer_download_connection.content_length
         download_body = layer_download_connection.get()['Body']
-        download_stream = download_body.iter_chunks(800000)
+        download_stream = download_body.iter_chunks(1000000)
         layer_bin = io.BytesIO()
         download_lock.acquire()
         is_locked = True
