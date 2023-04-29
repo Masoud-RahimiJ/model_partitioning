@@ -45,7 +45,7 @@ def load_model(i):
         layer_bin = io.BytesIO()
         s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
         print("!!!!!")
-        layer = torch.load(layer_bin)
+        layer = torch.load(layer_bin.getvalue())
         model.load_state_dict(layer, strict=False)
     except Exception as e:
         print(e)
