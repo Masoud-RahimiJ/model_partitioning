@@ -16,7 +16,6 @@ LAYER_COUNT = 22
 COUNT_THREADS = int(os.getenv("COUNT_THREADS",3))
 
 download_lock = Lock()
-loading_lock = Lock()
 
 device = torch.device("cpu")
 
@@ -32,17 +31,19 @@ def get_layer_file_name(part):
 
 def load_model(i):
     file_name = get_layer_file_name(i)
-    layer_download_connection = bucket.Object(file_name).get()['Body']
+    meta_data = s3.head_object(Bucket=BUCKET, Key=file_name)
+    total_length = int(meta_data.get('ContentLength', 0))
+    downloaded = 0
+    def progress(chunk):
+        nonlocal downloaded
+        downloaded += chunk
+        if downloaded/total_length > 0.9 and download_lock.locked():
+            download_lock.release()
     download_lock.acquire()
-    layer_bin = io.BytesIO(layer_download_connection.read())
-    download_lock.release()
-    loading_lock.acquire()
-    size = layer_bin.__sizeof__()
-    s = time.time()
+    layer_bin = io.BytesIO()
+    s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin)
     layer = torch.load(layer_bin)
     model.load_state_dict(layer, strict=False)
-    print(int((size/1000)/(time.time()-s)))
-    loading_lock.release()
 
 
 
