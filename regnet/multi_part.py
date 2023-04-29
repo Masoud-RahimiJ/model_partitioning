@@ -30,6 +30,7 @@ def get_layer_file_name(part):
 
 
 def load_model(i):
+    print(i)
     file_name = get_layer_file_name(i)
     meta_data = s3.head_object(Bucket=BUCKET, Key=file_name)
     total_length = int(meta_data.get('ContentLength', 0))
