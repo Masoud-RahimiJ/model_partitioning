@@ -54,7 +54,7 @@ def load_model(i):
                 firs["count"] += 1
                 fi = False
             pr = download_body.tell()
-            if total_length - download_body.tell() < 1000000 and is_locked:
+            if total_length - download_body.tell() < 6000000 and is_locked:
                 print((total_length - download_body.tell())/1000000)
                 download_lock.release()
                 is_locked = False
