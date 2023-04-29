@@ -38,14 +38,12 @@ def load_model(i):
         def progress(chunk):
             nonlocal downloaded
             downloaded += chunk
-            print(downloaded/total_length)
             if downloaded/total_length > 0.9 and download_lock.locked():
                 download_lock.release()
         download_lock.acquire()
         layer_bin = io.BytesIO()
-        s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
-        print("!!!!!")
-        layer = torch.load(layer_bin.getvalue())
+        s3.download_file(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
+        layer = torch.load(layer_bin)
         model.load_state_dict(layer, strict=False)
     except Exception as e:
         print(e)
