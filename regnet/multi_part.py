@@ -59,6 +59,7 @@ def load_model(i):
                 download_lock.release()
                 is_locked = False
             layer_bin.write(chunk)
+            ll = time.time()
         layer_bin.seek(0)
         layer = torch.load(layer_bin)
         model.load_state_dict(layer, strict=False)
