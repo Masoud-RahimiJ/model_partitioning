@@ -31,6 +31,7 @@ def get_layer_file_name(part):
 
 def load_model(i):
     try:
+        print(i)
         file_name = get_layer_file_name(i)
         layer_download_connection = bucket.Object(file_name)
         total_length = layer_download_connection.content_length
