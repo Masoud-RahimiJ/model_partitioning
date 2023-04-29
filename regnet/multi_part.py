@@ -29,6 +29,8 @@ def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
 
+firs ={"size":0,"time":0, "count":0}
+over = {"size":0,"time":0}
 def load_model(i):
     try:
         file_name = get_layer_file_name(i)
@@ -39,7 +41,19 @@ def load_model(i):
         layer_bin = io.BytesIO()
         download_lock.acquire()
         is_locked = True
+        fi=True
+        ll = time.time()
+        pr = 0
         for chunk in download_stream:
+            if not fi:
+                over["size"] += download_body.tell() - pr
+                over["time"] += time.time() - ll
+            if fi:
+                firs["size"] += download_body.tell() - pr
+                firs["time"] += time.time() - ll
+                firs["count"] += 1
+                fi = False
+            pr = download_body.tell()
             if total_length - download_body.tell() < 1000000 and is_locked:
                 print((total_length - download_body.tell())/1000000)
                 download_lock.release()
@@ -68,3 +82,7 @@ with open("./utils/imagenet_classes.txt", "r") as f:
     for i in range(top5_prob.size(0)):
         print(categories[top5_catid[i]], top5_prob[i].item())
         
+throuput = over["size"] / over["time"]
+delay = (firs["time"] - (firs["size"] / throuput))/firs["count"]
+print(throuput)
+print(delay)
