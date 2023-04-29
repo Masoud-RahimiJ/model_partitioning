@@ -36,7 +36,7 @@ def load_model(i):
         layer_download_connection = bucket.Object(file_name)
         total_length = layer_download_connection.content_length
         download_body = layer_download_connection.get()['Body']
-        download_stream = download_body.iter_chunks(200000)
+        download_stream = download_body.iter_chunks(500000)
         layer_bin = io.BytesIO()
         is_locked = False
         if total_length > 1000000:
