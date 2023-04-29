@@ -33,7 +33,7 @@ def load_model(i):
     try:
         file_name = get_layer_file_name(i)
         layer_download_connection = bucket.Object(file_name)
-        total_length = layer_download_connection.Content_length
+        total_length = layer_download_connection.content_length
         download_body = layer_download_connection.get()['Body']
         download_stream = download_body.iter_chunks(1000000)
         layer_bin = io.BytesIO()
