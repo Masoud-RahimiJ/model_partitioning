@@ -42,7 +42,7 @@ def load_model(i):
             if download_body.tell()/total_length > 0.9:
                 download_lock.release()
             layer_bin.write(chunk)
-        print(layer_bin.tell())
+        layer_bin.seek(0)
         layer = torch.load(layer_bin)
         model.load_state_dict(layer, strict=False)
     except Exception as e:
