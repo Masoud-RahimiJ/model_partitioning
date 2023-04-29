@@ -30,21 +30,23 @@ def get_layer_file_name(part):
 
 
 def load_model(i):
-    print(i)
-    file_name = get_layer_file_name(i)
-    meta_data = s3.head_object(Bucket=BUCKET, Key=file_name)
-    total_length = int(meta_data.get('ContentLength', 0))
-    downloaded = 0
-    def progress(chunk):
-        nonlocal downloaded
-        downloaded += chunk
-        if downloaded/total_length > 0.9 and download_lock.locked():
-            download_lock.release()
-    download_lock.acquire()
-    layer_bin = io.BytesIO()
-    s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
-    layer = torch.load(layer_bin)
-    model.load_state_dict(layer, strict=False)
+    try:
+        file_name = get_layer_file_name(i)
+        meta_data = s3.head_object(Bucket=BUCKET, Key=file_name)
+        total_length = int(meta_data.get('ContentLength', 0))
+        downloaded = 0
+        def progress(chunk):
+            nonlocal downloaded
+            downloaded += chunk
+            if downloaded/total_length > 0.9 and download_lock.locked():
+                download_lock.release()
+        download_lock.acquire()
+        layer_bin = io.BytesIO()
+        s3.download_fileobj(Bucket=BUCKET, Key=file_name, Fileobj=layer_bin, Callback=progress)
+        layer = torch.load(layer_bin)
+        model.load_state_dict(layer, strict=False)
+    except Exception as e:
+        print(e)
 
 
 
