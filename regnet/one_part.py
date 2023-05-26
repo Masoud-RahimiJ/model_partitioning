@@ -20,8 +20,10 @@ start_time =time.time()
 model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 print(time.time()-start_time)
 model_state_dict = torch.load(model_bin)
+del model_bin
 print(time.time()-start_time)
 model.load_state_dict(model_state_dict)
+del model_state_dict
 print(time.time()-start_time)
 model.eval()
 output = model.forward(image)

@@ -1,13 +1,23 @@
 from threading import Event
 
 def extract_module_params(module):
-    module.trainable_weights()
+    return module.trainable_weights()
 
-def wrap_param_assign(param, assign):
+def wrap_param_assign_op(param, assign):
     def wrapped_function(input_param, use_locking=False):
         result = assign(input_param, use_locking)
         param.is_loaded = True
         return result
+    return wrapped_function
+
+def wrap_param_assign(param, assign):
+    def wrapped_function(shape):
+        assign_f = assign(shape)
+        def wrap_assign_function(input_param, use_locking=False):
+            result = assign_f(input_param, use_locking)
+            param.is_loaded = True
+            return result
+        return wrap_assign_function
     return wrapped_function
 
 def wrap_module_finalize_state(module, finalize_state):
@@ -33,7 +43,7 @@ def wrap_layer(module):
         for param in params:
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
-                param._assign_op = wrap_param_assign(param, param._assign_op)
+                param._assign_op = wrap_param_assign_op(param, param._assign_op)
             else:
                 param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
