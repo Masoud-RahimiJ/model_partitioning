@@ -2,5 +2,5 @@ torch==1.13.1
 torchvision==0.14.1
 boto3==1.26.94
 tensorflow
-mxnet
+mxnet==1.6.0
 transformers
