@@ -1,4 +1,5 @@
 import mxnet as mx
+import numpy as np
 
 img_path = "./dataset/dog.jpg"
 image = mx.image.imread(img_path)
