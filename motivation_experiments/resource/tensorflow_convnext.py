@@ -17,4 +17,4 @@ bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 
 # preds = model.predict(image)
 # print('Predicted:', decode_predictions(preds, top=5)[0])
-sleep(5)
+sleep(20)
