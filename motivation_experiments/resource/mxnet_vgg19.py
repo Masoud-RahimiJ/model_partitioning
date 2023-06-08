@@ -16,14 +16,14 @@ bucket = s3.Bucket("dnn-models")
 ctx = mx.cpu()
 model = vision.vgg19(pretrained=False, ctx=ctx)
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-# model.load_parameters(OBJECT_NAME)
+model.load_parameters(OBJECT_NAME)
 
-# predictions = model(image).softmax()
-# top_pred = predictions.topk(k=5)[0].asnumpy()
-# with open("./utils/imagenet_classes.txt", "r") as f:
-#     categories = [s.strip() for s in f.readlines()]
-#     for index in top_pred:
-#         probability = predictions[0][int(index)]
-#         category = categories[int(index)]
-#         print("{}: {:.2f}%".format(category, probability.asscalar()*100))
+predictions = model(image).softmax()
+top_pred = predictions.topk(k=5)[0].asnumpy()
+with open("./utils/imagenet_classes.txt", "r") as f:
+    categories = [s.strip() for s in f.readlines()]
+    for index in top_pred:
+        probability = predictions[0][int(index)]
+        category = categories[int(index)]
+        print("{}: {:.2f}%".format(category, probability.asscalar()*100))
 sleep(20)
