@@ -3,7 +3,7 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install mxnet==1.6.0
 RUN pip install boto3==1.26.94
-RUN pip install -U numpy
+RUN pip install -U numpy==1.23.1
 RUN apt-get update
 RUN apt-get install libgomp1
 COPY . .
