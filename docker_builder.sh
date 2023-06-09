@@ -6,3 +6,8 @@ sudo docker build -t vgg19_one_part -f ./vgg19/dockerfile_one .
 sudo docker build -t vgg19_multi_part -f ./vgg19/dockerfile_multi .
 sudo docker build -t regnet_one_part -f ./regnet/dockerfile_one .
 sudo docker build -t regnet_multi_part -f ./regnet/dockerfile_multi .
+sudo docker build -t resource_motivational_experiments -f ./motivation_experiments/resource/dockerfile .
+sudo docker build -t me_time_mxnet -f ./motivation_experiments/time/mxnet/dockerfile .
+sudo docker build -t me_time_pytorch -f ./motivation_experiments/time/pytorch/dockerfile .
+sudo docker build -t me_time_tensorflow -f ./motivation_experiments/time/tensorflow/dockerfile .
+sudo docker build -t me_time_transformers -f ./motivation_experiments/time/transformers/dockerfile .
