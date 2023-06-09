@@ -10,4 +10,4 @@ sudo docker build -t resource_motivational_experiments -f ./motivation_experimen
 sudo docker build -t me_time_mxnet -f ./motivation_experiments/time/mxnet/dockerfile .
 sudo docker build -t me_time_pytorch -f ./motivation_experiments/time/pytorch/dockerfile .
 sudo docker build -t me_time_tensorflow -f ./motivation_experiments/time/tensorflow/dockerfile .
-sudo docker build -t me_time_transformers -f ./motivation_experiments/time/transformers/dockerfile .
+sudo docker build -t me_time_transformers -f ./motivation_experiments/time/transformer/dockerfile .

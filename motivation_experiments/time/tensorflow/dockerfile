@@ -3,4 +3,6 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install tensorflow
 RUN pip install boto3==1.26.94
+RUN pip install image
+RUN pip install pillow
 COPY . .
