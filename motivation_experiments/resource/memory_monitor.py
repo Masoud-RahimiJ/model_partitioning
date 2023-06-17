@@ -15,7 +15,7 @@ def total_memory_usage(pid):
         parent = psutil.Process(pid)
     except psutil.NoSuchProcess:
         print(f"No such process: {pid}")
-        return 0
+        exit(0)
     total_memory = parent.memory_info().rss
     children = parent.children(recursive=True)
     for child in children:
