@@ -19,9 +19,9 @@ model = torchvision.models.regnet_y_128gf(weights=None).to(device)
 model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 model_state_dict = torch.load(model_bin)
 del model_bin
-time.sleep(1)
+time.sleep(2)
 model.load_state_dict(model_state_dict)
-time.sleep(1)
+time.sleep(2)
 del model_state_dict
 # model.eval()
 # output = model.forward(image)
