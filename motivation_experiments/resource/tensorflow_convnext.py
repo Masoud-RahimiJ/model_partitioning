@@ -15,9 +15,9 @@ bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 model.load_weights(OBJECT_NAME)
 
 
-# image = preprocess_input(image)
+image = preprocess_input(image)
 
-# preds = model.predict(image)
-# print(time()-s)
+preds = model.predict(image)
+print(time()-s)
 
-# print('Predicted:', decode_predictions(preds, top=5)[0])
+print('Predicted:', decode_predictions(preds, top=5)[0])
