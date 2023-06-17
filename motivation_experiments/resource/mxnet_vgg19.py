@@ -17,7 +17,6 @@ ctx = mx.cpu()
 model = vision.vgg19(pretrained=False, ctx=ctx)
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 model.load_parameters(OBJECT_NAME)
-sleep(2)
 
 predictions = model(image).softmax()
 top_pred = predictions.topk(k=5)[0].asnumpy()
