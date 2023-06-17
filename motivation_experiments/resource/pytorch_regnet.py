@@ -21,7 +21,6 @@ model_state_dict = torch.load(model_bin)
 del model_bin
 time.sleep(2)
 model.load_state_dict(model_state_dict)
-time.sleep(2)
 del model_state_dict
 # model.eval()
 # output = model.forward(image)
