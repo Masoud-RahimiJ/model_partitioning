@@ -19,13 +19,13 @@ model = torchvision.models.regnet_y_128gf(weights=None).to(device)
 model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 model_state_dict = torch.load(model_bin)
 del model_bin
-model.load_state_dict(model_state_dict)
-del model_state_dict
-model.eval()
-output = model.forward(image)
-probabilities = torch.nn.functional.softmax(output[0], dim=0)
-top5_prob, top5_catid = torch.topk(probabilities, 5)
-with open("./utils/imagenet_classes.txt", "r") as f:
-    categories = [s.strip() for s in f.readlines()]
-    for i in range(top5_prob.size(0)):
-        print(categories[top5_catid[i]], top5_prob[i].item())
+# model.load_state_dict(model_state_dict)
+# del model_state_dict
+# model.eval()
+# output = model.forward(image)
+# probabilities = torch.nn.functional.softmax(output[0], dim=0)
+# top5_prob, top5_catid = torch.topk(probabilities, 5)
+# with open("./utils/imagenet_classes.txt", "r") as f:
+#     categories = [s.strip() for s in f.readlines()]
+#     for i in range(top5_prob.size(0)):
+#         print(categories[top5_catid[i]], top5_prob[i].item())

@@ -2,14 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from time import sleep
 
-figures = ["mxnet vgg19.csv", "pytorch regnet-y-128gf.csv", "tensorflow convnext-xlarge.csv", "transformers gpt2-large.csv"]
+figures = ["mxnet vgg19.csv", "pytorch regnet-y-128gf.csv", "tensorflow convnext-xlarge.csv"]
 
 
 def import_data_from_file(file):
     content = file.read().split('\n')
     content = list(map(lambda line: line.split(';'), content))
     x = np.array(range(len(content)))
-    y = np.array(list(map(lambda point: int(int(point[1])/1000000), content)))
+    y = np.array(list(map(lambda point: int(int(point[1])), content)))
     return x, y
 
 
