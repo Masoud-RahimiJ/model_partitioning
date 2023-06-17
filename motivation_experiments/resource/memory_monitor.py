@@ -3,7 +3,8 @@ import os
 import psutil
 
 container_name = "exp"
-pid = os.popen('docker inspect -f "{{.State.Pid}}" ' + container_name).read().strip()
+pid = os.popen('sudo docker inspect -f "{{.State.Pid}}" ' + container_name).read().strip()
+print(pid)
 pid = int(pid)
 print(f"PID of {container_name} is {pid}")
 
