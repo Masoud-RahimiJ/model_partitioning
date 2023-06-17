@@ -23,7 +23,7 @@ def total_memory_usage(pid):
     total_memory = total_memory / 1024 / 1024
     return total_memory
 
-def monitor_memory_usage(pid, interval=0.05):
+def monitor_memory_usage(pid, interval=0.01):
     while True:
         print(int(10000*time.time()), int(total_memory_usage(pid)))
         time.sleep(interval)
