@@ -19,8 +19,10 @@ model = torchvision.models.regnet_y_128gf(weights=None).to(device)
 model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 model_state_dict = torch.load(model_bin)
 del model_bin
-# model.load_state_dict(model_state_dict)
-# del model_state_dict
+time.sleep(1)
+model.load_state_dict(model_state_dict)
+time.sleep(1)
+del model_state_dict
 # model.eval()
 # output = model.forward(image)
 # probabilities = torch.nn.functional.softmax(output[0], dim=0)
