@@ -26,4 +26,6 @@ with open("./utils/imagenet_classes.txt", "r") as f:
         probability = predictions[0][int(index)]
         category = categories[int(index)]
         print("{}: {:.2f}%".format(category, probability.asscalar()*100))
+        
+sleep(2)
 

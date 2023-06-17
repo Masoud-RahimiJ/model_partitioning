@@ -8,8 +8,8 @@ figures = ["mxnet vgg19.csv", "pytorch regnet-y-128gf.csv", "tensorflow convnext
 def import_data_from_file(file):
     content = file.read().split('\n')
     content = list(map(lambda line: line.split(';'), content))
-    x = np.array(range(len(content)))
-    y = np.array(list(map(lambda point: int(int(point[1])), content)))
+    x = np.array(list(map(lambda point: (int(point[0]) - int(content[0][0]))/10000, content)))
+    y = np.array(list(map(lambda point: int(point[1]), content)))
     return x, y
 
 
