@@ -29,4 +29,3 @@ with open("./utils/imagenet_classes.txt", "r") as f:
     categories = [s.strip() for s in f.readlines()]
     for i in range(top5_prob.size(0)):
         print(categories[top5_catid[i]], top5_prob[i].item())
-time.sleep(5)
