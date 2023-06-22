@@ -16,13 +16,10 @@ bucket = s3.Bucket("dnn-models")
 ctx = mx.cpu()
 model = vision.vgg19(pretrained=False, ctx=ctx)
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-bucket.download_file(Filename="1"+OBJECT_NAME, Key=OBJECT_NAME)
-bucket.download_file(Filename="2"+OBJECT_NAME, Key=OBJECT_NAME)
 
 model.load_parameters(OBJECT_NAME)
-model.load_parameters("1"+OBJECT_NAME)
-model.load_parameters("2"+OBJECT_NAME)
-# model.load_parameters(OBJECT_NAME)
+model.load_parameters(OBJECT_NAME)
+os.remove(OBJECT_NAME)
 
 
 predictions = model(image).softmax()
