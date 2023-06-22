@@ -17,9 +17,9 @@ ctx = mx.cpu()
 model = vision.vgg19(pretrained=False, ctx=ctx)
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 model.load_parameters(OBJECT_NAME)
-model.load_parameters(OBJECT_NAME)
-model.load_parameters(OBJECT_NAME)
-model.load_parameters(OBJECT_NAME)
+# model.load_parameters(OBJECT_NAME)
+# model.load_parameters(OBJECT_NAME)
+# model.load_parameters(OBJECT_NAME)
 
 
 predictions = model(image).softmax()
