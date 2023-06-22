@@ -13,9 +13,6 @@ s=time()
 model = ConvNeXtXLarge( model_name="convnext_xlarge", include_top=True, include_preprocessing=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 model.load_weights(OBJECT_NAME)
-model.load_weights(OBJECT_NAME)
-model.load_weights(OBJECT_NAME)
-model.load_weights(OBJECT_NAME)
 
 
 
