@@ -23,6 +23,8 @@ model.load_parameters(OBJECT_NAME)
 sleep(10)
 model.load_parameters(OBJECT_NAME)
 sleep(10)
+model.load_parameters(OBJECT_NAME)
+sleep(10)
 
 
 predictions = model(image).softmax()
