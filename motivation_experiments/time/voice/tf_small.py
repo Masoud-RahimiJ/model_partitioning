@@ -6,6 +6,7 @@ from botocore.client import Config
 import numpy as np
 import time
 import subprocess
+import torch
 print(time.time()-start)
 
 
@@ -87,8 +88,9 @@ print(time.time()-start)
 
 
 start = time.time()
-output = model(audio)
-output = processor.batch_decode(output.logits[0], skip_special_tokens=True)
+logits = model(audio).logits[0]
+pred_ids = torch.argmax(logits, axis=-1)
+output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
 
 print(output)
