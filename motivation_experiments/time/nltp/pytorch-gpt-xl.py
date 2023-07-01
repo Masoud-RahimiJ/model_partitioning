@@ -22,7 +22,7 @@ set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 config=AutoConfig.from_pretrained('gpt2-xl')
 model = GPT2LMHeadModel(config)
-model.eval()
+# model.eval()
 print(time.time()-start)
 
 start = time.time()

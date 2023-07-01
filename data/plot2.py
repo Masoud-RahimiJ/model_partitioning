@@ -15,11 +15,22 @@ import pandas as pd
 # }
 
 labels = ["Container and Library Initialization", "Initialize Model", "Download Model", "Load Model",  "Execute"]
-gpt_xl_data = {
+#vision
+#smal
+vgg19_data = {
     "mxnet":  [2.086, 0.005, 0.927, 0.189, 0.262],
     "tensorflow":  [2.732, 0.483, 0.973, 0.45, 0.508],
     "pyotch": [1.777, 1.745, 0.95, 0.2, 0.065]
 }
+
+
+#text
+#large
+gpt_xl_data = {
+    "tensorflow":  [3.432, 1.3, 9.362, 4.26, 19.8],
+    "pyotch": [3.577, 22.66, 9.22, 2.1, 6.74]
+}
+
 
 sum_time = {k: sum(data[k]) for k in data}
 
