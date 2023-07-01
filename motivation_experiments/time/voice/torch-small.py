@@ -31,7 +31,7 @@ print(time.time()-start)
 # print(time.time()-start)
 
 start = time.time()
-generator = pipeline('automatic-speech-recognition"', model=model, processor=processor)
+generator = pipeline('automatic-speech-recognition', model=model, processor=processor)
 print(time.time()-start)
 
 start = time.time()
