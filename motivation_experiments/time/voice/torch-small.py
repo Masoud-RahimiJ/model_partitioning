@@ -35,7 +35,7 @@ generator = pipeline('automatic-speech-recognition"', model=model, processor=pro
 print(time.time()-start)
 
 start = time.time()
-output = generator("audio.mp3")
+output = generator("sample2.flac")
 print(time.time()-start)
 
 print(output)
