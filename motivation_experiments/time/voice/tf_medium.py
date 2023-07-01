@@ -69,10 +69,11 @@ print(time.time()-start)
 
 start = time.time()
 set_seed(42)
-# processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
+processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
-# config = AutoConfig.from_pretrained('openai/whisper-medium')
-model = TFWhisperForConditionalGeneration.from_pretrained('openai/whisper-medium')
+config = AutoConfig.from_pretrained('openai/whisper-medium')
+model = TFWhisperForConditionalGeneration(config)
+model.config.forced_decoder_ids = None
 print(time.time()-start)
 
 start = time.time()
@@ -90,7 +91,7 @@ print(time.time()-start)
 start = time.time()
 logits = model(audio).logits[0]
 pred_ids = tf.math.argmax(logits)
-# output = processor.batch_decode(pred_ids, skip_special_tokens=True)
+output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
 
-print(pred_ids)
+print(pred_ids, output)
