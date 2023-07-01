@@ -1,6 +1,6 @@
 import time
 start = time.time()
-from transformers import WhisperProcessor, WhisperForConditionalGeneration, AutoFeatureExtractor, AutoConfig, set_seed
+from transformers import WhisperProcessor, TFWhisperForConditionalGeneration, AutoFeatureExtractor, AutoConfig, set_seed
 import boto3
 from botocore.client import Config
 import numpy as np
@@ -72,7 +72,7 @@ set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-large-v2')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-large-v2")
 config = AutoConfig.from_pretrained('openai/whisper-large-v2')
-model = WhisperForConditionalGeneration(config)
+model = TFWhisperForConditionalGeneration(config)
 print(time.time()-start)
 
 start = time.time()
