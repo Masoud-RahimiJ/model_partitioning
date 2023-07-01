@@ -1,6 +1,6 @@
 import time
 start = time.time()
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoConfig, pipeline, set_seed
+from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time
@@ -20,6 +20,7 @@ bucket = s3.Bucket("dnn-models")
 start = time.time()
 set_seed(42)
 processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
+feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
 config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
 model = Wav2Vec2ForCTC(config)
 model.eval()
@@ -31,7 +32,7 @@ print(time.time()-start)
 # print(time.time()-start)
 
 start = time.time()
-generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor)
+generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor, feature_extractor=feature_extractor)
 print(time.time()-start)
 
 start = time.time()
