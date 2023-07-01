@@ -27,18 +27,35 @@ vgg19_data = {
 #text
 #small
 gpt_data = {
-    "tensorflow":  [3.432, 1.12, 0.663, 0.36, 4],
+    "tensorflow":  [3.22, 1.12, 0.663, 0.36, 4],
     "pyotch": [3.51, 3.27, 0.66, 0.18, 0.85]
 }
 #medium
 gpt_medium_data = {
-    "tensorflow":  [3.432, 1.34, 2, 0.83, 8.01],
+    "tensorflow":  [3.19, 1.34, 2, 0.83, 8.01],
     "pyotch": [3.49, 6.45, 2.18, 0.58, 2.2]
 }
 #large
 gpt_xl_data = {
     "tensorflow":  [3.432, 1.3, 9.362, 4.26, 19.8],
     "pyotch": [3.577, 22.66, 9.22, 2.1, 6.74]
+}
+
+#audio
+#small
+wav2vec_data = {
+    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
+}
+#medium
+whisper_medium_data = {
+    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
+}
+#large
+whisper_large_data = {
+    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
 }
 
 
