@@ -9,7 +9,7 @@ print(time.time()-start)
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="gtp-xl.pt"
+OBJECT_NAME="gpt.pt"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
@@ -19,8 +19,8 @@ print(time.time()-start)
 
 start = time.time()
 set_seed(42)
-tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
-config=AutoConfig.from_pretrained('gpt2-xl')
+tokenizer = AutoTokenizer.from_pretrained('gpt2')
+config=AutoConfig.from_pretrained('gpt2')
 model = GPT2LMHeadModel(config)
 model.eval()
 print(time.time()-start)
