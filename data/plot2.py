@@ -44,17 +44,17 @@ gpt_xl_data = {
 #audio
 #small
 wav2vec_data = {
-    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "tensorflow":  [3.24, 1.11, 0.55, 0.24, 0.7],
     "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
 }
 #medium
 whisper_medium_data = {
-    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "tensorflow":  [3.16, 1.37, 4.65, 0.24, 0.7],
     "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
 }
 #large
 whisper_large_data = {
-    "tensorflow":  [3.6, 1.11, 0.55, 0.24, 0.7],
+    "tensorflow":  [3.32, 1.11, 0.55, 0.24, 0.7],
     "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
 }
 
