@@ -93,4 +93,4 @@ pred_ids = tf.math.argmax(logits)
 output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
 
-print(output)
+print(pred_ids)
