@@ -1,7 +1,11 @@
+import time
+start = time.time()
 from transformers import AutoTokenizer, AutoConfig, GPT2LMHeadModel, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time
+import torch
+print(time.time()-start)
 
 
 BUCKET="dnn-models"
@@ -22,7 +26,8 @@ model.eval()
 print(time.time()-start)
 
 start = time.time()
-model.load_weights(OBJECT_NAME)
+state_dict = torch.load(OBJECT_NAME)
+model.load_state_dict(state_dict)
 print(time.time()-start)
 
 text = "Replace me by any text you'd like."
