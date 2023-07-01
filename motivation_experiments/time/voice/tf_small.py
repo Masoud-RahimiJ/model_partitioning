@@ -88,7 +88,7 @@ print(time.time()-start)
 
 start = time.time()
 output = model(audio)
-output = processor.decode(output)
+output = processor.decode(output.logits)
 print(time.time()-start)
 
 print(output)
