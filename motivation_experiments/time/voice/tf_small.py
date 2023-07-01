@@ -1,15 +1,14 @@
 import time
 start = time.time()
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
+from transformers import Wav2Vec2Processor, TFWav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time
-import torch
 print(time.time()-start)
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="wav.pt"
+OBJECT_NAME="wav.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
@@ -22,19 +21,20 @@ set_seed(42)
 processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
 config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
-model = Wav2Vec2ForCTC(config)
-model.eval()
+model = TFWav2Vec2ForCTC(config)
 print(time.time()-start)
 
-start = time.time()
-state_dict = torch.load(OBJECT_NAME)
-model.load_state_dict(state_dict, strict=False)
-model.tie_weights()
-print(time.time()-start)
 
 start = time.time()
 generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor, feature_extractor=feature_extractor)
 print(time.time()-start)
+
+generator("sample2.flac")
+
+start = time.time()
+model.load_weights(OBJECT_NAME)
+print(time.time()-start)
+
 
 start = time.time()
 output = generator("sample2.flac")
