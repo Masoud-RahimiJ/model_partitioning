@@ -88,7 +88,7 @@ print(time.time()-start)
 
 start = time.time()
 output = model(audio)
-output = processor.decode(output.logits)
+output = processor.batch_decode(output.logits, skip_special_tokens=True)
 print(time.time()-start)
 
 print(output)
