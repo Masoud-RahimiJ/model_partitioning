@@ -18,13 +18,23 @@ labels = ["Container and Library Initialization", "Initialize Model", "Download 
 #vision
 #smal
 vgg19_data = {
-    "mxnet":  [2.086, 0.005, 0.927, 0.189, 0.262],
-    "tensorflow":  [2.732, 0.483, 0.973, 0.45, 0.508],
-    "pyotch": [1.777, 1.745, 0.95, 0.2, 0.065]
+    "mxnet":  [2.086, 0.005, 0.627, 0.189, 0.262],
+    "tensorflow":  [2.732, 0.483, 0.693, 0.45, 0.508],
+    "pyotch": [1.777, 1.745, 0.65, 0.2, 0.065]
 }
 
 
 #text
+#small
+gpt_data = {
+    "tensorflow":  [3.432, 1.3, 9.362, 4.26, 19.8],
+    "pyotch": [3.51, 3.27, 0.66, 0.18, 0.85]
+}
+#medium
+gpt_medium_data = {
+    "tensorflow":  [3.432, 1.34, 2, 0.83, 8.01],
+    "pyotch": [3.49, 6.45, 2.18, 0.58, 2.2]
+}
 #large
 gpt_xl_data = {
     "tensorflow":  [3.432, 1.3, 9.362, 4.26, 19.8],
