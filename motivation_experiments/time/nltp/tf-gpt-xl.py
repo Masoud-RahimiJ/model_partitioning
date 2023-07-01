@@ -20,13 +20,14 @@ config=AutoConfig.from_pretrained('gpt2-xl')
 model = TFGPT2LMHeadModel(config)
 print(time.time()-start)
 
-start = time.time()
-model.load_weights(OBJECT_NAME)
-print(time.time()-start)
-
 text = "Replace me by any text you'd like."
 start = time.time()
 generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+print(time.time()-start)
+generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
+
+start = time.time()
+model.load_weights(OBJECT_NAME)
 print(time.time()-start)
 
 start = time.time()

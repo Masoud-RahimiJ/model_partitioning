@@ -15,15 +15,10 @@ import pandas as pd
 # }
 
 labels = ["Container and Library Initialization", "Initialize Model", "Download Model", "Load Model",  "Execute"]
-data = {
-    # "mxnet-resnet152":  [0.449, 0.484],
-    # "pytorch-resnet152":  [0.324, 0.239],
-    "mxnet":  [2.086, 0.005, 0.627, 0.189, 0.262],
-    "tensorflow":  [2.732, 0.483, 0.693, 0.45, 0.508],
-    # "pytorch-regnet_y_128gf":  [3.975, 1.627],
-    # "tensorflow-convnext_xlarg":  [2.405, 7.35],
-    # "transformer-gpt2_big":  [4.795, 5.153],
-    "pyotch": [1.777, 1.745, 0.65, 0.2, 0.065]
+gpt_xl_data = {
+    "mxnet":  [2.086, 0.005, 0.927, 0.189, 0.262],
+    "tensorflow":  [2.732, 0.483, 0.973, 0.45, 0.508],
+    "pyotch": [1.777, 1.745, 0.95, 0.2, 0.065]
 }
 
 sum_time = {k: sum(data[k]) for k in data}
