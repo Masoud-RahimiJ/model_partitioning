@@ -27,7 +27,7 @@ vgg19_data = {
 #text
 #small
 gpt_data = {
-    "tensorflow":  [3.432, 1.3, 9.362, 4.26, 19.8],
+    "tensorflow":  [3.432, 1.12, 0.663, 0.36, 4],
     "pyotch": [3.51, 3.27, 0.66, 0.18, 0.85]
 }
 #medium
