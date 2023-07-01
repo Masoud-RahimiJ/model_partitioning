@@ -1,6 +1,6 @@
 import time
 start = time.time()
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
+from transformers import Wav2Vec2Processor, TFWav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time
@@ -22,7 +22,7 @@ set_seed(42)
 processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
 # config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
-model = Wav2Vec2ForCTC.from_pretrained('facebook/wav2vec2-base-960h')
+model = TFWav2Vec2ForCTC.from_pretrained('facebook/wav2vec2-base-960h')
 model.eval()
 print(time.time()-start)
 
