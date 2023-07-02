@@ -17,20 +17,19 @@ start = time.time()
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 print(time.time()-start)
 
-start = time.time()
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 config=AutoConfig.from_pretrained('gpt2-xl')
+start = time.time()
 model = GPT2LMHeadModel(config)
-model.eval()
 print(time.time()-start)
+model.eval()
 
 start = time.time()
 state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(state_dict)
 print(time.time()-start)
 
-text = "Replace me by any text you'd like."
 start = time.time()
 generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 print(time.time()-start)

@@ -54,9 +54,11 @@ whisper_medium_data = {
 }
 #large
 whisper_large_data = {
-    "tensorflow":  [3.32, 1.11, 0.55, 0.24, 0.7],
-    "pyotch": [3.65, 2.23, 0.56, 0.167, 0.52]
+    "tensorflow":  [3.32, 1.54, 9.04, 5.2, 22.54],
+    "pyotch": [3.57, 17.77, 8.88, 2.12, 16.87]
 }
+
+data=whisper_large_data
 
 
 sum_time = {k: sum(data[k]) for k in data}
@@ -81,7 +83,7 @@ ax1.bar(list(data.keys()), figure_points[4], bottom=figure_points[0]+figure_poin
 ax1.set_xlabel("Library",  fontdict={"fontsize":15})
 ax1.set_ylabel("percent",  fontdict={"fontsize":15})
 ax1.legend(labels)
-ax1.set_title("VGG19-vision-small", fontdict={"fontsize":20})
+ax1.set_title("whisper_large_audio", fontdict={"fontsize":20})
 
 ax2 = ax1.twinx()
 
