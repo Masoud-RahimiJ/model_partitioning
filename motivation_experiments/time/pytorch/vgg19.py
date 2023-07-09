@@ -29,7 +29,7 @@ model.eval()
 times.append(time.time())
 from utils.image_loader import image
 times.append(time.time())
-output = model.forward(image)
+output = model.forward(image.to(device))
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
 with open("./utils/imagenet_classes.txt", "r") as f:
