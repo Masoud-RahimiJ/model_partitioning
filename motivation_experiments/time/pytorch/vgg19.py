@@ -28,6 +28,7 @@ model.load_state_dict(model_state_dict)
 model.eval()
 times.append(time.time())
 model.to(device)
+times.append(time.time())
 from utils.image_loader import image
 image = image.to(device)
 times.append(time.time())
