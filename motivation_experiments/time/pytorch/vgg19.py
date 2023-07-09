@@ -17,7 +17,7 @@ OBJECT_NAME="vgg19-dcbb9e9d.pth"
 device = torch.device("cuda")
 times.append(time.time())
 
-model = torchvision.models.vgg19(weights=None)
+model = torchvision.models.vgg19(weights=None).to(device)
 times.append(time.time())
 
 # model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
@@ -26,8 +26,6 @@ model_state_dict = torch.load(OBJECT_NAME)
 times.append(time.time())
 model.load_state_dict(model_state_dict)
 model.eval()
-times.append(time.time())
-model.to(device)
 times.append(time.time())
 from utils.image_loader import image
 image = image.to(device)
