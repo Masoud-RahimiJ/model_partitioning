@@ -14,7 +14,7 @@ OBJECT_NAME="vgg19-dcbb9e9d.pth"
 
 # s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 # bucket = s3.Bucket("dnn-models")
-device = torch.device("cuda")
+device = torch.device("cpu")
 times.append(time.time())
 
 model = torchvision.models.vgg19(weights=None).to(device)
@@ -22,7 +22,7 @@ times.append(time.time())
 
 # model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 # times.append(time.time())
-model_state_dict = torch.load(OBJECT_NAME, map_location=device)
+model_state_dict = torch.load(OBJECT_NAME)
 times.append(time.time())
 model.load_state_dict(model_state_dict)
 model.eval()

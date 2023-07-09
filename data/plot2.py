@@ -20,7 +20,8 @@ labels = ["Container and Library Initialization", "Initialize Model", "Download 
 vgg19 = {
     "mxnet":  [2.086, 0.005, 0.627, 0.189, 0.262],
     "tensorflow":  [2.732, 0.483, 0.693, 0.45, 0.508],
-    "pyotch": [1.777, 1.745, 0.65, 0.2, 0.065]
+    "pyotch": [1.777, 1.745, 0.65, 0.2, 0.065],
+    "pyotch-gpu": [1.88, 2.87, 0.65, 0.35, 0.619]
 }
 
 
