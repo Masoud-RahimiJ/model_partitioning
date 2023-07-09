@@ -22,9 +22,9 @@ times.append(time.time())
 
 # model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 # times.append(time.time())
-model_state_dict = torch.load(OBJECT_NAME)
+model_state_dict = torch.load(OBJECT_NAME, map_location=device)
 times.append(time.time())
-model.load_state_dict(model_state_dict,  map_location=device)
+model.load_state_dict(model_state_dict)
 model.eval()
 times.append(time.time())
 from utils.image_loader import image
