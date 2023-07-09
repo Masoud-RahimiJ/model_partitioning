@@ -24,7 +24,7 @@ times.append(time.time())
 # times.append(time.time())
 model_state_dict = torch.load(OBJECT_NAME)
 times.append(time.time())
-model.load_state_dict(model_state_dict)
+model.load_state_dict(model_state_dict,  map_location=device)
 model.eval()
 times.append(time.time())
 from utils.image_loader import image
