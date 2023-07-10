@@ -10,8 +10,8 @@ s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id
 bucket = s3.Bucket("dnn-models")
 
 start = time.time()
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-print(time.time()-start)
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# print(time.time()-start)
 
 start = time.time()
 set_seed(42)
@@ -22,7 +22,7 @@ print(time.time()-start)
 
 text = "Replace me by any text you'd like."
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=0)
 print(time.time()-start)
 generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
