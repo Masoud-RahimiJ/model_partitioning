@@ -30,7 +30,7 @@ start = time.time()
 state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(state_dict)
 device = torch.device("cuda")
-model.to(device)
+# model.to(device)
 print(time.time()-start)
 
 start = time.time()
