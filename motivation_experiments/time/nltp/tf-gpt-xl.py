@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoConfig, TFGPT2LMHeadModel, pipeline,
 import boto3
 from botocore.client import Config
 import time
+import tensorflow as tf
 
 
 BUCKET="dnn-models"
@@ -22,7 +23,7 @@ print(time.time()-start)
 
 text = "Replace me by any text you'd like."
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=-1)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=0)
 print(time.time()-start)
 generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
