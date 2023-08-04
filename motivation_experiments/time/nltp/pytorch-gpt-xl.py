@@ -34,7 +34,7 @@ device = torch.device("cuda")
 print(time.time()-start)
 
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=0)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=device)
 print(time.time()-start)
 
 start = time.time()
