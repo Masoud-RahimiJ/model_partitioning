@@ -9,13 +9,14 @@ print(time.time()-start)
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="gpt.pt"
+OBJECT_NAME="../models/gpt2.pt"
+device = torch.device("cuda")
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
 start = time.time()
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-print(time.time()-start)
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# print(time.time()-start)
 
 start = time.time()
 set_seed(42)
@@ -36,7 +37,7 @@ generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 print(time.time()-start)
 
 start = time.time()
-output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
+output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1, device=0)
 print(time.time()-start)
 
 print(output)
