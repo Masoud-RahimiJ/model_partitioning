@@ -33,7 +33,7 @@ print(time.time()-start)
 
 text = "Replace me by any text you'd like."
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=1)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=[0,1])
 print(time.time()-start)
 
 start = time.time()
