@@ -2,7 +2,7 @@ import torch
 from alexnet.modelClass import AlexNet
 import time
 from utils.image_loader import image
-from lib.lib import wrap_module
+from lib.torch_model_loader import wrap_module
 import io
 import boto3
 from botocore.client import Config

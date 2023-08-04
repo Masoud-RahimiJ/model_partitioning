@@ -1,5 +1,22 @@
 import itertools
 from threading import Event
+from model_loader import ModelLoader
+from torch import load
+
+class TorchModelLoader(ModelLoader):
+    def __init__(self, model_initializer_fn, s3_bucket, config):
+        super().__init__(model_initializer_fn, s3_bucket, config)
+        
+    def _wrap_model(self, model):
+        wrap_module(model)
+        
+    def _load_partition(self, partition, partition_name):
+        partition_state_dict = load(partition)
+        if not self._model_initialized_event.is_set():
+            self._model_initialized_event.wait()
+        self._model.load_state_dict(partition_state_dict, strict=False)
+        
+        
 
 def extract_module_params(module):
     persistent_buffers = {k: v for k, v in module._buffers.items() if k not in module._non_persistent_buffers_set}

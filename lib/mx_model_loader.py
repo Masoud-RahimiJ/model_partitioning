@@ -1,4 +1,35 @@
 from threading import Event
+from model_loader import ModelLoader
+
+class MXModelLoader(ModelLoader):
+    def __init__(self, model_initializer_fn, s3_bucket, config):
+        super().__init__(model_initializer_fn, s3_bucket, config)
+        
+    def _wrap_model(self, model):
+        wrap_module(model)
+        
+    def _load_partition(self, partition, partition_name):
+        with open(partition_name, 'rb') as f:
+            f.write(partition)
+        if not self._model_initialized_event.is_set():
+            self._model_initialized_event.wait()
+        self._model.load_parameters(partition_name, allow_missing=True, ignore_extra=True)
+        
+        
+def wrap_module(model):
+    wrap_layer(model)
+    for module in model._children.values():
+        wrap_module(module)
+        
+def wrap_layer(module):
+    params = extract_module_params(module)
+    if len(params) > 0:
+        for param in params:
+            param.is_loaded = False
+            param._load_init = wrap_param_load_init(param, param._load_init)
+        module.is_loaded = Event()
+        module.register_forward_pre_hook(forward_pre_hook)
+        wrap_module_load_dict(module, module.load_dict)
 
 def extract_module_params(module):
     return module._reg_params.items()
@@ -31,17 +62,3 @@ def forward_pre_hook(block, _):
     if not block.is_loaded.is_set():
         block.is_loaded.wait()
         
-def wrap_layer(module):
-    params = extract_module_params(module)
-    if len(params) > 0:
-        for param in params:
-            param.is_loaded = False
-            param._load_init = wrap_param_load_init(param, param._load_init)
-        module.is_loaded = Event()
-        module.register_forward_pre_hook(forward_pre_hook)
-        wrap_module_load_dict(module, module.load_dict)
-
-def wrap_module(model):
-    wrap_layer(model)
-    for module in model._children.values():
-        wrap_module(module)

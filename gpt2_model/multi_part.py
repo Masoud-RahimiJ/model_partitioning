@@ -6,7 +6,7 @@ import io
 import os
 import boto3
 from botocore.client import Config
-from lib.lib import wrap_module
+from lib.torch_model_loader import wrap_module
 from concurrent import futures
 from transformers import AutoConfig, AutoModel, GPT2Tokenizer
 from threading import Lock

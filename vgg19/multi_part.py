@@ -6,7 +6,7 @@ import io
 import boto3
 from botocore.client import Config
 import os
-from lib.lib import wrap_module
+from lib.lib_torch import wrap_module
 from concurrent import futures
 from threading import Lock 
 
