@@ -9,25 +9,27 @@ from botocore.client import Config
 times.append(time.time())
 
 BUCKET="dnn-models"
-OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
+OBJECT_NAME="../models/regnet.pt"
 
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
-device = torch.device("cpu")
+device = torch.device("cuda")
 times.append(time.time())
 
-model = torchvision.models.regnet_y_128gf(weights=None).to(device)
+model = torchvision.models.regnet_y_128gf(weights=None)
 times.append(time.time())
 
 model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 times.append(time.time())
 model_state_dict = torch.load(model_bin)
+model.to(device)
 times.append(time.time())
 model.load_state_dict(model_state_dict)
 model.eval()
 times.append(time.time())
 from utils.image_loader import image
+image
 times.append(time.time())
 output = model.forward(image)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
