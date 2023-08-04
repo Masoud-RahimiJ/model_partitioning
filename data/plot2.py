@@ -71,7 +71,9 @@ gpt_pytorch= [4.6,3.98,0.66,3.06,0.54]
 gpt_md_pytorch= [4.6,9.50,2.16,3.96,0.73]
 gpt_xl_pytorch= [4.6,37.1,9.12,8.2,1.17]
 
-
+wav_pytorch= [4.6,2.35,0.56,2.05,0.64]
+whisper_pytorch= [4.6,9.50,2.16,3.96,0.73]
+whisper_large_pytorch= [4.6,37.1,9.12,8.2,1.17]
 
 data={
     "image": {

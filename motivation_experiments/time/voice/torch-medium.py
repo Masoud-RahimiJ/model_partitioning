@@ -77,6 +77,7 @@ print(time.time()-start)
 
 start = time.time()
 audio = load_audio("sample2.flac", feature_extractor)
+audio.to(device)
 predicted_ids = model.generate(audio)
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 print(time.time()-start)
