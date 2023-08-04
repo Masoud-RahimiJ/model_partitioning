@@ -10,13 +10,13 @@ print(time.time()-start)
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="whisper-large.pt"
+OBJECT_NAME="../models/whisper-large.pt"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
-start = time.time()
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-print(time.time()-start)
+# start = time.time()
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# print(time.time()-start)
 
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
     ar = f"{sampling_rate}"
@@ -70,6 +70,8 @@ print(time.time()-start)
 start = time.time()
 state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(state_dict, strict=False)
+device=torch.device("cuda")
+model.to(device)
 model.tie_weights()
 print(time.time()-start)
 
