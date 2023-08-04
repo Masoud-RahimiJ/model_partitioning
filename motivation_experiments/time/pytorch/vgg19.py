@@ -22,7 +22,7 @@ times.append(time.time())
 
 # model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
 # times.append(time.time())
-model_state_dict = torch.load(OBJECT_NAME, map_location="cuda:0")
+model_state_dict = torch.load(OBJECT_NAME)
 times.append(time.time())
 model.load_state_dict(model_state_dict)
 model.to(device)
