@@ -9,7 +9,7 @@ from botocore.client import Config
 times.append(time.time())
 
 BUCKET="dnn-models"
-OBJECT_NAME="../models/vgg19.pt"
+OBJECT_NAME="../models/regnet.pt"
 
 
 # s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
@@ -17,7 +17,7 @@ OBJECT_NAME="../models/vgg19.pt"
 device = torch.device("cuda")
 # times.append(time.time())
 
-model = torchvision.models.vgg19(weights=None)
+model = torchvision.models.regnet_y_128gf(weights=None)
 times.append(time.time())
 
 # model_bin = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())

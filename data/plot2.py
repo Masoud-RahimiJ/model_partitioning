@@ -61,6 +61,12 @@ whisper_large = {
     "pyotch": [3.57, 17.77, 8.88, 2.12, 16.87]
 }
 
+
+####gpu
+vgg19_pytoch = [1.5,2.76,0.64,1.78,0.58]
+
+
+
 data={
     "image": {
         "small": {"vgg19": vgg19}
