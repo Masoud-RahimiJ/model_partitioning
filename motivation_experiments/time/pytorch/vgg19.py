@@ -9,7 +9,7 @@ from botocore.client import Config
 times.append(time.time())
 
 BUCKET="dnn-models"
-OBJECT_NAME="vgg19-dcbb9e9d.pth"
+OBJECT_NAME="../models/vgg19.pt"
 
 
 # s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
