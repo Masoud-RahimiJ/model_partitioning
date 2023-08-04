@@ -18,7 +18,7 @@ start = time.time()
 # print(time.time()-start)
 
 start = time.time()
-set_seed(42)
+set_seed(20)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-medium')
 config=AutoConfig.from_pretrained('gpt2-medium')
 model = GPT2LMHeadModel(config)
@@ -36,7 +36,7 @@ generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device
 print(time.time()-start)
 
 start = time.time()
-output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
+output = generator("Hello, I'm a language model and I can", max_length=30, num_return_sequences=1)
 print(time.time()-start)
 
 print(output)
