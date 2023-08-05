@@ -66,27 +66,27 @@ bucket = s3.Bucket("dnn-models")
 # start = time.time()
 # bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # print(time.time()-start)
+with tf.device("/CPU:0"):
+    start = time.time()
+    set_seed(42)
+    processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
+    feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
+    config = AutoConfig.from_pretrained('openai/whisper-medium')
+    model = TFWhisperForConditionalGeneration(config)
+    print(time.time()-start)
 
-start = time.time()
-set_seed(42)
-processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
-feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
-config = AutoConfig.from_pretrained('openai/whisper-medium')
-model = TFWhisperForConditionalGeneration(config)
-print(time.time()-start)
-
-start = time.time()
-audio = load_audio("sample2.flac", feature_extractor)
-print(time.time()-start)
-
-
-model.generate(input_features=audio.input_features, max_new_tokens=15)
-
-start = time.time()
-model.load_weights(OBJECT_NAME)
-print(time.time()-start)
+    start = time.time()
+    audio = load_audio("sample2.flac", feature_extractor)
+    print(time.time()-start)
 
 
-start = time.time()
-logits = model.generate(input_features=audio.input_features, max_new_tokens=15)
-print(time.time()-start)
+    model.generate(input_features=audio.input_features, max_new_tokens=15)
+
+    start = time.time()
+    model.load_weights(OBJECT_NAME)
+    print(time.time()-start)
+
+
+    start = time.time()
+    logits = model.generate(input_features=audio.input_features, max_new_tokens=15)
+    print(time.time()-start)

@@ -57,7 +57,7 @@ whisper_medium = {
 }
 #large
 whisper_large = {
-    "tensorflow":  [3.32, 1.54, 9.04, 5.2, 22.54],
+    "tensorflow":  [3.32, 1.54, 9.04, 5.2, 28.54],
     "pyotch": [3.57, 17.77, 8.88, 2.12, 16.87]
 }
 
