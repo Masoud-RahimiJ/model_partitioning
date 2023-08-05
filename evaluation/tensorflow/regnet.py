@@ -30,14 +30,17 @@ config = AutoConfig.from_pretrained("facebook/regnet-y-040")
 model=TFRegNetForImageClassification(config)
 print(time.time() - start_time)
 
+
+
+image = feature_extractor(image, return_tensors="tf")
+
+model(**image)
+
 start_time = time.time()
 model.load_weights(OBJECT_NAME)
 print(time.time() - start_time)
 
 start_time = time.time()
-
-image = feature_extractor(image, return_tensors="tf")
-
 logits = model(**image).logits
 predicted_label = int(tf.math.argmax(logits, axis=-1))
 print(time.time() - start_time)
