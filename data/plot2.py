@@ -52,7 +52,7 @@ wav2vec = {
 }
 #medium
 whisper_medium = {
-    "tensorflow":  [3.16, 1.37, 4.65, 1.54, 13.04],
+    "tensorflow":  [3.16, 1.37, 4.65, 1.54, 15.04],
     "pyotch": [3.57, 9.6, 4.5, 1, 9.05]
 }
 #large
