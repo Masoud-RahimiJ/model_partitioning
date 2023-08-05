@@ -80,7 +80,7 @@ audio = load_audio("sample2.flac", feature_extractor)
 print(time.time()-start)
 
 
-model(audio, decoder_input_ids=audio)
+model.generate(input_features=audio)
 
 start = time.time()
 model.load_weights(OBJECT_NAME)
