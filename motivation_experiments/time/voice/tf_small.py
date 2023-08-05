@@ -1,6 +1,6 @@
 import time
 start = time.time()
-from transformers import Wav2Vec2Processor, TFWav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
+from transformers import TFWav2Vec2Processor, TFWav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import numpy as np
@@ -69,7 +69,7 @@ bucket = s3.Bucket("dnn-models")
 
 start = time.time()
 set_seed(42)
-processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
+processor = TFWav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
 config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
 model = TFWav2Vec2ForCTC(config)
