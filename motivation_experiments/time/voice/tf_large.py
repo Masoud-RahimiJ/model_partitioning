@@ -59,13 +59,13 @@ def load_audio(inputs, feature_extractor):
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="whisper-large.h5"
+OBJECT_NAME="../models/whisper-large.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
-start = time.time()
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-print(time.time()-start)
+# start = time.time()
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# print(time.time()-start)
 
 start = time.time()
 set_seed(42)
@@ -80,7 +80,7 @@ audio = load_audio("sample2.flac", feature_extractor)
 print(time.time()-start)
 
 
-model(audio)
+model.generate(input_features=audio.input_features, max_new_tokens=30)
 
 start = time.time()
 model.load_weights(OBJECT_NAME)
@@ -88,9 +88,5 @@ print(time.time()-start)
 
 
 start = time.time()
-logits = model(audio).logits[0]
-pred_ids = tf.math.argmax(logits)
-output = processor.batch_decode(pred_ids, skip_special_tokens=True)
+logits =model.generate(input_features=audio.input_features, max_new_tokens=30)
 print(time.time()-start)
-
-print(pred_ids)
