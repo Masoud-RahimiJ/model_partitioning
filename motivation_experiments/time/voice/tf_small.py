@@ -88,7 +88,7 @@ print(time.time()-start)
 
 
 start = time.time()
-logits = model(**audio).logits[0]
+logits = model(**audio[0]).logits[0]
 pred_ids = tf.math.argmax(logits)
 output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
