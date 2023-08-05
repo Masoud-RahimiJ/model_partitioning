@@ -34,7 +34,7 @@ start_time = time.time()
 
 image = feature_extractor(image, return_tensors="tf")
 
-logits = model(**inputs).logits
+logits = model(**image).logits
 predicted_label = int(tf.math.argmax(logits, axis=-1))
 print(time.time() - start_time)
 
