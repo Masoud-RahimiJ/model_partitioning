@@ -25,10 +25,10 @@ with tf.device("/CPU:0"):
     image = preprocess_input(image)
     times.append(time.time())
 
-    preds = model(image)
+    preds = model.call(image)
     times.append(time.time())
     
-    preds = model(image)
+    preds = model.call(image)
     
 
 print('Predicted:', decode_predictions(preds, top=5)[0])
