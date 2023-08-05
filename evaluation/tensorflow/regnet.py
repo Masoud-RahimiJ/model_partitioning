@@ -34,7 +34,9 @@ print(time.time() - start_time)
 
 image = feature_extractor(image, return_tensors="tf")
 
+start_time = time.time()
 model(**image)
+print(time.time() - start_time)
 
 start_time = time.time()
 model.load_weights(OBJECT_NAME)
