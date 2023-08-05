@@ -39,7 +39,7 @@ model(**image)
 print(time.time() - start_time)
 
 start_time = time.time()
-model.load_weights(OBJECT_NAME)
+model.load_weights(OBJECT_NAME, by_name=True, skip_mismatch=True)
 print(time.time() - start_time)
 
 start_time = time.time()
