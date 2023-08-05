@@ -26,9 +26,9 @@ with tf.device("/GPU:0"):
     times.append(time.time())
 
     preds = model.predict(image)
-    times.append(time.time())
+    # times.append(time.time())
     
-    preds = model.predict(image)
+    # preds = model.predict(image)
     
 
 print('Predicted:', decode_predictions(preds, top=5)[0])
