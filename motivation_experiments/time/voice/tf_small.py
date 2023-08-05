@@ -7,6 +7,8 @@ import numpy as np
 import time
 import subprocess
 import tensorflow as tf
+import soundfile as sf
+
 print(time.time()-start)
 
 
@@ -76,8 +78,8 @@ model = TFWav2Vec2ForCTC(config)
 print(time.time()-start)
 
 start = time.time()
-audio = load_audio("sample2.flac", feature_extractor)
-audio = processor(audio, return_tensors="tf").input_values
+audio = sf.read("sample2.flac")
+audio = processor(audio[0], return_tensors="tf").input_values
 print(time.time()-start)
 
 
