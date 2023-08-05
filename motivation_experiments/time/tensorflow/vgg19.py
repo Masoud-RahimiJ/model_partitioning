@@ -1,7 +1,8 @@
 times = []
 import time
 times.append(time.time())
-from tensorflow.keras.applications.vgg19 import decode_predictions, preprocess_input, VGG19
+from tensorflow.keras.applications.resnet import decode_predictions, preprocess_input
+from tensorflow.keras.applications import ResNet50
 from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
@@ -14,7 +15,7 @@ OBJECT_NAME="../models/vgg19.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 times.append(time.time())
-model = VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
+model = ResNet50(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 times.append(time.time())
 # bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # times.append(time.time())
