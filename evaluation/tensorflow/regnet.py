@@ -4,6 +4,7 @@ from transformers import AutoConfig, AutoFeatureExtractor, TFRegNetForImageClass
 from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
+import tensorflow as tf
 print(time.time() - start_time)
 # from lib.tf_model_loader import TFModelLoader
 
@@ -33,8 +34,8 @@ start_time = time.time()
 
 image = feature_extractor(image, return_tensors="tf")
 
-logits = model.predict(image)
-predicted_label = logits.argmax(-1).item()
+logits = model(**inputs).logits
+predicted_label = int(tf.math.argmax(logits, axis=-1))
 print(time.time() - start_time)
 
 print('Predicted:', model.config.id2label[predicted_label])
