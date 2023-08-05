@@ -33,5 +33,7 @@ print(time.time()-start)
 start = time.time()
 output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 print(time.time()-start)
+output = generator("Once a postman said to a police,", max_length=30, num_return_sequences=1)
+print(time.time()-start)
 
 print(output)
