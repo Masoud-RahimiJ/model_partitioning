@@ -5,6 +5,7 @@ from tensorflow.keras.applications.vgg19 import decode_predictions, preprocess_i
 from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
+import tensorflow as tf
 times.append(time.time())
 
 
@@ -15,6 +16,11 @@ bucket = s3.Bucket("dnn-models")
 times.append(time.time())
 model = VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 times.append(time.time())
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
 # bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # times.append(time.time())
 model.load_weights(OBJECT_NAME)
