@@ -31,7 +31,7 @@ with tf.device("/GPU:0"):
     # preds = model.predict(image)
     
 
-print('Predicted:', decode_predictions(preds, top=5)[0])
-times.append(time.time())
-for i in range(1, len(times)):
-    print(times[i] - times[i - 1])
+    print('Predicted:', decode_predictions(preds, top=5)[0])
+    times.append(time.time())
+    for i in range(1, len(times)):
+        print(times[i] - times[i - 1])
