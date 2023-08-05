@@ -17,6 +17,10 @@ bucket = s3.Bucket("dnn-models")
 times.append(time.time())
 model = ResNet50(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 times.append(time.time())
+
+model = ResNet50(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
+
+times.append(time.time())
 # bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # times.append(time.time())
 model.load_weights(OBJECT_NAME)
