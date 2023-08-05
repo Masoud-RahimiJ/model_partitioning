@@ -54,7 +54,7 @@ def load_audio(inputs, feature_extractor):
     processed = feature_extractor(
         inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="tf"
     )
-    return processed.input_values
+    return processed.input_values[0]
 
 
 
