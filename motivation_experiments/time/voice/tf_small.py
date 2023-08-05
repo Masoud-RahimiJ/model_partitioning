@@ -77,7 +77,7 @@ print(time.time()-start)
 
 start = time.time()
 audio = load_audio("sample2.flac", feature_extractor)
-audio = processor(audio, return_tensors="tf").input_values
+audio = processor(audio, return_tensors="tf").input_values[0]
 print(time.time()-start)
 
 
