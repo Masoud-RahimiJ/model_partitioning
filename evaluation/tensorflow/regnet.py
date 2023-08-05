@@ -31,7 +31,7 @@ print(time.time() - start_time)
 
 start_time = time.time()
 
-image = feature_extractor(image, return_tensors="np")
+image = feature_extractor(image, return_tensors="tf")
 
 logits = model.predict(image)
 predicted_label = logits.argmax(-1).item()
