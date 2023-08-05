@@ -25,7 +25,7 @@ text = "Replace me by any text you'd like."
 start = time.time()
 generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=1)
 print(time.time()-start)
-generator("Hello, I'm a language model,", max_length=7, num_return_sequences=1)
+generator("Hello, I'm a language model,", max_length=9, num_return_sequences=1)
 
 start = time.time()
 model.load_weights(OBJECT_NAME)
