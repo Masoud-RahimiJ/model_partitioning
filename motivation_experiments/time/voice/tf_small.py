@@ -79,7 +79,7 @@ print(time.time()-start)
 
 start = time.time()
 audio = sf.read("sample2.flac")
-audio = processor(audio[0], return_tensors="tf").input_values
+audio = processor(audio, return_tensors="tf").input_values
 print(time.time()-start)
 
 
