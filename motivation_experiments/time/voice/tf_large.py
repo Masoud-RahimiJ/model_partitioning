@@ -1,6 +1,6 @@
 import time
 start = time.time()
-from transformers import TFWhisperProcessor, TFWhisperForConditionalGeneration, AutoFeatureExtractor, AutoConfig, set_seed
+from transformers import WhisperProcessor, TFWhisperForConditionalGeneration, AutoFeatureExtractor, AutoConfig, set_seed
 import boto3
 from botocore.client import Config
 import numpy as np
@@ -69,7 +69,7 @@ bucket = s3.Bucket("dnn-models")
 
 start = time.time()
 set_seed(42)
-processor = TFWhisperProcessor.from_pretrained('openai/whisper-large-v2')
+processor = WhisperProcessor.from_pretrained('openai/whisper-large-v2')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-large-v2")
 config = AutoConfig.from_pretrained('openai/whisper-large-v2')
 model = TFWhisperForConditionalGeneration(config)
