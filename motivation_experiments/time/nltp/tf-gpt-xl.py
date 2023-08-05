@@ -23,7 +23,7 @@ print(time.time()-start)
 
 text = "Replace me by any text you'd like."
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=0)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 print(time.time()-start)
 generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
