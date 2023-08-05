@@ -52,7 +52,7 @@ def load_audio(inputs, feature_extractor):
     inputs = ffmpeg_read(inputs, feature_extractor.sampling_rate)
 
     processed = feature_extractor(
-        inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="tf"
+        inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="np"
     )
     return processed
 
@@ -88,7 +88,7 @@ print(time.time()-start)
 
 
 start = time.time()
-logits = model(**audio[0]).logits[0]
+logits = model(audio[0]).logits[0]
 pred_ids = tf.math.argmax(logits)
 output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
