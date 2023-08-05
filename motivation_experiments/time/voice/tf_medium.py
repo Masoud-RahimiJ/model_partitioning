@@ -80,7 +80,7 @@ audio = load_audio("sample2.flac", feature_extractor)
 print(time.time()-start)
 
 
-model.generate(input_features=audio.input_features)
+model.generate(input_features=audio.input_features, max_new_tokens=30)
 
 start = time.time()
 model.load_weights(OBJECT_NAME)
@@ -88,7 +88,7 @@ print(time.time()-start)
 
 
 start = time.time()
-logits = model.generate(input_features=audio.input_features).logits[0]
+logits = model.generate(input_features=audio.input_features, max_new_tokens=30).logits[0]
 pred_ids = tf.math.argmax(logits)
 output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(time.time()-start)
