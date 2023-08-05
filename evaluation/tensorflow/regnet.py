@@ -1,6 +1,6 @@
 import time
 start_time = time.time()
-from transformers import AutoConfig, AutoFeatureExtractor, RegNetForImageClassification
+from transformers import AutoConfig, AutoFeatureExtractor, TFRegNetForImageClassification
 from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
@@ -23,7 +23,7 @@ config = AutoConfig.from_pretrained("facebook/regnet-y-040")
 #           "partition_names": [f"{OBJECT_NAME}{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
 
 # model = TFModelLoader(init_model, bucket, config).load()
-model=RegNetForImageClassification(config)
+model=TFRegNetForImageClassification(config)
 
 image = feature_extractor(image, return_tensors="np")
 
