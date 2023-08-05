@@ -6,7 +6,7 @@ import tensorflow as tf
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="gtp-xl.h5"
+OBJECT_NAME="../models/gpt2-xl.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
@@ -15,7 +15,7 @@ start = time.time()
 # print(time.time()-start)
 
 start = time.time()
-set_seed(42)
+set_seed(20)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 config=AutoConfig.from_pretrained('gpt2-xl')
 model = TFGPT2LMHeadModel(config)
