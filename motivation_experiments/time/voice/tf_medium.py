@@ -88,9 +88,5 @@ print(time.time()-start)
 
 
 start = time.time()
-logits = model.generate(input_features=audio.input_features, max_new_tokens=30).logits[0]
-pred_ids = tf.math.argmax(logits)
-output = processor.batch_decode(pred_ids, skip_special_tokens=True)
+logits = model.generate(input_features=audio.input_features, max_new_tokens=30)
 print(time.time()-start)
-
-print(pred_ids, output)
