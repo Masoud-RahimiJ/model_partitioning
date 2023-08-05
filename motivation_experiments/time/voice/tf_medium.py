@@ -59,7 +59,7 @@ def load_audio(inputs, feature_extractor):
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="whisper-medium.h5"
+OBJECT_NAME="../models/whisper-medium.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
@@ -71,8 +71,8 @@ start = time.time()
 set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
-# config = AutoConfig.from_pretrained('openai/whisper-medium')
-model = TFWhisperForConditionalGeneration.from_pretrained('openai/whisper-medium')
+config = AutoConfig.from_pretrained('openai/whisper-medium')
+model = TFWhisperForConditionalGeneration(config)
 print(time.time()-start)
 
 start = time.time()
