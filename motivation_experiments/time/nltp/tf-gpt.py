@@ -1,7 +1,9 @@
+import time
+start = time.time()
 from transformers import AutoTokenizer, AutoConfig, TFGPT2LMHeadModel, pipeline, set_seed
 import boto3
 from botocore.client import Config
-import time
+print(time.time()-start)
 
 
 BUCKET="dnn-models"
