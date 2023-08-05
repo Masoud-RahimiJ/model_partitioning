@@ -5,7 +5,7 @@ import time
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="gpt-md.h5"
+OBJECT_NAME="../models/gpt2-medium.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
@@ -22,7 +22,7 @@ print(time.time()-start)
 
 text = "Replace me by any text you'd like."
 start = time.time()
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device=0)
 print(time.time()-start)
 generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
