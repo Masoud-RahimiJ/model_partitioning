@@ -9,14 +9,14 @@ times.append(time.time())
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="vgg19_weights_tf_dim_ordering_tf_kernels.h5"
+OBJECT_NAME="../models/vgg19.h5"
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 times.append(time.time())
 model = VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 times.append(time.time())
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-times.append(time.time())
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# times.append(time.time())
 model.load_weights(OBJECT_NAME)
 times.append(time.time())
 

@@ -61,7 +61,7 @@ whisper_large = {
     "pyotch": [3.57, 17.77, 8.88, 2.12, 16.87]
 }
 
-
+resnet50_pytorch_cpu= [2,0.47,0.14,0.1,0.05]
 ####gpu
 resnet50_pytorch = [2,0.47,0.14,1.4,0.61]
 vgg19_pytoch = [2,2.76,0.64,1.78,0.58]
