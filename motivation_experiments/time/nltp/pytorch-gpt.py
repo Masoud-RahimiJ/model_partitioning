@@ -1,8 +1,5 @@
 import time
-start = time.time()
-from transformers import AutoTokenizer, AutoConfig, GPT2LMHeadModel, pipeline, set_seed
-import boto3
-from botocore.client import Config
+import torchvision
 import time
 import torch
 from accelerate import init_empty_weights
@@ -20,11 +17,11 @@ start = time.time()
 # print(time.time()-start)
 
 start = time.time()
-set_seed(42)
-tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
-config=AutoConfig.from_pretrained('gpt2-xl')
+# set_seed(42)
+# tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
+# config=AutoConfig.from_pretrained('gpt2-xl')
 with init_empty_weights():
-    model = GPT2LMHeadModel(config)
+    model = torchvision.models.resnet50(weights=None)
 model.eval()
 print(time.time()-start)
 
