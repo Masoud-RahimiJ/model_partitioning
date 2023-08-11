@@ -5,6 +5,7 @@ import boto3
 from botocore.client import Config
 import time
 import torch
+from accelerate import init_empty_weights
 print(time.time()-start)
 
 
@@ -22,7 +23,8 @@ start = time.time()
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2')
 config=AutoConfig.from_pretrained('gpt2')
-model = GPT2LMHeadModel(config)
+with init_empty_weights():
+    model = GPT2LMHeadModel(config)
 model.eval()
 print(time.time()-start)
 
