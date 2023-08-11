@@ -21,8 +21,8 @@ start = time.time()
 
 start = time.time()
 set_seed(42)
-tokenizer = AutoTokenizer.from_pretrained('gpt2-medium')
-config=AutoConfig.from_pretrained('gpt2-medium')
+tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
+config=AutoConfig.from_pretrained('gpt2-xl')
 # with init_empty_weights():
 model = GPT2LMHeadModel(config)
 model.eval()
