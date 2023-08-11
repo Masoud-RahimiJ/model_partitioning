@@ -3,7 +3,7 @@ import torchvision
 import time
 import torch
 from accelerate import init_empty_weights
-print(time.time()-start)
+# print(time.time()-start)
 
 
 # BUCKET="dnn-models"
