@@ -23,8 +23,8 @@ start = time.time()
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 config=AutoConfig.from_pretrained('gpt2-xl')
-# with init_empty_weights():
-model = GPT2LMHeadModel(config)
+with init_empty_weights():
+    model = GPT2LMHeadModel(config)
 model.eval()
 print(time.time()-start)
 
