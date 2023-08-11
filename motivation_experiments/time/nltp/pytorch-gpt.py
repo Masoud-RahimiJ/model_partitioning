@@ -21,7 +21,7 @@ start = time.time()
 # tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 # config=AutoConfig.from_pretrained('gpt2-xl')
 with init_empty_weights():
-    model = torchvision.models.resnet50(weights=None)
+    model = torchvision.models.vgg19(weights=None)
 model.eval()
 print(time.time()-start)
 
