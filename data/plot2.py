@@ -118,9 +118,9 @@ data_pytorch_gpu = {
 }
 
 data_tf_cpu = {
-    "Resnet50" : [2,0.47,0.14,0.1,0.05],
+    "Resnet50" : [2.6,0.32,0.14,0.21,0.41],
     "Vgg19" : [2.732, 0.483, 0.693, 0.45, 0.508],
-    "Regent_y_040": [3.2,0.92,4.45,1.9,0.31],
+    "Regent_y_040": [3.2,0.92,4.45,1.9,5.23],
 
     "Gpt2": [3.02, 1.12, 0.663, 0.36, 4],
     "Gpt2_medium": [3, 1.34, 2, 0.83, 8.01],
@@ -162,9 +162,9 @@ data_tf_gpu = {
 # }
 
 # data=data_tf_gpu
-# data=data_tf_cpu
+data=data_tf_cpu
 # data=data_pytorch_gpu
-data=data_pytorch_cpu
+# data=data_pytorch_cpu
 x_axis = [0]
 figure_points = []
 ticks=data.keys()

@@ -16,11 +16,8 @@ s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id
 bucket = s3.Bucket("dnn-models")
 times.append(time.time())
 
-with tf.device("/CPU:0"):
+with tf.device("/GPU:0"):
     times.append(time.time())
-    model = ResNet50(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
-    times.append(time.time())
-
     model = ResNet50(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 
     times.append(time.time())
