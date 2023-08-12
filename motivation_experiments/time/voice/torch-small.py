@@ -23,8 +23,8 @@ set_seed(42)
 processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
 config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
-with init_empty_weights():
-    model = Wav2Vec2ForCTC(config)
+# with init_empty_weights():
+model = Wav2Vec2ForCTC(config)
 model.eval()
 print(time.time()-start)
 
