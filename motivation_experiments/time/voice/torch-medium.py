@@ -63,8 +63,8 @@ set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
 config = AutoConfig.from_pretrained('openai/whisper-medium')
-# with init_empty_weights():
-model = WhisperForConditionalGeneration(config)
+with init_empty_weights():
+    model = WhisperForConditionalGeneration(config)
 model.config.forced_decoder_ids = None
 model.eval()
 print(time.time()-start)
