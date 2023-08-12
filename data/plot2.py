@@ -140,9 +140,9 @@ data_tf_gpu = {
     "Gpt2_medium": [4.1,0.88,2.11,2.59,8.89],
     "Gpt2_xl": [4.1,0.84,9.23,10.9,17.3],
 
-    "Wav2vec_base": [4.1,5.1,0.56,0.58,0.28],
-    "Whisper_medium": [4.1,5.6,4.61,3.96,11.5],
-    "Whisper_large_v2": [4.1,5.8,9.01,9.22,15.61]
+    "Wav2vec_base": [4.1,2.1,0.56,0.58,0.28],
+    "Whisper_medium": [4.1,2.6,4.61,3.96,11.5],
+    "Whisper_large_v2": [4.1,2.8,9.01,9.22,15.61]
 }
 
 # data={
@@ -162,9 +162,9 @@ data_tf_gpu = {
 # }
 
 # data=data_tf_gpu
-data=data_tf_cpu
+# data=data_tf_cpu
 # data=data_pytorch_gpu
-# data=data_pytorch_cpu
+data=data_pytorch_cpu
 x_axis = [0]
 figure_points = []
 ticks=data.keys()
@@ -199,7 +199,7 @@ plt.xticks(x_axis, ticks)
 plt.xlabel("Models",  fontdict={"fontsize":15})
 plt.ylabel("percent",  fontdict={"fontsize":15})
 plt.legend(labels)
-plt.title("Tasks Time Percentage In Cold Start Pytorch CPU", fontdict={"fontsize":20})
+plt.title("Tasks Time Percentage In Cold Start With Pytorch Using CPU", fontdict={"fontsize":20})
 
 
 
