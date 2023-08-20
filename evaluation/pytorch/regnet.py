@@ -1,11 +1,14 @@
 import time
 start_time = time.time()
 import torch
-import torchvision
+from accelerate import init_empty_weights
+import torch
+from accelerate import init_empty_weightsvision
 import io
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
+from accelerate import init_empty_weightsModelLoader
 from utils.image_loader import image
 
 BUCKET="dnn-models"
@@ -17,7 +20,8 @@ bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
 def init_model():
-    return torchvision.models.regnet_y_128gf(weights=None)
+    with init_empty_weights():
+        return torchvision.models.regnet_y_128gf(weights=None)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.pth" for i in range(1, COUNT_PARTITIONS)]}

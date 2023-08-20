@@ -4,8 +4,10 @@ from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
+from accelerate import init_empty_weightsModelLoader
 import time
 import torch
+from accelerate import init_empty_weights
 
 
 BUCKET="dnn-models"
@@ -22,7 +24,8 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base
 config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
 
 def init_model():
-    return Wav2Vec2ForCTC(config)
+    with init_empty_weights():
+        return Wav2Vec2ForCTC(config)
 
 
 config = {"download_delay": 6000000,

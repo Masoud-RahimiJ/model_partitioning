@@ -5,7 +5,9 @@ import boto3
 from botocore.client import Config
 import time
 import torch
+from accelerate import init_empty_weights
 from lib.torch_model_loader import TorchModelLoader
+from accelerate import init_empty_weightsModelLoader
 
 
 BUCKET="dnn-models"
@@ -20,7 +22,8 @@ tokenizer = AutoTokenizer.from_pretrained('gpt2')
 config=AutoConfig.from_pretrained('gpt2')
 
 def init_model():
-    return GPT2LMHeadModel(config)
+    with init_empty_weights():
+        return GPT2LMHeadModel(config)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}

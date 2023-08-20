@@ -3,9 +3,11 @@ from transformers import WhisperForConditionalGeneration, WhisperProcessor, Auto
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
+from accelerate import init_empty_weightsModelLoader
 import time, subprocess
 import numpy as np
 import torch
+from accelerate import init_empty_weights
 
 
 BUCKET="dnn-models"
@@ -61,7 +63,8 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-large-v
 config = AutoConfig.from_pretrained('openai/whisper-large-v2')
 
 def init_model():
-    return WhisperForConditionalGeneration(config)
+    with init_empty_weights():
+        return WhisperForConditionalGeneration(config)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}
