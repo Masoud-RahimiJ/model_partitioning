@@ -15,7 +15,7 @@ device = torch.device("cpu")
 
 model = torchvision.models.vit_l_16(weights=None).to(device)
 
-time.sleep(3)
+# time.sleep(3)
 
 model_state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(model_state_dict)
