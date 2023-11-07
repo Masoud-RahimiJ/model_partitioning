@@ -5,6 +5,7 @@ from utils.image_loader import image
 import io
 import boto3
 from botocore.client import Config
+from accelerate import init_empty_weights
 
 BUCKET="dnn-models"
 OBJECT_NAME="vit"
@@ -12,10 +13,10 @@ OBJECT_NAME="vit"
 
 
 device = torch.device("cpu")
+with init_empty_weights():
+    model = torchvision.models.vit_l_16(weights=None).to(device)
 
-model = torchvision.models.vit_l_16(weights=None).to(device)
-
-# time.sleep(3)
+time.sleep(3)
 
 model_state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(model_state_dict)
