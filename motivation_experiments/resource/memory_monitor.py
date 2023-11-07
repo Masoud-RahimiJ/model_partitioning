@@ -19,7 +19,7 @@ def total_memory_usage(pid):
     children = parent.children(recursive=True)
     for child in children:
         total_memory += child.memory_info().rss
-    total_memory = total_memory / 1024 / 1024
+    total_memory = total_memory / 1024
     return total_memory
 
 def monitor_memory_usage(pid, interval=0.001):
