@@ -25,5 +25,5 @@ for idx, figure in enumerate(figures):
         # for v_line in v_lines[idx]:
         #     plt.axvline(x = v_line, color = 'black')
 
-plt.suptitle("MEMORY USAGE ONLY CONTAINER")
+plt.suptitle("MEMORY USAGE WITH TORCH LIB")
 plt.show()
