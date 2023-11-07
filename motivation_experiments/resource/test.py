@@ -13,10 +13,10 @@ OBJECT_NAME="vgg"
 
 
 device = torch.device("cpu")
-with init_empty_weights():
-    model = torchvision.models.vgg19(weights=None)
+# with init_empty_weights():
+model = torchvision.models.vgg19(weights=None)
 
-time.sleep(3)
+time.sleep(1.5)
 
 model_state_dict = torch.load(OBJECT_NAME)
 model.load_state_dict(model_state_dict)
