@@ -25,7 +25,7 @@ def total_memory_usage(pid):
 def monitor_memory_usage(pid, interval=0.001):
     previous_memory=-1
     while True:
-        memory_usage = int(total_memory_usage(pid) * 10) / 10
+        memory_usage = int(total_memory_usage(pid))
         if memory_usage != previous_memory:
             print(int(10000*time.time()), memory_usage)
             previous_memory = memory_usage
