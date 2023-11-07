@@ -14,7 +14,7 @@ OBJECT_NAME="vit"
 
 device = torch.device("cpu")
 with init_empty_weights():
-    model = torchvision.models.vit_l_16(weights=None).to(device)
+    model = torchvision.models.vit_l_16(weights=None)
 
 time.sleep(3)
 
