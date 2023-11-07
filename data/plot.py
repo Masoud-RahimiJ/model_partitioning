@@ -18,12 +18,12 @@ for idx, figure in enumerate(figures):
         x, y = import_data_from_file(f)
         plt.subplot(1, 1, idx+1)
         plt.plot(x,y)
-        # plt.xticks([])
+        plt.xticks([])
         plt.title(figure.split('.')[0])
-        plt.xlabel("Time(S)")
+        plt.xlabel("Time")
         plt.ylabel("Memory Usage(MB)")
         # for v_line in v_lines[idx]:
         #     plt.axvline(x = v_line, color = 'black')
 
-plt.suptitle("MEMORY USAGE WITH TORCH LIB")
+plt.suptitle("MEMORY USAGE WITH MXNET LIB")
 plt.show()
