@@ -8,13 +8,13 @@ from botocore.client import Config
 from accelerate import init_empty_weights
 
 BUCKET="dnn-models"
-OBJECT_NAME="vit"
+OBJECT_NAME="vgg"
 
 
 
 device = torch.device("cpu")
 with init_empty_weights():
-    model = torchvision.models.vit_l_16(weights=None)
+    model = torchvision.models.vgg19(weights=None)
 
 time.sleep(3)
 

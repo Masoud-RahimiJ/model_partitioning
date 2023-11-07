@@ -3,7 +3,7 @@ import numpy as np
 from time import sleep
 
 figures = ["ll.csv"]
-v_lines = [(16.55,17.8)]
+v_lines = [(13.75,15.05)]
 
 def import_data_from_file(file):
     content = file.read().split('\n')
@@ -18,7 +18,7 @@ for idx, figure in enumerate(figures):
         x, y = import_data_from_file(f)
         plt.subplot(1, 1, idx+1)
         plt.plot(x,y)
-        # plt.xticks([])
+        plt.xticks([])
         plt.title(figure.split('.')[0])
         plt.xlabel("Time")
         plt.ylabel("Memory Usage(MB)")
