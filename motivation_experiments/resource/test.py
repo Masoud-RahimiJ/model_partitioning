@@ -1,31 +1,19 @@
-import time
-import torch
-import torchvision
-from utils.image_loader import image
-import io
-import boto3
-from botocore.client import Config
-from accelerate import init_empty_weights
-
-BUCKET="dnn-models"
-OBJECT_NAME="vgg"
+from tensorflow.keras.applications.vgg19 import decode_predictions, preprocess_input, VGG19
+from utils.image_loader_tf import image
 
 
 
-device = torch.device("cpu")
-# with init_empty_weights():
-model = torchvision.models.vgg19(weights=None)
+OBJECT_NAME="vgg.h5"
 
-time.sleep(1.5)
+model = VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 
-model_state_dict = torch.load(OBJECT_NAME)
-model.load_state_dict(model_state_dict)
-del model_state_dict
-model.eval()
-output = model.forward(image)
-probabilities = torch.nn.functional.softmax(output[0], dim=0)
-top5_prob, top5_catid = torch.topk(probabilities, 5)
-with open("./utils/imagenet_classes.txt", "r") as f:
-    categories = [s.strip() for s in f.readlines()]
-    for i in range(top5_prob.size(0)):
-        print(categories[top5_catid[i]], top5_prob[i].item())
+
+model.load_weights(OBJECT_NAME)
+
+
+image = preprocess_input(image)
+
+
+preds = model.predict(image)
+
+print('Predicted:', decode_predictions(preds, top=5)[0])

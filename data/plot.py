@@ -3,7 +3,7 @@ import numpy as np
 from time import sleep
 
 figures = ["ll.csv"]
-v_lines = [(13.75,15.05)]
+v_lines = [(8.65,9.25)]
 
 def import_data_from_file(file):
     content = file.read().split('\n')
@@ -25,5 +25,5 @@ for idx, figure in enumerate(figures):
         for v_line in v_lines[idx]:
             plt.axvline(x = v_line, color = 'black')
 
-plt.suptitle("MEMORY USAGE TORCH MEDIUM")
+plt.suptitle("MEMORY USAGE TF SMALL")
 plt.show()
