@@ -1,6 +1,6 @@
 import itertools
 from threading import Event
-from model_loader import ModelLoader
+from lib.model_loader import ModelLoader
 from torch import load
 
 class TorchModelLoader(ModelLoader):
