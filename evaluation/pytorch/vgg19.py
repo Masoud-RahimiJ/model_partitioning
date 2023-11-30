@@ -2,13 +2,11 @@ import time
 start_time = time.time()
 import torch
 from accelerate import init_empty_weights
-import torch
-from accelerate import init_empty_weightsvision
+import torchvision
 import io
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
-from accelerate import init_empty_weightsModelLoader
 from utils.image_loader import image
 
 BUCKET="dnn-models"
