@@ -14,8 +14,8 @@ class TorchModelLoader(ModelLoader):
         partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
-        print(11)
         self._model.load_state_dict(partition_state_dict, strict=False)
+        print(partition)
         
         
 
