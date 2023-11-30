@@ -27,7 +27,6 @@ def wrap_param_copy(param, cp):
     def wrapped_function(input_param, non_blocking=False):
         result = cp(input_param, non_blocking)
         param.is_loaded = True
-        print(1)
         return result
     return wrapped_function
     
@@ -37,6 +36,7 @@ def load_state_dict_post_hook(module, _):
         for _, param in params.items():
             if param.is_loaded == False: return
         module.is_loaded.set()
+        print("y")
     
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
