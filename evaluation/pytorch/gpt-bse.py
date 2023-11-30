@@ -18,11 +18,11 @@ bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2')
-config=AutoConfig.from_pretrained('gpt2')
+
 
 def init_model():
     # with init_empty_weights():
-    print(config)
+    config=AutoConfig.from_pretrained('gpt2')
     return GPT2LMHeadModel(config)
 
 config = {"download_delay": 6000000,
