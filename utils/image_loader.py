@@ -1,4 +1,4 @@
-from PIL import Image
+import os
 import torch
 # from torchvision import transforms
 # input_image = Image.open("./dataset/dog.jpg")
@@ -10,4 +10,4 @@ import torch
 # ])
 # input_tensor = preprocess(input_image)
 # image = input_tensor.unsqueeze(0)
-image=torch.rand(1, 3, 224, 224)
+image=torch.rand(int(os.getenv('BS', 1)), 3, 224, 224)
