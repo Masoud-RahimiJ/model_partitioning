@@ -10,4 +10,4 @@ import torch
 # ])
 # input_tensor = preprocess(input_image)
 # image = input_tensor.unsqueeze(0)
-image=torch.rand(3,224,224)
+image=torch.rand(1, 3, 224, 224)
