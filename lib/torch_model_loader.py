@@ -9,13 +9,13 @@ class TorchModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         wrap_module(model)
-        print("ll")
         
     def _load_partition(self, partition, partition_name):
         partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
         self._model.load_state_dict(partition_state_dict, strict=False)
+        print("dada")
         
         
 
