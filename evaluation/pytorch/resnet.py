@@ -19,8 +19,8 @@ bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
 def init_model():
-    with init_empty_weights():
-        return torchvision.models.resnet101(weights=None)
+    # with init_empty_weights():
+    return torchvision.models.resnet101(weights=None)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
@@ -29,7 +29,6 @@ model = TorchModelLoader(init_model, bucket, config).load()
 model.eval()
 
 image = image.to(device)
-time.sleep(2)
 output = model.forward(image)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
