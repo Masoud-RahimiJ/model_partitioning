@@ -9,6 +9,7 @@ class TorchModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         wrap_module(model)
+        print("ll")
         
     def _load_partition(self, partition, partition_name):
         partition_state_dict = load(partition)
