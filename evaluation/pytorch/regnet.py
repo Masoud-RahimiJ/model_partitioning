@@ -11,7 +11,7 @@ from utils.image_loader import image
 
 BUCKET="dnn-models"
 OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
-COUNT_PARTITIONS=50
+COUNT_PARTITIONS=22
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")

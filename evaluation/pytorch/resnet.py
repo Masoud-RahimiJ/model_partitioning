@@ -11,7 +11,7 @@ from utils.image_loader import image
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet101-63fe2227"
-COUNT_PARTITIONS = 20
+COUNT_PARTITIONS = 21
 
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)

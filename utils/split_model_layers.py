@@ -14,6 +14,7 @@ s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id
 bucket = s3.Bucket(BUCKET)
 
 def extract_layer_name(layer):
+    print(layer)
     return '.'.join(layer.split('.')[0:-1])
 
 def get_layer_file_name(part):
@@ -26,7 +27,7 @@ previous_layer_name = ""
 for key, value in  model.items():
     layer_name = extract_layer_name(key)    
     if layer_name != previous_layer_name and (len(splitted_model) == 0 or asizeof.asizeof(splitted_model[-1]) > MIN_LAYER_SIZE):
-        print(layer_name)
+        # print(layer_name)
         splitted_model.append(OrderedDict())
         # splitted_model[-1]._metadata = getattr(model, "_metadata", None)
     splitted_model[-1][key] = value
