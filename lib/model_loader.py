@@ -32,7 +32,6 @@ class ModelLoader:
         # self._load_thread_pool.shutdown(wait=True)
             
     def _load_partition(self, partition, partition_name):
-        print(1)
         raise NotImplementedError()
     
     def _wrap_model(self, model):
