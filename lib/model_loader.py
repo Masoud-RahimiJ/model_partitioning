@@ -32,6 +32,7 @@ class ModelLoader:
         # self._load_thread_pool.shutdown(wait=True)
             
     def _load_partition(self, partition, partition_name):
+        print(1)
         raise NotImplementedError()
     
     def _wrap_model(self, model):
@@ -52,5 +53,4 @@ class ModelLoader:
             partition_data.write(chunk)
         partition_data.seek(0)
         self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
-        print(1)
         
