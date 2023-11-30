@@ -4,7 +4,7 @@ import io
 
 CHUNK_SIZE = 1024 * 1024
 COUNT_DOWNLOAD_THREADS = 2
-COUNT_LOAD_THREADS = 1
+COUNT_LOAD_THREADS = 3
 
 class ModelLoader:
     def __init__(self, model_initializer_fn, s3_bucket, config):
