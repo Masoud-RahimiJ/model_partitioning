@@ -40,7 +40,6 @@ def load_state_dict_post_hook(module, _):
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
         module.is_loaded.wait()
-    print("n")
         
 def wrap_layer(module):
     params = extract_module_params(module)
