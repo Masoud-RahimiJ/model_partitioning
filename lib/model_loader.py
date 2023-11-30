@@ -38,6 +38,7 @@ class ModelLoader:
         raise NotImplementedError()
           
     def _download_and_load_partition(self, partition_name):
+        print(partition_name)
         partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
         partition_length = parition_obj.content_length
