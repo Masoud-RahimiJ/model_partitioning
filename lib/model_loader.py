@@ -40,8 +40,10 @@ class ModelLoader:
     def _download_and_load_partition(self, partition_name):
         partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
+        print(1)
         partition_length = parition_obj.content_length
         partition_body = parition_obj.get()['Body']
+        print(2)
         download_stream = partition_body.iter_chunks(CHUNK_SIZE)
         is_locked = True
         print("d")
