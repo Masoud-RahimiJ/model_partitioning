@@ -38,7 +38,6 @@ class ModelLoader:
         raise NotImplementedError()
           
     def _download_and_load_partition(self, partition_name):
-        print(partition_name)
         partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
         partition_length = parition_obj.content_length
@@ -52,5 +51,6 @@ class ModelLoader:
                 is_locked = False
             partition_data.write(chunk)
         partition_data.seek(0)
+        print("a")
         self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
         
