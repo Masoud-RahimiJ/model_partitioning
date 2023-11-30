@@ -14,7 +14,6 @@ class TorchModelLoader(ModelLoader):
         partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
-        print(partition_state_dict)
         self._model.load_state_dict(partition_state_dict, strict=False)
         
         
@@ -28,6 +27,7 @@ def wrap_param_copy(param, cp):
     def wrapped_function(input_param, non_blocking=False):
         result = cp(input_param, non_blocking)
         param.is_loaded = True
+        print(1)
         return result
     return wrapped_function
     
