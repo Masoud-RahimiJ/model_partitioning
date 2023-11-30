@@ -14,6 +14,7 @@ class TorchModelLoader(ModelLoader):
         partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
+        print(partition_state_dict)
         self._model.load_state_dict(partition_state_dict, strict=False)
         
         
@@ -40,7 +41,6 @@ def load_state_dict_post_hook(module, _):
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
         module.is_loaded.wait()
-        print("yes")
         
 def wrap_layer(module):
     params = extract_module_params(module)
