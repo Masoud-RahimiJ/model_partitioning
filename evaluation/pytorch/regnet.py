@@ -18,11 +18,11 @@ bucket = s3.Bucket("dnn-models")
 device = torch.device("cpu")
 
 def init_model():
-    with init_empty_weights():
-        return torchvision.models.regnet_y_128gf(weights=None)
+    # with init_empty_weights():
+    return torchvision.models.regnet_y_128gf(weights=None)
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}{i}.pth" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
 model = TorchModelLoader(init_model, bucket, config).load()
 model.eval()
