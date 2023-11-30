@@ -29,6 +29,7 @@ model = TorchModelLoader(init_model, bucket, config).load()
 model.eval()
 
 image = image.to(device)
+time.sleep(2)
 output = model.forward(image)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)
