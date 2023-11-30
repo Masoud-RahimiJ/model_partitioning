@@ -51,5 +51,6 @@ class ModelLoader:
                 is_locked = False
             partition_data.write(chunk)
         partition_data.seek(0)
+        print(1)
         self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
         
