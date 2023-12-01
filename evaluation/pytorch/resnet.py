@@ -28,7 +28,7 @@ config = {"download_delay": 6000000,
 # model = TorchModelLoader(init_model, bucket, config).load()
 
 model=init_model()
-bucket.download_file(Key = OBJECT_NAME, FileName = OBJECT_NAME)
+bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
 std = torch.load(OBJECT_NAME)
 model.load_state_dict(std)
 del std
