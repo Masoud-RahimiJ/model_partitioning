@@ -60,11 +60,11 @@ def load_audio(inputs, feature_extractor):
 set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-large-v2')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-large-v2")
-config = AutoConfig.from_pretrained('openai/whisper-large-v2')
 
 def init_model():
-    with init_empty_weights():
-        return WhisperForConditionalGeneration(config)
+    # with init_empty_weights():
+    config = AutoConfig.from_pretrained('openai/whisper-large-v2')
+    return WhisperForConditionalGeneration(config)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
