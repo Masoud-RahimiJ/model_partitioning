@@ -1,12 +1,12 @@
 import time
+start_time = time.time()
 from transformers import WhisperForConditionalGeneration, WhisperProcessor, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
-from accelerate import init_empty_weightsModelLoader
 import time, subprocess
 import numpy as np
-import torch
+import torch, os
 from accelerate import init_empty_weights
 
 
@@ -67,7 +67,7 @@ def init_model():
         return WhisperForConditionalGeneration(config)
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
 model = TorchModelLoader(init_model, bucket, config).load()
 
