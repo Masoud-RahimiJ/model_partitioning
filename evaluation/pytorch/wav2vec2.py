@@ -5,7 +5,7 @@ import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
 import time
-import torch
+import torch, os
 from accelerate import init_empty_weights
 
 
@@ -30,7 +30,15 @@ def init_model():
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
-model = TorchModelLoader(init_model, bucket, config).load()
+# model = TorchModelLoader(init_model, bucket, config).load()
+
+model=init_model()
+bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
+std = torch.load(OBJECT_NAME)
+model.load_state_dict(std)
+del std
+os.remove(OBJECT_NAME)
+
 model.eval()
 
 generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor, feature_extractor=feature_extractor)
