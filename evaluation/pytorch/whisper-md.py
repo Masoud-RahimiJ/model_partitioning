@@ -60,14 +60,14 @@ def load_audio(inputs, feature_extractor):
 set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-medium')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium")
-config = AutoConfig.from_pretrained('openai/whisper-medium')
 
 def init_model():
-    with init_empty_weights():
-        return WhisperForConditionalGeneration(config)
+    # with init_empty_weights():
+    config = AutoConfig.from_pretrained('openai/whisper-medium')
+    return WhisperForConditionalGeneration(config)
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
 model = TorchModelLoader(init_model, bucket, config).load()
 
