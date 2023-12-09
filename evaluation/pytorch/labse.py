@@ -1,6 +1,6 @@
 import time
 start_time = time.time()
-from transformers import AutoConfig, BertModel, BertTokenizerFast, pipeline, set_seed
+from transformers import AutoConfig, BertLMHeadModel, BertTokenizerFast, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time
@@ -22,7 +22,7 @@ tokenizer = BertTokenizerFast.from_pretrained('setu4993/LaBSE')
 def init_model():
     # with init_empty_weights():
     config=AutoConfig.from_pretrained('setu4993/LaBSE')
-    return BertModel(config)
+    return BertLMHeadModel(config)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}
