@@ -20,11 +20,11 @@ bucket = s3.Bucket("dnn-models")
 set_seed(42)
 processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")
-config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
 
 def init_model():
-    with init_empty_weights():
-        return Wav2Vec2ForCTC(config)
+    # with init_empty_weights():
+    config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
+    return Wav2Vec2ForCTC(config)
 
 
 config = {"download_delay": 6000000,
