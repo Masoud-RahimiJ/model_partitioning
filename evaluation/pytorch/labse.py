@@ -18,11 +18,11 @@ bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
 tokenizer = BertTokenizerFast.from_pretrained('setu4993/LaBSE')
-config=AutoConfig.from_pretrained('setu4993/LaBSE')
 
 def init_model():
-    with init_empty_weights():
-        return BertModel(config)
+    # with init_empty_weights():
+    config=AutoConfig.from_pretrained('setu4993/LaBSE')
+    return BertModel(config)
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.pt" for i in range(1, COUNT_PARTITIONS)]}
