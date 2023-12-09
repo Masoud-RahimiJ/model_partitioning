@@ -1,4 +1,5 @@
 import time
+start_time = time.time()
 from transformers import WhisperForConditionalGeneration, WhisperProcessor, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
