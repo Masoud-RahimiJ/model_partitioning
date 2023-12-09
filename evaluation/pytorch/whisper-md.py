@@ -6,7 +6,7 @@ from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
 import time, subprocess
 import numpy as np
-import torch
+import torch, os
 from accelerate import init_empty_weights
 
 
@@ -72,6 +72,14 @@ config = {"download_delay": 6000000,
 model = TorchModelLoader(init_model, bucket, config).load()
 
 model.config.forced_decoder_ids = None
+
+model=init_model()
+bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
+std = torch.load(OBJECT_NAME)
+model.load_state_dict(std)
+del std
+os.remove(OBJECT_NAME)
+
 model.eval()
 model.tie_weights()
 
