@@ -7,7 +7,6 @@ import time
 import torch, os
 from accelerate import init_empty_weights
 from lib.torch_model_loader import TorchModelLoader
-from accelerate import init_empty_weightsModelLoader
 
 
 BUCKET="dnn-models"
