@@ -3,7 +3,6 @@ from transformers import WhisperForConditionalGeneration, WhisperProcessor, Auto
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
-from accelerate import init_empty_weightsModelLoader
 import time, subprocess
 import numpy as np
 import torch
