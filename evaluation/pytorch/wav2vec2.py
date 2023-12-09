@@ -4,7 +4,6 @@ from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
-from accelerate import init_empty_weightsModelLoader
 import time
 import torch
 from accelerate import init_empty_weights
