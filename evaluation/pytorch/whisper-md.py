@@ -53,7 +53,7 @@ def load_audio(inputs, feature_extractor):
     with open(inputs, "rb") as f:
         inputs = f.read()
     inputs = ffmpeg_read(inputs, feature_extractor.sampling_rate)
-    processed = feature_extractor(inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="pt").input_features
+    processed = feature_extractor(inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="np").input_features
     return processed
 
 
