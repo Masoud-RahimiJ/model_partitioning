@@ -87,7 +87,7 @@ model.config.forced_decoder_ids = None
 model.eval()
 model.tie_weights()
     
-predicted_ids = model.generateload_audio(feature_extractor))
+predicted_ids = model.generate(load_audio(feature_extractor))
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
 
