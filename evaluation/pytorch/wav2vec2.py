@@ -44,8 +44,7 @@ model.eval()
 generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor, feature_extractor=feature_extractor)
 
 inp = []
-for i in range(1, int(os.getenv('BS', 1)+1)):
-    i=str(i)
+for i in range(1, int(os.getenv('BS', 1))+1):
     inp .append(f"sample{i}.flac")
 
 output = generator(inp)
