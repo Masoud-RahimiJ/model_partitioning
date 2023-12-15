@@ -88,7 +88,7 @@ for i in range(1, int(os.getenv('BS', 1))+1):
     inp.append(load_audio(f"sample{i}.flac", feature_extractor))
 
     
-predicted_ids = model.generate(torch.FloatTensor(inp))
+predicted_ids = model.generate(torch.as_tensor(inp))
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
 
