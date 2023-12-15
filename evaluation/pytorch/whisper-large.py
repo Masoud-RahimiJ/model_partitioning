@@ -49,11 +49,15 @@ def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
     return audio
 
 
-def load_audio(inputs, feature_extractor):
-    with open(inputs, "rb") as f:
-        inputs = f.read()
-    inputs = ffmpeg_read(inputs, feature_extractor.sampling_rate)
-    processed = feature_extractor(inputs, sampling_rate=feature_extractor.sampling_rate, return_tensors="pt").input_features
+def load_audio(feature_extractor):
+    inp = []
+    for i in range(1, int(os.getenv('BS', 1))+1):
+        tmp = 0
+        with open(f"sample{i}.flac", "rb") as f:
+            tmp = f.read()
+        tmp = ffmpeg_read(tmp, feature_extractor.sampling_rate)
+        inp.append(tmp)
+    processed = feature_extractor(inp, sampling_rate=feature_extractor.sampling_rate, return_tensors="pt").input_features
     return processed
 
 
@@ -82,7 +86,7 @@ model.config.forced_decoder_ids = None
 model.eval()
 model.tie_weights()
 
-audio = load_audio("sample2.flac", feature_extractor)
+audio = load_audio(feature_extractor)
 predicted_ids = model.generate(audio)
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
