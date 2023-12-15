@@ -87,6 +87,8 @@ inp = []
 for i in range(1, int(os.getenv('BS', 1))+1):
     inp.append(load_audio(f"sample{i}.flac", feature_extractor))
 
+for i in inp:
+    print(type(i))
     
 predicted_ids = model.generate(np.array(inp))
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
