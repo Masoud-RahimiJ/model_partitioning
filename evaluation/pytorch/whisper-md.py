@@ -73,18 +73,21 @@ model = TorchModelLoader(init_model, bucket, config).load()
 
 model.config.forced_decoder_ids = None
 
-model=init_model()
-bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
-std = torch.load(OBJECT_NAME)
-model.load_state_dict(std)
-del std
-os.remove(OBJECT_NAME)
+# model=init_model()
+# bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
+# std = torch.load(OBJECT_NAME)
+# model.load_state_dict(std)
+# del std
+# os.remove(OBJECT_NAME)
 
 model.eval()
 model.tie_weights()
 
-audio = load_audio("sample2.flac", feature_extractor)
-predicted_ids = model.generate(audio)
+inp = []
+for i in range(1, int(os.getenv('BS', 1))+1):
+    inp.append(load_audio(f"sample{i}.flac", feature_extractor))
+    
+predicted_ids = model.generate(inp)
 output = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
 
