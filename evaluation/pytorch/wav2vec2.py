@@ -43,7 +43,7 @@ model.eval()
 
 generator = pipeline('automatic-speech-recognition', model=model, tokenizer=processor, feature_extractor=feature_extractor)
 
-output = generator("sample2.flac")
+output = generator(["sample1.flac", "sample2.flac"])
 
 print(output)
 print("Response time is: ", time.time() - start_time)
