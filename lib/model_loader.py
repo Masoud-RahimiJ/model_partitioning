@@ -68,8 +68,10 @@ class ModelLoader:
                 print(partition_length - partition_body.tell())
                 self._download_lock.release()
                 is_locked = False
+                print(time.time()-aaa, partition_length/1000000)
             partition_data.write(chunk)
-        print(time.time()-aaa, partition_length/1000000)
+            print(time.time()-aaa, partition_length/1000000)
+            
         
         partition_data.seek(0)
         self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
