@@ -58,10 +58,10 @@ class ModelLoader:
         partition_body = parition_obj.get()['Body']
         download_stream = partition_body.iter_chunks(CHUNK_SIZE)
         is_locked = True
-        self._download_lock.acquire()
+        # self._download_lock.acquire()
         for chunk in download_stream:
             if is_locked and partition_length - partition_body.tell() < self._download_delay:
-                self._download_lock.release()
+                # self._download_lock.release()
                 is_locked = False
             partition_data.write(chunk)
         partition_data.seek(0)
