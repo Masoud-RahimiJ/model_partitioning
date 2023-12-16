@@ -3,7 +3,7 @@ from threading import Lock, Event, Thread
 import io, time
 
 CHUNK_SIZE = 1024 * 2048
-COUNT_DOWNLOAD_THREADS = 2
+COUNT_DOWNLOAD_THREADS = 1
 COUNT_LOAD_THREADS = 2
 
 class ModelLoader:
