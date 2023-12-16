@@ -3,8 +3,8 @@ from threading import Lock, Event, Thread
 import io, time
 
 CHUNK_SIZE = 1024 * 1024
-COUNT_DOWNLOAD_THREADS = 1
-COUNT_LOAD_THREADS = 1
+COUNT_DOWNLOAD_THREADS = 3
+COUNT_LOAD_THREADS = 2
 
 class ModelLoader:
     def __init__(self, model_initializer_fn, s3_bucket, config):
