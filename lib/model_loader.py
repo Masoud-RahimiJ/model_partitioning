@@ -1,6 +1,6 @@
 from concurrent import futures
 from threading import Lock, Event, Thread
-import io
+import io, time
 
 CHUNK_SIZE = 1024 * 1024
 COUNT_DOWNLOAD_THREADS = 2
@@ -28,7 +28,9 @@ class ModelLoader:
         
     def _load_model(self):
         with futures.ThreadPoolExecutor(max_workers=COUNT_DOWNLOAD_THREADS) as executor:
+            stt=time.time()
             [executor.submit(self._download_and_load_partition, partition_name) for partition_name in self._partition_names]
+            print("download: ", time.time()-stt)
         # self._load_thread_pool.shutdown(wait=True)
             
     def _load_partition(self, partition, partition_name):
