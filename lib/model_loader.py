@@ -2,8 +2,8 @@ from concurrent import futures
 from threading import Lock, Event, Thread
 import io, time
 
-CHUNK_SIZE = 1024 * 1024
-COUNT_DOWNLOAD_THREADS = 3
+CHUNK_SIZE = 1024 * 1024 * 2
+COUNT_DOWNLOAD_THREADS = 2
 COUNT_LOAD_THREADS = 2
 
 class ModelLoader:
