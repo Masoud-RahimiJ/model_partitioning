@@ -13,7 +13,8 @@ BUCKET="dnn-models"
 OBJECT_NAME="labse"
 COUNT_PARTITIONS=8
 
-s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+session = boto3.Session()
+s3 = session.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
