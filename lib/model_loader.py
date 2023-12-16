@@ -34,7 +34,7 @@ class ModelLoader:
             executor.shutdown(wait=True)
             print("download: ", time.time()-stt)
         self._load_thread_pool.shutdown(wait=True)
-        print("load: ", sum(tmp))
+        print("load: ", sum(self.tmp))
             
     def _load_partition(self, partition, partition_name):
         raise NotImplementedError()
