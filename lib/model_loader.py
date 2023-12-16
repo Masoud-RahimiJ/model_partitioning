@@ -45,7 +45,9 @@ class ModelLoader:
     def _download_and_load_partition(self, partition_name):
         # partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
+        self._download_lock.acquire()
         data = io.BytesIO(parition_obj.get()['Body'].read())
+        self._download_lock.release()
         self._load_thread_pool.submit(self._load_partition, data, partition_name)
         # partition_length = parition_obj.content_length
         # partition_body = parition_obj.get()['Body']
