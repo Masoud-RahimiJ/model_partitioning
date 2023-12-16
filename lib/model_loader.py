@@ -2,7 +2,7 @@ from concurrent import futures
 from threading import Lock, Event, Thread
 import io, time
 
-CHUNK_SIZE = 1024 * 2048
+CHUNK_SIZE = 1024 * 1024 * 100
 COUNT_DOWNLOAD_THREADS = 5
 COUNT_LOAD_THREADS = 2
 
@@ -57,8 +57,8 @@ class ModelLoader:
         partition_length = parition_obj.content_length
         partition_body = parition_obj.get()['Body']
         chunks_size = CHUNK_SIZE
-        if partition_length > 2 * self._download_delay:
-            chunks_size = int(partition_length - self._download_delay / 10)
+        # if partition_length > 2 * self._download_delay:
+        #     chunks_size = int(partition_length - self._download_delay / 10)
         download_stream = partition_body.iter_chunks(chunks_size)
         is_locked = True
         self._download_lock.acquire()
