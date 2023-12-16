@@ -30,6 +30,7 @@ class ModelLoader:
         with futures.ThreadPoolExecutor(max_workers=COUNT_DOWNLOAD_THREADS) as executor:
             stt=time.time()
             [executor.submit(self._download_and_load_partition, partition_name) for partition_name in self._partition_names]
+            executor.shutdown(wait=True)
             print("download: ", time.time()-stt)
         # self._load_thread_pool.shutdown(wait=True)
             
