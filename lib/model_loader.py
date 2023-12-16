@@ -48,7 +48,7 @@ class ModelLoader:
         self._download_lock.acquire()
         data = io.BytesIO(parition_obj.get()['Body'].read())
         self._download_lock.release()
-        self._load_thread_pool.submit(self._load_partition, data, partition_name)
+        # self._load_thread_pool.submit(self._load_partition, data, partition_name)
         # partition_length = parition_obj.content_length
         # partition_body = parition_obj.get()['Body']
         # download_stream = partition_body.iter_chunks(CHUNK_SIZE)
