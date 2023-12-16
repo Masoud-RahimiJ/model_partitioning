@@ -43,18 +43,20 @@ class ModelLoader:
         raise NotImplementedError()
           
     def _download_and_load_partition(self, partition_name):
-        partition_data = io.BytesIO()
+        # partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
-        partition_length = parition_obj.content_length
-        partition_body = parition_obj.get()['Body']
-        download_stream = partition_body.iter_chunks(CHUNK_SIZE)
-        is_locked = True
-        self._download_lock.acquire()
-        for chunk in download_stream:
-            if is_locked and partition_length - partition_body.tell() < self._download_delay:
-                self._download_lock.release()
-                is_locked = False
-            partition_data.write(chunk)
-        partition_data.seek(0)
-        self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
+        data = io.BytesIO(parition_obj.get()['Body'].read())
+        self._load_thread_pool.submit(self._load_partition, data, partition_name)
+        # partition_length = parition_obj.content_length
+        # partition_body = parition_obj.get()['Body']
+        # download_stream = partition_body.iter_chunks(CHUNK_SIZE)
+        # is_locked = True
+        # self._download_lock.acquire()
+        # for chunk in download_stream:
+        #     if is_locked and partition_length - partition_body.tell() < self._download_delay:
+        #         self._download_lock.release()
+        #         is_locked = False
+        #     partition_data.write(chunk)
+        # partition_data.seek(0)
+        # self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
         
