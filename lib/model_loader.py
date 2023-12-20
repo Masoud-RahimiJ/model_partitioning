@@ -2,7 +2,7 @@ from concurrent import futures
 from threading import Lock, Event, Thread
 import io, time
 
-CHUNK_SIZE = 1024 * 1024 * 10
+CHUNK_SIZE = 1024 * 1024 * 2
 COUNT_DOWNLOAD_THREADS = 2
 COUNT_LOAD_THREADS = 2
 
@@ -36,36 +36,21 @@ class ModelLoader:
     
     def _wrap_model(self, model):
         raise NotImplementedError()
-    
-    def _download_and_load_partition(self, partition_name):
-        parition_obj = self._s3_bucket.Object(partition_name)
-        # self._download_lock.acquire()
-        data = io.BytesIO(parition_obj.get()['Body'].read())
-        # self._download_lock.release()
-        self._load_thread_pool.submit(self._load_partition, data, partition_name)
-        
-        
          
-    # def _download_and_load_partition(self, partition_name):
-    #     partition_data = io.BytesIO()
-    #     parition_obj = self._s3_bucket.Object(partition_name)
-    #     partition_length = parition_obj.content_length
-    #     partition_body = parition_obj.get()['Body']
-    #     chunks_size = CHUNK_SIZE
-    #     # if partition_length > 2 * self._download_delay:
-    #     #     chunks_size = int(partition_length - self._download_delay / 10)
-    #     download_stream = partition_body.iter_chunks(chunks_size)
-    #     is_locked = True
-    #     self._download_lock.acquire()
-    #     aaa=time.time()
-    #     for chunk in download_stream:
-    #         if is_locked and partition_length - partition_body.tell() <= self._download_delay:
-    #             print(partition_length - partition_body.tell())
-    #             self._download_lock.release()
-    #             is_locked = False
-    #         # partition_data.write(chunk)
-    #     print(time.time()-aaa, partition_length/1000000)
-        
-        # partition_data.seek(0)
-        # self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
+    def _download_and_load_partition(self, partition_name):
+        partition_data = io.BytesIO()
+        parition_obj = self._s3_bucket.Object(partition_name)
+        partition_length = parition_obj.content_length
+        partition_body = parition_obj.get()['Body']
+        download_stream = partition_body.iter_chunks(CHUNK_SIZE)
+        is_locked = True
+        self._download_lock.acquire()
+        for chunk in download_stream:
+            if is_locked and partition_length - partition_body.tell() <= self._download_delay:
+                print(partition_length - partition_body.tell())
+                self._download_lock.release()
+                is_locked = False
+            partition_data.write(chunk)        
+        partition_data.seek(0)
+        self._load_thread_pool.submit(self._load_partition, partition_data, partition_name)
         
