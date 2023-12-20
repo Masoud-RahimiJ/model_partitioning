@@ -18,7 +18,10 @@ class TorchModelLoader(ModelLoader):
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
         partition_state_dict = load(partition_name)
-        self._model.load_state_dict(partition_state_dict, strict=False)
+        try:
+            self._model.load_state_dict(partition_state_dict, strict=False)
+        except Exception as e:
+            print(e)
         
         
 
@@ -40,10 +43,6 @@ def load_state_dict_post_hook(module, _):
         for _, param in params.items():
             if param.is_loaded == False: return
         module.is_loaded.set()
-        try:
-            module.to(device("cpu"))
-        except Exception as e:
-            print(e)
     
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
