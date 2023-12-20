@@ -18,7 +18,7 @@ def total_memory_usage(pid):
     total_memory = total_memory / 1024 / 1024
     return total_memory
 
-def monitor_memory_usage(pid, interval=0.0001):
+def monitor_memory_usage(pid, interval=0.00001):
     max_memory = 0
     while True:
         try:
