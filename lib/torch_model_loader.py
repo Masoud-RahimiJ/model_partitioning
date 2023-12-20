@@ -17,8 +17,11 @@ class TorchModelLoader(ModelLoader):
         del partition
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
-        partition_state_dict = load(partition_name)
-        self._model.load_state_dict(partition_state_dict, strict=False)
+        try:
+            partition_state_dict = load(partition_name)
+            self._model.load_state_dict(partition_state_dict, strict=False)
+        except Exception as e:
+            print(e)
         
         
 
