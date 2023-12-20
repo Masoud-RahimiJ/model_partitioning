@@ -31,7 +31,7 @@ model=init_model()
 stt = time.time()
 std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
 model.load_state_dict(std)
-del std
+# del std
 
 model.eval()
 image = image.to(device)
