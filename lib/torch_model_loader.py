@@ -12,9 +12,11 @@ class TorchModelLoader(ModelLoader):
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
-        print(111)
-        with open(partition_name, 'rb') as f:
-            f.write(partition)
+        try:
+            with open(partition_name, 'rb') as f:
+                f.write(partition)
+        except Exception as e:
+            print(e)
         del partition
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
