@@ -1,7 +1,7 @@
 import itertools
 from threading import Event
 from lib.model_loader import ModelLoader
-from torch import load
+from torch import load, device
 import time
 
 class TorchModelLoader(ModelLoader):
@@ -40,6 +40,7 @@ def load_state_dict_post_hook(module, _):
         for _, param in params.items():
             if param.is_loaded == False: return
         module.is_loaded.set()
+        module.to(device("cpu"))
     
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
