@@ -1,10 +1,10 @@
-import time
+import time, io
 start_time = time.time()
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
 from lib.torch_model_loader import TorchModelLoader
-import time
+import time, io
 import torch, os
 from accelerate import init_empty_weights
 
@@ -30,18 +30,13 @@ def init_model():
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
-model = TorchModelLoader(init_model, bucket, config).load()
+# model = TorchModelLoader(init_model, bucket, config).load()
 
-# model=init_model()
-# stt = time.time()
-# bucket.download_file(Key = OBJECT_NAME, Filename = OBJECT_NAME)
-# print("download: ", time.time()-stt)
-# stt2 = time.time()
-# std = torch.load(OBJECT_NAME)
-# model.load_state_dict(std)
-# print("load: ", time.time()-stt2)
-# del std
-# os.remove(OBJECT_NAME)
+model=init_model()
+stt = time.time()
+std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+model.load_state_dict(std)
+del std
 
 model.eval()
 
