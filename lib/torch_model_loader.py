@@ -14,7 +14,7 @@ class TorchModelLoader(ModelLoader):
     def _load_partition(self, partition, partition_name):
         try:
             with open(partition_name, 'wb') as f:
-                f.write(partition)
+                f.write(partition.read())
         except Exception as e:
             print(e)
         del partition
