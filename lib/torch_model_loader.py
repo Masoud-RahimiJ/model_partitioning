@@ -13,7 +13,7 @@ class TorchModelLoader(ModelLoader):
         
     def _load_partition(self, partition, partition_name):
         try:
-            with open(partition_name, 'rb') as f:
+            with open(partition_name, 'wb') as f:
                 f.write(partition)
         except Exception as e:
             print(e)
