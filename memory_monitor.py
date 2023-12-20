@@ -20,7 +20,6 @@ def total_memory_usage(pid):
 
 def monitor_memory_usage(pid, interval=0.001):
     max_memory = 0
-    previous_memory=-1
     while True:
         try:
             memory_usage = int(total_memory_usage(pid))
