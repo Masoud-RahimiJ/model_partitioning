@@ -16,7 +16,6 @@ class ModelLoader:
         self._load_thread_pool = futures.ThreadPoolExecutor(max_workers=COUNT_LOAD_THREADS)
         self._download_lock = Lock()
         self._model_initialized_event = Event()
-        self.tmp = []
         
     def load(self):
         t1 = Thread(target=self._load_model)
@@ -29,12 +28,8 @@ class ModelLoader:
         
     def _load_model(self):
         with futures.ThreadPoolExecutor(max_workers=COUNT_DOWNLOAD_THREADS) as executor:
-            stt=time.time()
             [executor.submit(self._download_and_load_partition, partition_name) for partition_name in self._partition_names]
-            executor.shutdown(wait=True)
-            print("download: ", time.time()-stt)
         self._load_thread_pool.shutdown(wait=True)
-        print("load: ", sum(self.tmp))
             
     def _load_partition(self, partition, partition_name):
         raise NotImplementedError()
@@ -43,7 +38,6 @@ class ModelLoader:
         raise NotImplementedError()
     
     def _download_and_load_partition(self, partition_name):
-        partition_data = io.BytesIO()
         parition_obj = self._s3_bucket.Object(partition_name)
         # self._download_lock.acquire()
         data = io.BytesIO(parition_obj.get()['Body'].read())
