@@ -7,15 +7,10 @@ pid = os.popen('sudo docker inspect -f "{{.State.Pid}}" ' + container_name).read
 print(pid)
 pid = int(pid)
 print(f"PID of {container_name} is {pid}")
-max_memory = 0
+
 
 def total_memory_usage(pid):
-    parent=0
-    try:
-        parent = psutil.Process(pid)
-    except psutil.NoSuchProcess:
-        print(max_memory)
-        exit(0)
+    parent = psutil.Process(pid)
     total_memory = parent.memory_info().rss
     children = parent.children(recursive=True)
     for child in children:
@@ -24,9 +19,14 @@ def total_memory_usage(pid):
     return total_memory
 
 def monitor_memory_usage(pid, interval=0.001):
+    max_memory = 0
     previous_memory=-1
     while True:
-        memory_usage = int(total_memory_usage(pid))
+        try:
+            memory_usage = int(total_memory_usage(pid))
+        except psutil.NoSuchProcess:
+            print(max_memory)
+            exit(0)
         if max_memory < memory_usage:
             max_memory = memory_usage
         time.sleep(interval)
