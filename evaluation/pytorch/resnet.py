@@ -20,7 +20,7 @@ device = torch.device("cpu")
 
 def init_model():
     with init_empty_weights():
-        return torchvision.models.resnet101(weights=None).to(device)
+        return torchvision.models.resnet101(weights=None)
 
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
