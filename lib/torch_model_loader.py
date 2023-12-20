@@ -42,7 +42,7 @@ def load_state_dict_post_hook(module, _):
         params = extract_module_params(module)
         for _, param in params.items():
             if param.is_loaded == False: return
-        # module.is_loaded.set()
+        module.is_loaded.set()
     
 def forward_pre_hook(module, _):
     if not module.is_loaded.is_set():
