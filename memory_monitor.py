@@ -28,7 +28,7 @@ def monitor_memory_usage(pid, interval=0.00001):
             exit(0)
         if max_memory < memory_usage:
             max_memory = memory_usage
-        time.sleep(interval)
+        # time.sleep(interval)
 
 monitor_memory_usage(pid)
 
