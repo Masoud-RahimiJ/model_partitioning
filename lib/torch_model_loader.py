@@ -22,6 +22,7 @@ class TorchModelLoader(ModelLoader):
             self._model.load_state_dict(partition_state_dict, strict=False)
         except Exception as e:
             print(e)
+        print(111)
         
         
 
