@@ -34,7 +34,7 @@ std = torch.load(OBJECT_NAME)
 print(time.time()-stt)
 model.load_state_dict(std)
 del std
-# os.remove(OBJECT_NAME)
+os.remove(OBJECT_NAME)
 
 model.eval()
 
