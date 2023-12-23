@@ -35,7 +35,7 @@ load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
 # print(time.time()-stt
 # model.load_state_dict(std)
 # del std
-os.remove(OBJECT_NAME)
+# os.remove(OBJECT_NAME)
 
 model.eval()
 
