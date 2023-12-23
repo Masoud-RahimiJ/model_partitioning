@@ -31,7 +31,7 @@ stt = time.time()
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
 # std = torch.load(OBJECT_NAME)
-load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="cpu")
+load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
 print(time.time()-stt)
 # model.load_state_dict(std)
 # del std
