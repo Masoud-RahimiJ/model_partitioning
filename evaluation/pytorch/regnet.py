@@ -27,25 +27,25 @@ config = {"download_delay": 8000000,
 # model = TorchModelLoader(init_model, bucket, config).load()
 
 model=init_model()
-stt = time.time()
-# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+# stt = time.time()
+bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
 # std = torch.load(OBJECT_NAME)
-# load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
-print(time.time()-stt)
+load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
+# print(time.time()-stt
 # model.load_state_dict(std)
 # del std
 os.remove(OBJECT_NAME)
 
-# model.eval()
+model.eval()
 
-# image = image.to(device)
-# time.sleep(5)
-# output = model.forward(image)
-# probabilities = torch.nn.functional.softmax(output[0], dim=0)
-# top5_prob, top5_catid = torch.topk(probabilities, 5)
-# with open("./utils/imagenet_classes.txt", "r") as f:
-#     categories = [s.strip() for s in f.readlines()]
-#     for i in range(top5_prob.size(0)):
-#         print(categories[top5_catid[i]], top5_prob[i].item())
-# print("Response time is: ", time.time() - start_time)
+image = image.to(device)
+time.sleep(5)
+output = model.forward(image)
+probabilities = torch.nn.functional.softmax(output[0], dim=0)
+top5_prob, top5_catid = torch.topk(probabilities, 5)
+with open("./utils/imagenet_classes.txt", "r") as f:
+    categories = [s.strip() for s in f.readlines()]
+    for i in range(top5_prob.size(0)):
+        print(categories[top5_catid[i]], top5_prob[i].item())
+print("Response time is: ", time.time() - start_time)
