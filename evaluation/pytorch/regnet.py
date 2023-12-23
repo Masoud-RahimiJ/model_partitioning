@@ -1,7 +1,7 @@
 import time, io
 start_time = time.time()
 import torch
-from accelerate import init_empty_weights
+from accelerate import init_empty_weights, load_checkpoint_and_dispatch
 import torchvision
 import os, io
 import boto3
@@ -30,10 +30,11 @@ model=init_model()
 stt = time.time()
 bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
-std = torch.load(OBJECT_NAME)
+# std = torch.load(OBJECT_NAME)
+load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="cpu")
 print(time.time()-stt)
-model.load_state_dict(std)
-del std
+# model.load_state_dict(std)
+# del std
 os.remove(OBJECT_NAME)
 
 model.eval()
