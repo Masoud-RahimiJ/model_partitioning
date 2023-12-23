@@ -28,9 +28,12 @@ config = {"download_delay": 8000000,
 
 model=init_model()
 stt = time.time()
-std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
+# std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+std = torch.load(OBJECT_NAME)
 model.load_state_dict(std)
 del std
+os.remove(OBJECT_NAME)
 
 model.eval()
 
