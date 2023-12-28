@@ -11,7 +11,7 @@ from utils.image_loader import image
 
 BUCKET="dnn-models"
 OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
-COUNT_PARTITIONS=22
+COUNT_PARTITIONS=227
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
@@ -24,14 +24,21 @@ def init_model():
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
-# model = TorchModelLoader(init_model, bucket, config).load()
+model = TorchModelLoader(init_model, bucket, config).load()
 
-model=init_model()
+# model=init_model()
 # stt = time.time()
-bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
-# std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+
+# bucket.download_file(Filename=OBJECT_NAME, Key=OBJECT_NAME)
 # std = torch.load(OBJECT_NAME)
-load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
+
+
+# std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+
+
+# load_checkpoint_and_dispatch(model, OBJECT_NAME, device_map="auto")
+# peak = 3500
+# model_size = 2700
 # print(time.time()-stt
 # model.load_state_dict(std)
 # del std

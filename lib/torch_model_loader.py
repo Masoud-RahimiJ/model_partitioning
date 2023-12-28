@@ -12,16 +12,10 @@ class TorchModelLoader(ModelLoader):
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
-        with open(partition_name, 'wb') as f:
-            f.write(partition.read())
-        del partition
+        partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
-        partition_state_dict = load(partition_name)
-        try:
-            self._model.load_state_dict(partition_state_dict, strict=False)
-        except Exception as e:
-            print(e)
+        self._model.load_state_dict(partition_state_dict, strict=False)
         
         
 
