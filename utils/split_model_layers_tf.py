@@ -4,6 +4,8 @@ from botocore.client import Config
 from keras.models import load_model
 from tensorflow.python.keras.saving import hdf5_format
 import h5py
+from tensorflow.python.keras.saving.hdf5_format import load_attributes_from_hdf5_group
+import numpy as np
 
 
 BUCKET="dnn-models"
@@ -15,22 +17,32 @@ bucket = s3.Bucket(BUCKET)
 
 
 def get_partition_obj_name(part):
-    return OBJECT_NAME + '_' + str(part+1)
+    return OBJECT_NAME + '_' + str(part+1) + ".h5"
 
-model = load_model(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
-layers = model.layers()
+bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
+file = h5py.File(f"{OBJECT_NAME}.h5", "r")
+layer_names = load_attributes_from_hdf5_group(file, 'layer_names')
 
-partition = []
-partitions_count = 0
 
-for i in range(len(layers)):
-    partition.append(layers[i])
-    with h5py.File("partition.h5", 'w') as f:
-        hdf5_format.save_weights_to_hdf5_group(f, partition)
-    if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE or i+1==len(layers):
+partition = h5py.File("partition.h5", 'w')
+start = True
+partitions_count=0
+
+
+
+for i, layer in enumerate(layer_names):
+    if not start:
+        partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
+    else:
+        partition.attrs["layer_names"] = [file.attrs['layer_names'][i]]
+        start = False
+    file.copy(file[layer], partition)
+    if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE or i+1==len(layer_names):
         obj_name = get_partition_obj_name(partitions_count)
+        partition.close()
         bucket.upload_file(Filename="partition.h5", Key=obj_name)
-        partition = []
+        os.remove("partition.h5")
+        partition = h5py.File("partition.h5", 'w')
         partitions_count += 1
 
-print(partitions_count)
+print(partitions_count+1)
