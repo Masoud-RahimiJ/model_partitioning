@@ -47,6 +47,7 @@ def wrap_param_assign_op(param, assign):
     def wrapped_function(input_param, use_locking=False):
         result = assign(input_param, use_locking)
         param.is_loaded = True
+        print("yes")
         return result
     return wrapped_function
 
@@ -56,6 +57,7 @@ def wrap_param_assign(param, assign):
         def wrap_assign_function(input_param, use_locking=False):
             result = assign_f(input_param, use_locking)
             param.is_loaded = True
+            print("no")
             return result
         return wrap_assign_function
     return wrapped_function
