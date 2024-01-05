@@ -35,7 +35,7 @@ for i, layer in enumerate(layer_names):
     if not start:
         partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
     else:
-        partition.attrs["layer_names"] = [file.attrs['layer_names'][i]]
+        partition.attrs["layer_names"] = [layer.encode()]
         start = False
     file.copy(file[layer], partition)
     if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE or i+1==len(layer_names):
