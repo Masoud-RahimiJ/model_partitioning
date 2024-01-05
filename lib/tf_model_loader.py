@@ -1,5 +1,6 @@
 from threading import Event
 from lib.model_loader import ModelLoader
+import os
 
 
 class TFModelLoader(ModelLoader):
@@ -10,13 +11,17 @@ class TFModelLoader(ModelLoader):
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
-        with open(partition_name, 'rb') as f:
-            f.write(partition)
-        if not self._model_initialized_event.is_set():
-            print("no")
-            self._model_initialized_event.wait()
-        self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
-        print("yes")
+        try:
+            with open(partition_name, 'wb') as f:
+                f.write(partition)
+            if not self._model_initialized_event.is_set():
+                print("no")
+                self._model_initialized_event.wait()
+            self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+            os.remove(partition_name)
+            print("yes")
+        except Exception as e:
+            print(e)
 
 
 def wrap_module(model):
