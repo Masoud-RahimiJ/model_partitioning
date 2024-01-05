@@ -5,6 +5,7 @@ from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
 from lib.tf_model_loader import TFModelLoader
+import numpy as np
 
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19"
@@ -24,6 +25,6 @@ model = TFModelLoader(init_model, bucket, config).load()
 
 image = preprocess_input(image)
 
-preds = model.predict(image)
-print('Predicted:', decode_predictions(preds, top=5)[0])
+preds = model(image)
+print('Predicted:', decode_predictions(np.array(list(preds)), top=5)[0])
 print("Response time is: ", time.time() - start_time)
