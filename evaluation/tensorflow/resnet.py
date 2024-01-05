@@ -26,6 +26,7 @@ model = TFModelLoader(init_model, bucket, config).load()
 
 
 image = preprocess_input(image)
+time.sleep(3)
 preds = model(image)
 print('Predicted:', decode_predictions(preds, top=5)[0])
 print("Response time is: ", time.time() - start_time)
