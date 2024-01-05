@@ -61,12 +61,12 @@ def wrap_param_assign(param, assign):
 
 def wrap_module_finalize_state(module, finalize_state):
     def wrapped_finalize_state():
-        print("is-check")
         if not module.is_loaded.is_set():
             params = extract_module_params(module)
             for param in params:
                 if param.is_loaded == False: return
             module.is_loaded.set()
+            print("done")
         finalize_state()
     return wrapped_finalize_state
     
