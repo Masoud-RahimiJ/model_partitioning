@@ -1,6 +1,6 @@
 from threading import Event
 from lib.model_loader import ModelLoader
-import os
+import os, time
 
 
 class TFModelLoader(ModelLoader):
@@ -12,6 +12,7 @@ class TFModelLoader(ModelLoader):
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
+        print(partition_name)
         try:
             with open(partition_name, 'wb') as f:
                 f.write(partition.read())
