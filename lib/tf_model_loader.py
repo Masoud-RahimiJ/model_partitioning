@@ -36,7 +36,7 @@ def wrap_layer(module):
         wrap_module_finalize_state(module, module.finalize_state)
 
 def extract_module_params(module):
-    return module.trainable_weights()
+    return module.trainable_weights
 
 def wrap_param_assign_op(param, assign):
     def wrapped_function(input_param, use_locking=False):
