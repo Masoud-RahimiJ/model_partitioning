@@ -66,7 +66,6 @@ def wrap_module_finalize_state(module, finalize_state):
             for param in params:
                 if param.is_loaded == False: return
             module.is_loaded.set()
-            print("done")
         finalize_state()
     return wrapped_finalize_state
     
@@ -74,6 +73,6 @@ def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
-        call(*args, **kwargs)
+        call(args, kwargs)
     return wrapped_call
         
