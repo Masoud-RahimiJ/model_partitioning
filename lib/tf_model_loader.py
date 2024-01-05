@@ -33,7 +33,6 @@ def wrap_layer(module):
         for param in params:
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
-                print("yes")
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
             else:
                 param.assign = wrap_param_assign(param, param.assign)
@@ -45,10 +44,11 @@ def extract_module_params(module):
     return module.trainable_weights
 
 def wrap_param_assign_op(param, assign):
+    print("do")
     def wrapped_function(input_param, use_locking=False):
+        print("yes")
         result = assign(input_param, use_locking)
         param.is_loaded = True
-        print("yes")
         return result
     return wrapped_function
 
