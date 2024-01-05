@@ -9,7 +9,7 @@ class TFModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         pass
-        # wrap_module(model)
+        wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
         print(partition_name)
