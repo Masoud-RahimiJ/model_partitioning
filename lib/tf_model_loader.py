@@ -13,8 +13,10 @@ class TFModelLoader(ModelLoader):
         with open(partition_name, 'rb') as f:
             f.write(partition)
         if not self._model_initialized_event.is_set():
+            print("no")
             self._model_initialized_event.wait()
         self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+        print("yes")
 
 
 def wrap_module(model):
