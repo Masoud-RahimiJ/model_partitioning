@@ -13,7 +13,7 @@ class TFModelLoader(ModelLoader):
     def _load_partition(self, partition, partition_name):
         try:
             with open(partition_name, 'wb') as f:
-                f.write(partition)
+                f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 print("no")
                 self._model_initialized_event.wait()
