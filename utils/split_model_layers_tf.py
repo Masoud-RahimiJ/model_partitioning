@@ -44,6 +44,7 @@ for i, layer in enumerate(layer_names):
         bucket.upload_file(Filename="partition.h5", Key=obj_name)
         os.remove("partition.h5")
         partition = h5py.File("partition.h5", 'w')
+        start=True
         partitions_count += 1
 
 print(partitions_count)
