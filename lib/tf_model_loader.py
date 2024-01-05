@@ -53,12 +53,9 @@ def wrap_param_assign_op(param, assign):
 def wrap_param_assign(param, assign):
     def wrapped_function(shape):
         assign_f = assign(shape)
-        def wrap_assign_function(input_param, use_locking=False):
-            print("no")
-            result = assign_f(input_param, use_locking)
-            param.is_loaded = True
-            return result
-        return wrap_assign_function
+        print("no")
+        param.is_loaded = True
+        return assign_f
     return wrapped_function
 
 def wrap_module_finalize_state(module, finalize_state):
