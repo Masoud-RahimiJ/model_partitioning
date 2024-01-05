@@ -1,4 +1,4 @@
-import time
+import time, os
 start_time = time.time()
 from tensorflow.keras.applications.resnet import decode_predictions, preprocess_input
 from tensorflow.keras.applications import ResNet101
@@ -23,8 +23,12 @@ def init_model():
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
-model = TFModelLoader(init_model, bucket, config).load()
+# model = TFModelLoader(init_model, bucket, config).load()
 
+model = init_model()
+bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
+model.load_weights(f"{OBJECT_NAME}.h5")
+os.remove(f"{OBJECT_NAME}.h5")
 
 image = preprocess_input(image)
 preds = model(image)
