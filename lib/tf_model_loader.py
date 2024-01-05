@@ -64,7 +64,7 @@ def wrap_module_finalize_state(module, finalize_state):
         print("is-check")
         if not module.is_loaded.is_set():
             params = extract_module_params(module)
-            for param in params.items:
+            for param in params:
                 if param.is_loaded == False: return
             module.is_loaded.set()
         finalize_state()
