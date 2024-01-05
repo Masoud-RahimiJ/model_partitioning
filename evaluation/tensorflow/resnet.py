@@ -10,7 +10,7 @@ from lib.tf_model_loader import TFModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet"
-COUNT_PARTITIONS=14
+COUNT_PARTITIONS=15
 
 tf.autograph.set_verbosity(1)
 
