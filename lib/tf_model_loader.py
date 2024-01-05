@@ -61,6 +61,7 @@ def wrap_param_assign(param, assign):
 
 def wrap_module_finalize_state(module, finalize_state):
     def wrapped_finalize_state():
+        print("is-check")
         if not module.is_loaded.is_set():
             params = extract_module_params(module)
             for param in params.items():
@@ -71,7 +72,6 @@ def wrap_module_finalize_state(module, finalize_state):
     
 def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
-        print("yyyy")
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
         call(args, kwargs)
