@@ -44,21 +44,20 @@ def extract_module_params(module):
     return module.trainable_weights
 
 def wrap_param_assign_op(param, assign):
-    print("do")
     def wrapped_function(input_param, use_locking=False):
-        print("yes")
         result = assign(input_param, use_locking)
         param.is_loaded = True
         return result
     return wrapped_function
 
 def wrap_param_assign(param, assign):
+    print("yes")
     def wrapped_function(shape):
+        print("no")
         assign_f = assign(shape)
         def wrap_assign_function(input_param, use_locking=False):
             result = assign_f(input_param, use_locking)
             param.is_loaded = True
-            print("no")
             return result
         return wrap_assign_function
     return wrapped_function
