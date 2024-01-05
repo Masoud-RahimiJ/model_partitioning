@@ -1,5 +1,5 @@
 from threading import Event
-from model_loader import ModelLoader
+from lib.model_loader import ModelLoader
 
 
 class TFModelLoader(ModelLoader):
