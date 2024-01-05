@@ -31,6 +31,7 @@ partitions_count=0
 
 
 for i, layer in enumerate(layer_names):
+    print(i, layer)
     if not start:
         partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
     else:
