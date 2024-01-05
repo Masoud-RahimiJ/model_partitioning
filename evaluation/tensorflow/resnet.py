@@ -23,12 +23,12 @@ def init_model():
 config = {"download_delay": 5000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
-# model = TFModelLoader(init_model, bucket, config).load()
+model = TFModelLoader(init_model, bucket, config).load()
 
-model = init_model()
-bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
-model.load_weights(f"{OBJECT_NAME}.h5")
-os.remove(f"{OBJECT_NAME}.h5")
+# model = init_model()
+# bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
+# model.load_weights(f"{OBJECT_NAME}.h5")
+# os.remove(f"{OBJECT_NAME}.h5")
 
 image = preprocess_input(image)
 preds = model(image)
