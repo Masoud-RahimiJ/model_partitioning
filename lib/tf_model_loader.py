@@ -25,12 +25,12 @@ class TFModelLoader(ModelLoader):
 def wrap_module(model):
     wrap_layer(model)
     for module in getattr(model, "layers", []):
-        print(module)
         wrap_module(module)
         
 def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
+        print(module)
         for param in params:
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
