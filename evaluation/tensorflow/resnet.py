@@ -7,6 +7,7 @@ from utils.image_loader_tf import image
 import boto3
 from botocore.client import Config
 from lib.tf_model_loader import TFModelLoader
+import numpy as np
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet"
@@ -28,8 +29,5 @@ model = TFModelLoader(init_model, bucket, config).load()
 image = preprocess_input(image)
 time.sleep(3)
 preds = model(image)
-print(type(preds))
-preds = model.predict(image)
-print(type(preds))
-print('Predicted:', decode_predictions(list(preds), top=5)[0])
+print('Predicted:', decode_predictions(np.array(list(preds)), top=5)[0])
 print("Response time is: ", time.time() - start_time)
