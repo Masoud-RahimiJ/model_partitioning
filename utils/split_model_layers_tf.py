@@ -28,23 +28,26 @@ partition = h5py.File("partition.h5", 'w')
 start = True
 partitions_count=0
 
-
+lays = []
 
 for i, layer in enumerate(layer_names):
     print(i, layer)
-    if not start:
-        partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
-    else:
-        partition.attrs["layer_names"] = [layer.encode()]
-        start = False
+    # if not start:
+    #     partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
+    # else:
+    #     partition.attrs["layer_names"] = [layer.encode()]
+    #     start = False
+    lays.append(layer)
     file.copy(file[layer], partition)
     if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE or i+1==len(layer_names):
+        partition.attrs["layer_names"] = lays
         obj_name = get_partition_obj_name(partitions_count)
         partition.close()
         bucket.upload_file(Filename="partition.h5", Key=obj_name)
         os.remove("partition.h5")
         partition = h5py.File("partition.h5", 'w')
         start=True
+        lays = []
         partitions_count += 1
 
 print(partitions_count)
