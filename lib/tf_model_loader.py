@@ -73,7 +73,6 @@ def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
-        print(1)
-        # call(args[0])
+        return call(args, kwargs)
     return wrapped_call
         
