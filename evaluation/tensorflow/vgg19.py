@@ -7,8 +7,8 @@ from botocore.client import Config
 from lib.tf_model_loader import TFModelLoader
 
 BUCKET="dnn-models"
-OBJECT_NAME="vgg19_weights_tf_dim_ordering_tf_kernels"
-COUNT_PARTITIONS=20
+OBJECT_NAME="vgg19"
+COUNT_PARTITIONS=7
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
@@ -16,7 +16,7 @@ bucket = s3.Bucket("dnn-models")
 def init_model():
     return VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 
-config = {"download_delay": 6000000,
+config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
 model = TFModelLoader(init_model, bucket, config).load()
