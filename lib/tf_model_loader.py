@@ -13,8 +13,8 @@ class TFModelLoader(ModelLoader):
         
     def _load_partition(self, partition, partition_name):
         try:
-            with open(partition_name, 'wb') as f:
-                f.write(partition.read())
+            # with open(partition_name, 'wb') as f:
+            #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
             self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
