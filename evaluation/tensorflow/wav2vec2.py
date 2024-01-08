@@ -10,8 +10,8 @@ from lib.tf_model_loader import TFModelLoader
 import tensorflow as tf
 
 BUCKET="dnn-models"
-OBJECT_NAME="wav"
-COUNT_PARTITIONS=10
+OBJECT_NAME="wav2vec2"
+COUNT_PARTITIONS=27
 
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
     """

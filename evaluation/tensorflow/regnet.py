@@ -10,15 +10,15 @@ print(time.time() - start_time)
 
 BUCKET="dnn-models"
 OBJECT_NAME="../models/regnet.h5"
-COUNT_PARTITIONS=20
+COUNT_PARTITIONS=86
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
 start_time = time.time()
 with tf.device("/CPU:0"):
-    feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/regnet-y-040")
-    config = AutoConfig.from_pretrained("facebook/regnet-y-040")
+    feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/regnet-y-1280-seer-in1k")
+    config = AutoConfig.from_pretrained("facebook/regnet-y-1280-seer-in1k")
 
     # def init_model():
     #     return RegNetForImageClassification(config)
