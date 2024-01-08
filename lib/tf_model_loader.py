@@ -19,7 +19,6 @@ class TFModelLoader(ModelLoader):
             self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
             os.remove(partition_name)
         except Exception as e:
-            print(1)
             print(e)
 
 
