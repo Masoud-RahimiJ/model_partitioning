@@ -68,11 +68,11 @@ def wrap_module_finalize_state(module, finalize_state):
     return wrapped_finalize_state
     
 def wrap_module_call(module, call):
-    def wrapped_call(*args, **kwargs):
+    def wrapped_call(self, input_ids, attention_mask, **kwargs):
         print(1111)
-        print(args, kwargs)
+        # print(argskwargs)
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
-        return call(*args, **kwargs)
+        return call(self, input_ids, attention_mask, **kwargs)
     return wrapped_call
         
