@@ -37,6 +37,7 @@ def wrap_layer(module):
             else:
                 param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
+        print(1)
         module.call = wrap_module_call(module, module.call)
         module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
