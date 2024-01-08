@@ -8,7 +8,6 @@ class TFModelLoader(ModelLoader):
         super().__init__(model_initializer_fn, s3_bucket, config)
         
     def _wrap_model(self, model):
-        pass
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
@@ -20,6 +19,7 @@ class TFModelLoader(ModelLoader):
             self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
             os.remove(partition_name)
         except Exception as e:
+            print(1)
             print(e)
 
 
