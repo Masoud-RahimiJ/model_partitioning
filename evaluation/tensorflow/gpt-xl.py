@@ -37,6 +37,7 @@ model, generator = TFModelLoader(init_model, bucket, config).load()
 # model.load_weights(f"{OBJECT_NAME}.h5")
 # os.remove(f"{OBJECT_NAME}.h5")
 
+time.sleep(10)
 output = generator("Hello, I'm a language model,", max_new_tokens=30, num_return_sequences=1)
 
 print(output)
