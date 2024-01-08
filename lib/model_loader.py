@@ -20,11 +20,11 @@ class ModelLoader:
     def load(self):
         t1 = Thread(target=self._load_model)
         t1.start()
-        model = self._model_initializer_fn()
+        model, generator = self._model_initializer_fn()
         self._wrap_model(model)
         self._model = model
         self._model_initialized_event.set()
-        return self._model
+        return self._model, generator
         
     def _load_model(self):
         time.sleep(10)

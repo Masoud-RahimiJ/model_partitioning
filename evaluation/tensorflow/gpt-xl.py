@@ -17,23 +17,25 @@ bucket = s3.Bucket("dnn-models")
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 
+
+
 def init_model():
     config=AutoConfig.from_pretrained('gpt2-xl')
-    return TFGPT2LMHeadModel(config)
+    model = TFGPT2LMHeadModel(config)
+    generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+    generator("Hello", max_length=1, num_return_sequences=1)
+    return model, generator
+    
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}.h5" for i in range(1, 2)]}
 
 # model = TFModelLoader(init_model, bucket, config).load()
 
-model = init_model()
+model, generator = init_model()
 bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
 model.load_weights(f"{OBJECT_NAME}.h5")
 os.remove(f"{OBJECT_NAME}.h5")
-
-
-text = "Replace me by any text you'd like."
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 
 output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
