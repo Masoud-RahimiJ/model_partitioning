@@ -54,7 +54,7 @@ class ModelLoader:
             # partition_data.seek(0)
             
             self._s3_bucket.download_file(Filename=partition_name, Key=partition_name)
-            self._load_thread_pool.submit(self._load_partition, None, partition_name)
+            self._load_thread_pool.submit(self._load_partition, "", partition_name)
         except Exception as e:
             print(1)
             print(e)
