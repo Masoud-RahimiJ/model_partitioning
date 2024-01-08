@@ -18,8 +18,8 @@ class ModelLoader:
         self._model_initialized_event = Event()
         
     def load(self):
-        t1 = Thread(target=self._load_model)
-        t1.start()
+        # t1 = Thread(target=self._load_model)
+        # t1.start()
         model, generator = self._model_initializer_fn()
         self._wrap_model(model)
         self._model = model
