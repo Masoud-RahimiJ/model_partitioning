@@ -22,10 +22,8 @@ def init_model():
     config=AutoConfig.from_pretrained('gpt2-xl')
     tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
     model = TFGPT2LMHeadModel(config)
-    print(1)
     generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
-    print(2)
-    print(generator("Hello", max_new_tokens=1, num_return_sequences=1))
+    generator("Hello", max_new_tokens=1, num_return_sequences=1)
     return model, generator
     
 
