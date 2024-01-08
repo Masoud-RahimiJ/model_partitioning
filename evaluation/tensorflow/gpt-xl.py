@@ -28,14 +28,14 @@ def init_model():
     
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}.h5" for i in range(1, 2)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
 
-# model = TFModelLoader(init_model, bucket, config).load()
+model, generator = TFModelLoader(init_model, bucket, config).load()
 
-model, generator = init_model()
-bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
-model.load_weights(f"{OBJECT_NAME}.h5")
-os.remove(f"{OBJECT_NAME}.h5")
+# model, generator = init_model()
+# bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+# model.load_weights(f"{OBJECT_NAME}.h5")
+# os.remove(f"{OBJECT_NAME}.h5")
 
 output = generator("Hello, I'm a language model,", max_new_tokens=30, num_return_sequences=1)
 
