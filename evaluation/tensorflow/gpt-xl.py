@@ -1,4 +1,4 @@
-import time
+import time, os
 start_time = time.time()
 from transformers import AutoTokenizer, AutoConfig, TFGPT2LMHeadModel, pipeline, set_seed
 import boto3
@@ -24,9 +24,12 @@ def init_model():
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}.h5" for i in range(1, 2)]}
 
-model = TFModelLoader(init_model, bucket, config).load()
+# model = TFModelLoader(init_model, bucket, config).load()
 
-# model.eval()
+model = init_model()
+bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+model.load_weights(f"{OBJECT_NAME}.h5")
+os.remove(f"{OBJECT_NAME}.h5")
 
 
 text = "Replace me by any text you'd like."
