@@ -15,12 +15,12 @@ s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id
 bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
-tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
 
 
 
 def init_model():
     config=AutoConfig.from_pretrained('gpt2-xl')
+    tokenizer = AutoTokenizer.from_pretrained('gpt2-xl')
     model = TFGPT2LMHeadModel(config)
     generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
     generator("Hello", max_new_tokens=1, num_return_sequences=1)
