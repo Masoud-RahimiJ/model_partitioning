@@ -19,35 +19,53 @@ bucket = s3.Bucket(BUCKET)
 def get_partition_obj_name(part):
     return OBJECT_NAME + '_' + str(part+1) + ".h5"
 
-bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
+# bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
 file = h5py.File(f"{OBJECT_NAME}.h5", "r")
 layer_names = load_attributes_from_hdf5_group(file, 'layer_names')
 
 
 partition = h5py.File("partition.h5", 'w')
-start = True
 partitions_count=0
 
-lays = []
 
-for i, layer in enumerate(layer_names):
-    print(i, layer)
-    # if not start:
-    #     partition.attrs["layer_names"] = np.append(partition.attrs["layer_names"], layer.encode())
-    # else:
-    #     partition.attrs["layer_names"] = [layer.encode()]
-    #     start = False
-    lays.append(layer)
-    file.copy(file[layer], partition)
-    if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE or i+1==len(layer_names):
-        partition.attrs["layer_names"] = lays
-        obj_name = get_partition_obj_name(partitions_count)
-        partition.close()
-        bucket.upload_file(Filename="partition.h5", Key=obj_name)
-        os.remove("partition.h5")
-        partition = h5py.File("partition.h5", 'w')
-        start=True
-        lays = []
-        partitions_count += 1
+def extract_layer_names(weight_names):
+    result = dict()
+    for w in weight_names:
+        layer_name = '/'.join(w.split('/')[:-1])
+        if not layer_name in result:
+            result[layer_name] = []
+        result[layer_name].append(w)
+    return result
 
+for k, name in enumerate(layer_names):
+    partition.create_group(name)
+    partition[name].attrs["weight_names"] = []
+    g = file[name]
+    weight_names = load_attributes_from_hdf5_group(g, 'weight_names')
+    layers = extract_layer_names(weight_names)
+    for i, layer in enumerate(layers.keys()):
+        print(name,layer)
+        if partition[name].get('/'.join(layer.split('/')[:-1]), None) is None:
+            partition[name].create_group('/'.join(layer.split('/')[:-1])) 
+        file.copy(file[name][layer], partition[name]['/'.join(layer.split('/')[:-1])])
+        for w in layers[layer]:
+            partition[name].attrs["weight_names"] = np.append(partition[name].attrs.get("weight_names", []), w.encode())
+        if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
+            partition.attrs["layer_names"] = list(partition.keys())
+            obj_name = get_partition_obj_name(partitions_count)
+            partition.close()
+            bucket.upload_file(Filename="partition.h5", Key=obj_name)
+            os.remove("partition.h5")
+            partitions_count += 1
+            partition = h5py.File("partition.h5", 'w')
+            if i + 1 != len(layers.keys()):
+                partition.create_group(name)
+
+if len(partition.keys()) > 0:
+    partition.attrs["layer_names"] = list(partition.keys())
+    partition.close()
+    bucket.upload_file(Filename="partition.h5", Key=obj_name)
+    os.remove("partition.h5")
+    partitions_count += 1
+        
 print(partitions_count)
