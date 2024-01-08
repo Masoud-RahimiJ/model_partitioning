@@ -29,7 +29,7 @@ class ModelLoader:
     def _load_model(self):
         with futures.ThreadPoolExecutor(max_workers=COUNT_DOWNLOAD_THREADS) as executor:
             [executor.submit(self._download_and_load_partition, partition_name) for partition_name in self._partition_names]
-        self._load_thread_pool.shutdown(wait=True)
+        # self._load_thread_pool.shutdown(wait=True)
             
     def _load_partition(self, partition, partition_name):
         raise NotImplementedError()
