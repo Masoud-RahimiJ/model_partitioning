@@ -26,13 +26,13 @@ config = {"download_delay": 6000000,
 
 model = TFModelLoader(init_model, bucket, config).load()
 
-model.eval()
+# model.eval()
 
 
-text = "Replace me by any text you'd like."
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+# text = "Replace me by any text you'd like."
+# generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 
-output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
+# output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
 
-print(output)
-print("Response time is: ", time.time() - start_time)
+# print(output)
+# print("Response time is: ", time.time() - start_time)
