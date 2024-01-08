@@ -23,7 +23,7 @@ def init_model():
     config=AutoConfig.from_pretrained('gpt2-xl')
     model = TFGPT2LMHeadModel(config)
     generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
-    generator("Hello", max_length=1, num_return_sequences=1)
+    generator("Hello", max_new_tokens=1, num_return_sequences=1)
     return model, generator
     
 
@@ -37,7 +37,7 @@ bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
 model.load_weights(f"{OBJECT_NAME}.h5")
 os.remove(f"{OBJECT_NAME}.h5")
 
-output = generator("Hello, I'm a language model,", max_length=30, num_return_sequences=1)
+output = generator("Hello, I'm a language model,", max_new_tokens=30, num_return_sequences=1)
 
 print(output)
 print("Response time is: ", time.time() - start_time)
