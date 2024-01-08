@@ -32,10 +32,10 @@ def wrap_layer(module):
     if len(params) > 0:
         for param in params:
             param.is_loaded = False
-            if hasattr(param, '_assign_placeholder'):
-                param._assign_op = wrap_param_assign_op(param, param._assign_op)
-            else:
-                param.assign = wrap_param_assign(param, param.assign)
+            # if hasattr(param, '_assign_placeholder'):
+            #     param._assign_op = wrap_param_assign_op(param, param._assign_op)
+            # else:
+            #     param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
         module.call = wrap_module_call(module, module.call)
         module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
