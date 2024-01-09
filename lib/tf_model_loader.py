@@ -2,7 +2,9 @@ from threading import Event
 from lib.model_loader import ModelLoader
 import os, time
 
-
+class a:
+    count_wraped_params = 0
+    count_ok_params = 0
 
 class TFModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
@@ -24,10 +26,6 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    global count_wraped_params
-    global count_ok_params
-    count_wraped_params = 0
-    count_ok_params = 0
     for m in model._flatten_layers():
         wrap_layer(m)
 
@@ -35,7 +33,7 @@ def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
-            count_wraped_params += 1
+            a.count_wraped_params += 1
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
@@ -59,8 +57,8 @@ def wrap_param_assign(param, assign):
     def wrapped_function(shape):
         assign_f = assign(shape)
         param.is_loaded = True
-        count_ok_params += 1
-        print(count_wraped_params - count_ok_params)
+        a.count_ok_params += 1
+        print(a.count_wraped_params - a.count_ok_params)
         return assign_f
     return wrapped_function
 
