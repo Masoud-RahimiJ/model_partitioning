@@ -40,8 +40,8 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    for m in model._flatten_layers():
-        print(m)
+    for m in model.layers[0]._flatten_layers(include_self=False):
+        wrap_layer(m)
     # print(model._layers)
     # wrap_layer(model)
     # for module in getattr(model, "layers", []):
