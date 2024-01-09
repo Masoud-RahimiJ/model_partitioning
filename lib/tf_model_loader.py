@@ -34,6 +34,7 @@ class TFModelLoader(ModelLoader):
             g = f[name]
             for w in load_attributes_from_hdf5_group(f, 'weight_names'):
                 weight_value_tuples.append(self.prams_dict[w], np.asarrayg([w]))
+        print(weight_value_tuples)
         backend.batch_set_value(weight_value_tuples)
         
 
@@ -49,7 +50,6 @@ def wrap_layer(module, prams_dict):
     if len(params) > 0:
         for param in params:
             prams_dict[param.name] = param
-            print(param.name)
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
