@@ -32,8 +32,8 @@ class TFModelLoader(ModelLoader):
         f = h5py.File(partition_name, "r")
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
-            for w in load_attributes_from_hdf5_group(f, 'weight_names'):
-                weight_value_tuples.append(self.prams_dict[w], np.asarrayg([w]))
+            for w in load_attributes_from_hdf5_group(g, 'weight_names'):
+                weight_value_tuples.append(self.prams_dict[w], np.asarray(g[w]))
         print(weight_value_tuples)
         backend.batch_set_value(weight_value_tuples)
         
