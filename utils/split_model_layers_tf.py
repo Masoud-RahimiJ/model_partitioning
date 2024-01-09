@@ -39,9 +39,11 @@ def extract_layer_names(weight_names):
         result[layer_name].append(w)
     return result
 
+
 for k, name in enumerate(layer_names):
     partition.create_group(name)
-    partition[name].attrs["weight_names"] = []
+    wn = []
+    partition[name].attrs["weight_names"] = wn
     g = file[name]
     weight_names = load_attributes_from_hdf5_group(g, 'weight_names')
     layers = extract_layer_names(weight_names)
@@ -51,7 +53,8 @@ for k, name in enumerate(layer_names):
             partition[name].create_group('/'.join(layer.split('/')[:-1])) 
         file.copy(file[name][layer], partition[name]['/'.join(layer.split('/')[:-1])])
         for w in layers[layer]:
-            partition[name].attrs["weight_names"] = np.append(partition[name].attrs.get("weight_names", []), w)
+            wn.append(w)
+            partition[name].attrs["weight_names"] = wn
         if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
             partition.attrs["layer_names"] = list(partition.keys())
             obj_name = get_partition_obj_name(partitions_count)
