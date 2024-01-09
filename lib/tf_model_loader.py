@@ -3,23 +3,6 @@ from lib.model_loader import ModelLoader
 import os, time
 
 
-def filter_empty_layer_containers(layer_list):
-  existing = set()
-  to_visit = layer_list[::-1]
-  filtered = []
-  while to_visit:
-    obj = to_visit.pop()
-    if obj in existing:
-      continue
-    existing.add(obj)
-    if hasattr(obj, "_is_layer") and not isinstance(obj, type):
-      filtered.append(obj)
-    elif hasattr(obj, "layers"):
-      # Trackable data structures will not show up in ".layers" lists, but
-      # the layers they contain will.
-      to_visit.extend(obj.layers[::-1])
-  return filtered
-
 class TFModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
         super().__init__(model_initializer_fn, s3_bucket, config)
@@ -40,7 +23,7 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    for m in model.layers._flatten_layers(include_self=False):
+    for m in model._flatten_layers(include_self=False):
         wrap_layer(m)
         
 def wrap_layer(module):
