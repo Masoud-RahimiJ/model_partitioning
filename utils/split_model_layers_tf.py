@@ -72,6 +72,7 @@ for k, name in enumerate(layer_names):
 if len(partition.keys()) > 0:
     partition.attrs["layer_names"] = list(partition.keys())
     partition.close()
+    obj_name = get_partition_obj_name(partitions_count)
     bucket.upload_file(Filename="partition.h5", Key=obj_name)
     os.remove("partition.h5")
     partitions_count += 1
