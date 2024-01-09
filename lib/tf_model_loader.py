@@ -6,9 +6,6 @@ from tensorflow.python.keras import backend
 import h5py
 import numpy as np
 
-class a:
-    count_ok_params = 0
-
 class TFModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
         super().__init__(model_initializer_fn, s3_bucket, config)
@@ -76,8 +73,6 @@ def wrap_param_assign(param, assign):
     def wrapped_function(shape):
         assign_f = assign(shape)
         param.is_loaded = True
-        a.count_ok_params += 1
-        print(580 - a.count_ok_params)
         return assign_f
     return wrapped_function
 
@@ -94,9 +89,7 @@ def wrap_module_finalize_state(module, finalize_state):
 def wrap_module_call(module, call):
     def wrapped_call(inputs):
         if not module.is_loaded.is_set():
-            print("***************")
             module.is_loaded.wait()
-            print("$$$$$$$$$$$$")
         return call(inputs)
     return wrapped_call
         
