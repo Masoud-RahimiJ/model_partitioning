@@ -23,7 +23,7 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    print(model, getattr(model, "_layers", []))
+    print(model._layers)
     wrap_layer(model)
     for module in getattr(model, "layers", []):
         wrap_module(module)
