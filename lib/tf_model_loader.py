@@ -2,8 +2,7 @@ from threading import Event
 from lib.model_loader import ModelLoader
 import os, time
 
-count_wraped_params = 0
-count_ok_params = 0
+
 
 class TFModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
@@ -25,6 +24,10 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
+    global count_wraped_params
+    global count_ok_params
+    count_wraped_params = 0
+    count_ok_params = 0
     for m in model._flatten_layers():
         wrap_layer(m)
 
