@@ -22,7 +22,6 @@ class TFModelLoader(ModelLoader):
             #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
-            print(self.prams_dict)
             # self.load_partition_tf(partition_name)
             os.remove(partition_name)
         except Exception as e:
@@ -30,6 +29,8 @@ class TFModelLoader(ModelLoader):
             
     def load_partition_tf(self, partition_name):
         weight_value_tuples = []
+        print(self.prams_dict)
+        
         f = h5py.File(partition_name, "r")
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
