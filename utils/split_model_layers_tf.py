@@ -61,6 +61,7 @@ for k, name in enumerate(layer_names):
             partition.close()
             bucket.upload_file(Filename="partition.h5", Key=obj_name)
             os.remove("partition.h5")
+            wn = []
             partitions_count += 1
             partition = h5py.File("partition.h5", 'w')
             partition.attrs['backend'] = 'tensorflow'
