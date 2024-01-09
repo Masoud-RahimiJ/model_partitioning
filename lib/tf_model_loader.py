@@ -36,7 +36,6 @@ class TFModelLoader(ModelLoader):
                 weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
         f.close()
         backend.batch_set_value(weight_value_tuples)
-        print("done")
         
 
 
