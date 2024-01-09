@@ -23,6 +23,7 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
+    print(model,getattr(model, "layers", []))
     wrap_layer(model)
     for module in getattr(model, "layers", []):
         wrap_module(module)
@@ -30,7 +31,6 @@ def wrap_module(model):
 def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
-        print(module)
         for param in params:
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
@@ -38,8 +38,7 @@ def wrap_layer(module):
             else:
                 param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
-        print(1)
-        module.call = wrap_module_call(module, module.call)
+        # module.call = wrap_module_call(module, module.call)
         module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
 def extract_module_params(module):
@@ -71,10 +70,9 @@ def wrap_module_finalize_state(module, finalize_state):
     
 def wrap_module_call(module, call):
     print(call)
-    def wrapped_call(self, inputs):
-        # print(argskwargs)
+    def wrapped_call(inputs):
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
-        return call(self, inputs)
+        return call(inputs)
     return wrapped_call
         
