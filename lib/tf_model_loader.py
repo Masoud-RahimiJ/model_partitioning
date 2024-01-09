@@ -34,7 +34,7 @@ class TFModelLoader(ModelLoader):
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
-                print('/'.join(w.name.split('/')[1:0]) in self.prams_dict)
+                print('/'.join(w.split('/')[1:0]) in self.prams_dict)
                 # print("----------------------------")
                 # print(g[w], self.prams_dict[w])
                 # print("$$$$$$$$$$$$$$$$$$$$$$$")
