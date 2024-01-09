@@ -15,6 +15,7 @@ class TFModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         self.prams_dict = wrap_module(model)
+        print(self.prams_dict.keys())
         
     def _load_partition(self, partition, partition_name):
         try:
@@ -33,7 +34,7 @@ class TFModelLoader(ModelLoader):
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
-                print(w in self.prams_dict)
+                print(w)
                 # print("----------------------------")
                 # print(g[w], self.prams_dict[w])
                 # print("$$$$$$$$$$$$$$$$$$$$$$$")
