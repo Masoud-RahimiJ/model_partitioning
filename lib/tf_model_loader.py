@@ -49,7 +49,6 @@ def wrap_module(model):
         
 def wrap_layer(module):
     params = extract_module_params(module)
-    print(module, len(params))
     if len(params) > 0:
         for param in params:
             param.is_loaded = False
