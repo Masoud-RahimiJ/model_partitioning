@@ -15,7 +15,6 @@ class TFModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         self.prams_dict = wrap_module(model)
-        print(self.prams_dict)
         
     def _load_partition(self, partition, partition_name):
         try:
@@ -23,7 +22,8 @@ class TFModelLoader(ModelLoader):
             #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
-            self.load_partition_tf(partition_name)
+            print(self.prams_dict)
+            # self.load_partition_tf(partition_name)
             os.remove(partition_name)
         except Exception as e:
             print(e)
