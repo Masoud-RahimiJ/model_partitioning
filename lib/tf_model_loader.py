@@ -1,5 +1,6 @@
 from threading import Event
 from lib.model_loader import ModelLoader
+from tensorflow.python.training.tracking import layer_utils as trackable_layer_utils
 import os, time
 
 
@@ -23,10 +24,11 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    print(model._layers)
-    wrap_layer(model)
-    for module in getattr(model, "layers", []):
-        wrap_module(module)
+    print(trackable_layer_utils(model))
+    # print(model._layers)
+    # wrap_layer(model)
+    # for module in getattr(model, "layers", []):
+    #     wrap_module(module)
         
 def wrap_layer(module):
     params = extract_module_params(module)
