@@ -24,7 +24,7 @@ def init_model():
     model = TFGPT2LMHeadModel(config)
     generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
     generator("Hello", max_new_tokens=1, num_return_sequences=1)
-    print(model.get_config())
+    print(model.layers[0].input_shape[0])
     return model, generator
     
 
