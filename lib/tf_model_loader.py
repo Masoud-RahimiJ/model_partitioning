@@ -1,6 +1,10 @@
 from threading import Event
 from lib.model_loader import ModelLoader
 import os, time
+from tensorflow.python.keras.saving.hdf5_format import load_attributes_from_hdf5_group
+from tensorflow.python.keras import backend
+import h5py
+import numpy as np
 
 class a:
     count_ok_params = 0
@@ -10,7 +14,7 @@ class TFModelLoader(ModelLoader):
         super().__init__(model_initializer_fn, s3_bucket, config)
         
     def _wrap_model(self, model):
-        wrap_module(model)
+        self.prams_dict = wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
         try:
@@ -18,20 +22,33 @@ class TFModelLoader(ModelLoader):
             #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
-            self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+            self.load_partition_tf(partition_name)
             os.remove(partition_name)
         except Exception as e:
             print(e)
+            
+    def load_partition_tf(self, partition_name):
+        weight_value_tuples = []
+        f = h5py.File(partition_name, "r")
+        for name in load_attributes_from_hdf5_group(f, 'layer_names'):
+            g = f[name]
+            for w in load_attributes_from_hdf5_group(f, 'weight_names'):
+                weight_value_tuples.append(self.prams_dict[w], np.asarrayg([w]))
+        backend.batch_set_value(weight_value_tuples)
+        
 
 
 def wrap_module(model):
+    prams_dict = {}
     for m in model._flatten_layers():
-        wrap_layer(m)
+        wrap_layer(m, prams_dict)
+    return prams_dict
 
-def wrap_layer(module):
+def wrap_layer(module, prams_dict):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
+            prams_dict[param.name] = param
             print(param.name)
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
