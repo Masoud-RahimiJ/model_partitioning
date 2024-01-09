@@ -23,7 +23,7 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    for m in model._flatten_layers(include_self=False):
+    for m in model._flatten_layers():
         wrap_layer(m)
         
 def wrap_layer(module):
