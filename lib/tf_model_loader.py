@@ -36,12 +36,8 @@ class TFModelLoader(ModelLoader):
                 weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
         f.close()
         backend.batch_set_value(weight_value_tuples)
-        for module in self._model._flatten_layers():
-            if not module.is_loaded.is_set():
-                params = extract_module_params(module)
-            for param in params:
-                if param.is_loaded == False: return
-            module.is_loaded.set()
+        for m in self._model._flatten_layers():
+            m.finalize_state()
             
         
 
@@ -64,7 +60,7 @@ def wrap_layer(module, prams_dict):
                 param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
         module.call = wrap_module_call(module, module.call)
-        # module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
+        module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
 def extract_module_params(module):
     return module._trainable_weights
@@ -85,15 +81,15 @@ def wrap_param_assign(param, assign):
         return assign_f
     return wrapped_function
 
-# def wrap_module_finalize_state(module, finalize_state):
-#     def wrapped_finalize_state():
-#         if not module.is_loaded.is_set():
-#             params = extract_module_params(module)
-#             for param in params:
-#                 if param.is_loaded == False: return
-#             module.is_loaded.set()
-#         finalize_state()
-#     return wrapped_finalize_state
+def wrap_module_finalize_state(module, finalize_state):
+    def wrapped_finalize_state():
+        if not module.is_loaded.is_set():
+            params = extract_module_params(module)
+            for param in params:
+                if param.is_loaded == False: return
+            module.is_loaded.set()
+        finalize_state()
+    return wrapped_finalize_state
     
 def wrap_module_call(module, call):
     def wrapped_call(inputs):
