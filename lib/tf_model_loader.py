@@ -3,7 +3,6 @@ from lib.model_loader import ModelLoader
 import os, time
 
 class a:
-    count_wraped_params = 0
     count_ok_params = 0
 
 class TFModelLoader(ModelLoader):
@@ -33,8 +32,6 @@ def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
-            a.count_wraped_params += 1
-            print(a.count_wraped_params)
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
@@ -50,7 +47,6 @@ def extract_module_params(module):
 def wrap_param_assign_op(param, assign):
     def wrapped_function(input_param, use_locking=False):
         result = assign(input_param, use_locking)
-        print(222)
         param.is_loaded = True
         return result
     return wrapped_function
@@ -60,7 +56,7 @@ def wrap_param_assign(param, assign):
         assign_f = assign(shape)
         param.is_loaded = True
         a.count_ok_params += 1
-        print(a.count_wraped_params - a.count_ok_params)
+        print(580 - a.count_ok_params)
         return assign_f
     return wrapped_function
 
