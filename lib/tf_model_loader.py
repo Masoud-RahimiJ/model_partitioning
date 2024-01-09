@@ -22,7 +22,7 @@ class TFModelLoader(ModelLoader):
             #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
-            # self.load_partition_tf(partition_name)
+            self.load_partition_tf(partition_name)
             os.remove(partition_name)
         except Exception as e:
             print(e)
