@@ -39,6 +39,7 @@ model.load_weights(f"{OBJECT_NAME}.h5")
 os.remove(f"{OBJECT_NAME}.h5")
 
 output = generator("Hello, I'm a language model,", max_new_tokens=30, num_return_sequences=1)
+print(model._build_input_shape)
 
 print(output)
 print("Response time is: ", time.time() - start_time)
