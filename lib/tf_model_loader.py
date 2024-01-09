@@ -33,7 +33,9 @@ class TFModelLoader(ModelLoader):
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
+                print("----------------------------")
                 print(g[w], self.prams_dict[w])
+                print("$$$$$$$$$$$$$$$$$$$$$$$")
                 weight_value_tuples.append((self.prams_dict[w], np.asarray(g[w])))
         f.close()
         # print(weight_value_tuples)
