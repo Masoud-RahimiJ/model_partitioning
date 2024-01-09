@@ -34,7 +34,7 @@ class TFModelLoader(ModelLoader):
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
-                print('/'.join(w.split('/')[1:0]) in self.prams_dict)
+                print('/'.join(w.split('/')[1:]) in self.prams_dict)
                 # print("----------------------------")
                 # print(g[w], self.prams_dict[w])
                 # print("$$$$$$$$$$$$$$$$$$$$$$$")
@@ -55,7 +55,7 @@ def wrap_layer(module, prams_dict):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
-            prams_dict['/'.join(param.name.split('/')[1:0])] = param
+            prams_dict['/'.join(param.name.split('/')[1:])] = param
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
