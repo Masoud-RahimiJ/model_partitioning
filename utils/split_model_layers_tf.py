@@ -25,6 +25,8 @@ layer_names = load_attributes_from_hdf5_group(file, 'layer_names')
 
 
 partition = h5py.File("partition.h5", 'w')
+partition.attrs['backend'] = 'tensorflow'
+partition.attrs['keras_version'] = '2.15.0'
 partitions_count=0
 
 
@@ -49,7 +51,7 @@ for k, name in enumerate(layer_names):
             partition[name].create_group('/'.join(layer.split('/')[:-1])) 
         file.copy(file[name][layer], partition[name]['/'.join(layer.split('/')[:-1])])
         for w in layers[layer]:
-            partition[name].attrs["weight_names"] = np.append(partition[name].attrs.get("weight_names", []), w.encode())
+            partition[name].attrs["weight_names"] = np.append(partition[name].attrs.get("weight_names", []), w)
         if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
             partition.attrs["layer_names"] = list(partition.keys())
             obj_name = get_partition_obj_name(partitions_count)
@@ -58,6 +60,8 @@ for k, name in enumerate(layer_names):
             os.remove("partition.h5")
             partitions_count += 1
             partition = h5py.File("partition.h5", 'w')
+            partition.attrs['backend'] = 'tensorflow'
+            partition.attrs['keras_version'] = '2.15.0'
             if i + 1 != len(layers.keys()):
                 partition.create_group(name)
 
