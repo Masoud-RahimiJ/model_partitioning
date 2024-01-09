@@ -29,13 +29,11 @@ class TFModelLoader(ModelLoader):
             
     def load_partition_tf(self, partition_name):
         weight_value_tuples = []
-        print(self.prams_dict)
-        
         f = h5py.File(partition_name, "r")
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
-                pass
+                print(w in self.prams_dict)
                 # print("----------------------------")
                 # print(g[w], self.prams_dict[w])
                 # print("$$$$$$$$$$$$$$$$$$$$$$$")
