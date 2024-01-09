@@ -32,6 +32,7 @@ def wrap_layer(module):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
+            print(param)
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
                 param._assign_op = wrap_param_assign_op(param, param._assign_op)
