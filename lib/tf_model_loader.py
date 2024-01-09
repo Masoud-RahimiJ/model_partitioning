@@ -1,6 +1,6 @@
 from threading import Event
 from lib.model_loader import ModelLoader
-from tensorflow.python.training.tracking import layer_utils as trackable_layer_utils
+from tensorflow.training.tracking import layer_utils as trackable_layer_utils
 import os, time
 
 
