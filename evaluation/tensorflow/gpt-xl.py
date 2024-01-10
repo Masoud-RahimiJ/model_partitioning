@@ -36,7 +36,7 @@ model = TFModelLoader(init_model, bucket, config).load()
 # model.load_weights(f"{OBJECT_NAME}.h5")
 # os.remove(f"{OBJECT_NAME}.h5")
 
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, pad_token_id=50256)
 output = generator("Hello, I'm a language model,", max_new_tokens=30, num_return_sequences=1)
 print(output)
 print("Response time is: ", time.time() - start_time)
