@@ -20,11 +20,11 @@ class ModelLoader:
     def load(self):
         t1 = Thread(target=self._load_model)
         t1.start()
-        model, generator = self._model_initializer_fn()
+        model = self._model_initializer_fn()
         self._wrap_model(model)
         self._model = model
         self._model_initialized_event.set()
-        return model, generator
+        return model
         
     def _load_model(self):
         with futures.ThreadPoolExecutor(max_workers=COUNT_DOWNLOAD_THREADS) as executor:
