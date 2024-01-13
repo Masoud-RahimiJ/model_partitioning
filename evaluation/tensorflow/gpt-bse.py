@@ -18,10 +18,14 @@ bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
 tokenizer = AutoTokenizer.from_pretrained('gpt2')
-config=AutoConfig.from_pretrained('gpt2')
+
 
 def init_model():
-    return TFGPT2LMHeadModel(config)
+    config=AutoConfig.from_pretrained('gpt2')
+    model = TFGPT2LMHeadModel(config)
+    model.build((1,1))
+    return model
+
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
