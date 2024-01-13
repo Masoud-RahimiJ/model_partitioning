@@ -34,5 +34,5 @@ else:
 
 image = preprocess_input(image)
 preds = model(image)
-print('Predicted:', decode_predictions(np.array(list(preds)), top=5)[0])
+print('Predicted:', decode_predictions(np.array(list(preds)), top=1))
 print("Response time is: ", time.time() - start_time)
