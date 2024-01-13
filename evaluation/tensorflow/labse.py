@@ -20,7 +20,7 @@ tokenizer = AutoTokenizer.from_pretrained('setu4993/LaBSE')
 
 def init_model():
     config=AutoConfig.from_pretrained('setu4993/LaBSE')
-    model = TFBertLMHeadModel(config)
+    model = TFBertLMHeadModel(config, is_decoder=True)
     model.build((1,1))
     return model
 
