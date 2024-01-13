@@ -20,7 +20,7 @@ tokenizer = AutoTokenizer.from_pretrained('setu4993/LaBSE')
 
 def init_model():
     config=AutoConfig.from_pretrained('setu4993/LaBSE')
-    model = TFBertLMHeadModel(config, is_decoder=True)
+    model = TFBertLMHeadModel(config)
     model.build((1,1))
     return model
 
@@ -37,7 +37,7 @@ else:
     model.load_weights(f"{OBJECT_NAME}.h5")
     os.remove(f"{OBJECT_NAME}.h5")
 
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer, is_decoder=True)
 output = generator(text[:int(os.getenv('BS', 1))], max_new_tokens=1, num_return_sequences=1)
 print(output)
 print("Response time is: ", time.time() - start_time)
