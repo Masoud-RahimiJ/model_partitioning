@@ -9,6 +9,7 @@ import numpy as np
 
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19"
+MT = os.getenv("MT", "F")
 COUNT_PARTITIONS=7
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
@@ -20,12 +21,13 @@ def init_model():
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
-# model = TFModelLoader(init_model, bucket, config).load()
-
-model = init_model()
-bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
-model.load_weights(f"{OBJECT_NAME}.h5")
-os.remove(f"{OBJECT_NAME}.h5")
+if MT == "T":
+    model = TFModelLoader(init_model, bucket, config).load()
+else:
+    model = init_model()
+    bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+    model.load_weights(f"{OBJECT_NAME}.h5")
+    os.remove(f"{OBJECT_NAME}.h5")
 
 image = preprocess_input(image)
 
