@@ -1,6 +1,6 @@
 import time
 start_time = time.time()
-from transformers import AutoConfig, TFBertModel, AutoTokenizer, pipeline, set_seed
+from transformers import AutoConfig, TFBertLMHeadModel, AutoTokenizer, pipeline, set_seed
 import boto3
 from botocore.client import Config
 import time, os
@@ -20,9 +20,9 @@ tokenizer = AutoTokenizer.from_pretrained('setu4993/LaBSE')
 
 def init_model():
     config=AutoConfig.from_pretrained('setu4993/LaBSE')
-    model = TFBertModel(config)
+    model = TFBertLMHeadModel(config)
     model.build((1,1))
-    return TFBertModel(config)
+    return model
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
