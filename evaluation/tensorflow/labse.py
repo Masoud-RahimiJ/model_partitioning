@@ -37,7 +37,7 @@ else:
     model.load_weights(f"{OBJECT_NAME}.h5")
     os.remove(f"{OBJECT_NAME}.h5")
 
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer, pad_token_id=50256)
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 output = generator(text[:int(os.getenv('BS', 1))], max_new_tokens=1, num_return_sequences=1)
 print(output)
 print("Response time is: ", time.time() - start_time)
