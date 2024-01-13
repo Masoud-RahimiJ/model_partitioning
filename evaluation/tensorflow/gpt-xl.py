@@ -42,5 +42,5 @@ else:
 
 generator = pipeline('text-generation', model=model, tokenizer=tokenizer, pad_token_id=50256)
 output = generator(text[:int(os.getenv('BS', 1))], max_new_tokens=1, num_return_sequences=1)
-# print(output)
+print(output)
 print("Response time is: ", time.time() - start_time)
