@@ -35,7 +35,6 @@ class TFModelLoader(ModelLoader):
                 source = self.prams_dict['/'.join(w.split('/')[1:])]
                 source.assign(np.asarray(g[w], dtype=dtypes_module.as_dtype(source.dtype).as_numpy_dtype))
         f.close()
-        backend.batch_set_value(weight_value_tuples)
         for m in self._model._flatten_layers():
             m.finalize_state()
             
