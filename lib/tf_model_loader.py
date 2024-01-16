@@ -21,7 +21,7 @@ class TFModelLoader(ModelLoader):
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
             # self.load_partition_tf(partition_name)
-            self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+            self._model.load_weights(partition_name)
             os.remove(partition_name)
         except Exception as e:
             print(e)
