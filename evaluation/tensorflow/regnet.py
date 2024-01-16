@@ -6,7 +6,8 @@ from botocore.client import Config
 import time, os
 from lib.tf_model_loader import TFModelLoader
 from utils.image_loader_tf import image
-
+from tensorflow.keras.applications.vgg19 import decode_predictions
+import numpy as np
 
 BUCKET="dnn-models"
 OBJECT_NAME="regnet"
@@ -40,5 +41,5 @@ else:
 
 image = feature_extractor(image, return_tensors="tf")
 preds = model(image)
-print(preds)
+print('Predicted:', decode_predictions(np.array(list(preds)), top=1))
 print("Response time is: ", time.time() - start_time)
