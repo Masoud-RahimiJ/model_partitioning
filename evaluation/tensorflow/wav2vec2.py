@@ -87,7 +87,7 @@ else:
 
 
 audios = []
-for i in int(os.getenv('BS', 1)):
+for i in range(int(os.getenv('BS', 1))):
     audios.append(load_audio("sample1.flac", feature_extractor))
 
 
