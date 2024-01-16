@@ -13,8 +13,7 @@ BUCKET="dnn-models"
 OBJECT_NAME="wav2vec2"
 COUNT_PARTITIONS=15
 MT = os.getenv("MT", "F")
-tf.config.threading.set_inter_op_parallelism_threads(1)
-tf.config.threading.set_intra_op_parallelism_threads(1)
+
 
 
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
