@@ -13,7 +13,7 @@ class TFModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         self.prams_dict = wrap_module(model)
-        print(self.prams_dict)
+        print(self.prams_dict.keys())
         
     def _load_partition(self, partition, partition_name):
         try:
