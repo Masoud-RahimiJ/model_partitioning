@@ -41,5 +41,5 @@ else:
 
 image = feature_extractor(image, return_tensors="tf")
 preds = model(image)
-print('Predicted:', decode_predictions(np.array(list(preds)), top=1))
+print('Predicted:', decode_predictions(preds, top=1))
 print("Response time is: ", time.time() - start_time)
