@@ -1,4 +1,4 @@
-from threading import Event
+from threading import Event, Lock
 from lib.model_loader import ModelLoader
 import os, time
 from tensorflow.python.keras.saving.hdf5_format import load_attributes_from_hdf5_group
@@ -12,7 +12,8 @@ class TFModelLoader(ModelLoader):
         super().__init__(model_initializer_fn, s3_bucket, config)
         
     def _wrap_model(self, model):
-        self.prams_dict = wrap_module(model)
+        self.load_priority_lock = Lock()
+        self.prams_dict = wrap_module(model, self.load_priority_lock)
         
     def _load_partition(self, partition, partition_name):
         try:
@@ -27,6 +28,7 @@ class TFModelLoader(ModelLoader):
             print(e)
             
     def load_partition_tf(self, partition_name):
+        self.load_priority_lock.acquire()
         weight_value_tuples = []
         f = h5py.File(partition_name, "r")
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
@@ -38,17 +40,18 @@ class TFModelLoader(ModelLoader):
             backend.batch_set_value(weight_value_tuples)
         for m in self._model._flatten_layers():
             m.finalize_state()
+        self.load_priority_lock.release()
             
         
 
 
-def wrap_module(model):
+def wrap_module(model, load_priority_lock):
     prams_dict = {}
     for m in model._flatten_layers():
-        wrap_layer(m, prams_dict)
+        wrap_layer(m, prams_dict, load_priority_lock)
     return prams_dict
 
-def wrap_layer(module, prams_dict):
+def wrap_layer(module, prams_dict, load_priority_lock):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
@@ -59,6 +62,7 @@ def wrap_layer(module, prams_dict):
             else:
                 param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
+        module.load_priority_lock = load_priority_lock
         module.call = wrap_module_call(module, module.call)
         module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
@@ -93,6 +97,9 @@ def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
         if not module.is_loaded.is_set():
             module.is_loaded.wait()
+        if module.load_priority_lock.locked():
+            module.load_priority_lock.acquire()
+            module.load_priority_lock.release()   
         return call(*args, **kwargs)
     return wrapped_call
         
