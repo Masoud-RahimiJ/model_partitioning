@@ -14,8 +14,8 @@ OBJECT_NAME="whisper-medium"
 COUNT_PARTITIONS=46
 MT = os.getenv("MT", "F")
 
-# tf.config.threading.set_inter_op_parallelism_threads(10)
-# tf.config.threading.set_intra_op_parallelism_threads(10)
+tf.config.threading.set_inter_op_parallelism_threads(5)
+tf.config.threading.set_intra_op_parallelism_threads(5)
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
