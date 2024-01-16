@@ -68,7 +68,7 @@ def init_model():
     return model
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
 if MT == "T":
     model = TFModelLoader(init_model, bucket, config).load()
