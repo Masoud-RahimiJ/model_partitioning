@@ -6,6 +6,6 @@ import os
 # image = im.load_img(img_path, target_size=(224, 224))
 # image = im.img_to_array(image)
 # image = np.expand_dims(image, axis=0)
-image=np.random.randn(int(os.getenv('BS', 1)), 224, 224, 3)
+image=np.random.rand(int(os.getenv('BS', 1)), 224, 224, 3)
 # image=np.random.randn(3, 224, 224)
 
