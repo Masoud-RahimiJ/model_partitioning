@@ -93,8 +93,6 @@ for i in range(int(os.getenv('BS', 1))):
     audios.append(load_audio("sample1.flac", feature_extractor).input_values[0])
 audios = {"input_values": tf.convert_to_tensor(audios)}
 
-logits = model(audios).logits[0]
-pred_ids = tf.math.argmax(logits)
-output = processor.batch_decode(pred_ids, skip_special_tokens=True)
-print(pred_ids)
+logits = model.generate(audios, max_new_tokens=1)
+
 print("Response time is: ", time.time() - start_time)
