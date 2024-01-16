@@ -83,7 +83,7 @@ model.config.forced_decoder_ids = None
 
 
 audio = load_audio("sample2.flac", feature_extractor)
-logits = model.generate(audio).logits[0]
+logits = model.generate(audio, max_new_tokens=15)
 
 # print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)
