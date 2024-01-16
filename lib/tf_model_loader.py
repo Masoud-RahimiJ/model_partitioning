@@ -13,6 +13,7 @@ class TFModelLoader(ModelLoader):
         
     def _wrap_model(self, model):
         self.prams_dict = wrap_module(model)
+        print(self.prams_dict)
         
     def _load_partition(self, partition, partition_name):
         try:
@@ -35,7 +36,6 @@ class TFModelLoader(ModelLoader):
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
                 if '/'.join(w.split('/')[1:]) not in self.prams_dict:
                     print(w)
-                    print(self.prams_dict.keys()[:10])
                 weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
         f.close()
         with tf.init_scope():
