@@ -70,7 +70,9 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base
 
 def init_model():
     config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
-    return TFWav2Vec2ForCTC(config)
+    model = TFWav2Vec2ForCTC(config)
+    model.build((1,32))
+    return model
 
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
