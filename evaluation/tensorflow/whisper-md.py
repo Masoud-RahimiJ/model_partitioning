@@ -86,6 +86,7 @@ model.config.forced_decoder_ids = None
 # for i in range(int(os.getenv('BS', 1))):
 #     audios.append(load_audio("sample1.flac", feature_extractor)[0])
 # audios = tf.convert_to_tensor(audios)
+np.random.seed(30)
 audios = np.random.randn(int(os.getenv('BS', 1)), 80, 3000)
 
 
