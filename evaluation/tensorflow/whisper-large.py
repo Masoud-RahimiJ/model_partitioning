@@ -89,5 +89,4 @@ audios = {"input_values": tf.convert_to_tensor(audios)}
 
 output = logits = model.generate(audios, max_new_tokens=1)
 
-print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)
