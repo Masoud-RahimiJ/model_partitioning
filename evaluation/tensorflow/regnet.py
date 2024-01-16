@@ -22,7 +22,7 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/regnet-y-1280
 def init_model():
     config = AutoConfig.from_pretrained("facebook/regnet-y-1280-seer-in1k")
     model = TFRegNetForImageClassification(config)
-    model.build(224,224,3)
+    model.build((224,224,3))
     return model
 
 config = {"download_delay": 6000000,
