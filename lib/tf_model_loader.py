@@ -5,7 +5,7 @@ from tensorflow.python.keras.saving.hdf5_format import load_attributes_from_hdf5
 from tensorflow.python.keras import backend
 import h5py
 import numpy as np
-from tensorflow.python.framework import dtypes as dtypes_module
+import tensorflow as tf
 
 class TFModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
@@ -16,6 +16,8 @@ class TFModelLoader(ModelLoader):
         
     def _load_partition(self, partition, partition_name):
         try:
+            # with open(partition_name, 'wb') as f:
+            #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
             self.load_partition_tf(partition_name)
@@ -30,9 +32,10 @@ class TFModelLoader(ModelLoader):
         for name in load_attributes_from_hdf5_group(f, 'layer_names'):
             g = f[name]
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
-                source = self.prams_dict['/'.join(w.split('/')[1:])]
-                source.assign(np.asarray(g[w], dtype=dtypes_module.as_dtype(source.dtype).as_numpy_dtype))
+                weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
         f.close()
+        with tf.init_scope():
+            backend.batch_set_value(weight_value_tuples)
         for m in self._model._flatten_layers():
             m.finalize_state()
             
