@@ -93,7 +93,7 @@ np.random.seed(30)
 audios = np.random.randn(int(os.getenv('BS', 1)), 80, 3000)
 
 
-logits = model.generate(audios, max_new_tokens=1, do_sample=True)
+logits = model.generate(audios, max_new_tokens=1, do_sample=True, early_stopping=True)
 
 # print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)
