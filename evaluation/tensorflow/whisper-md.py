@@ -64,7 +64,7 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium"
 def init_model():
     config = AutoConfig.from_pretrained('openai/whisper-medium')
     model = TFWhisperForConditionalGeneration(config)
-    model.build((1500, 1024))
+    model.build((150, 1024))
     return model
 
 config = {"download_delay": 6000000,
