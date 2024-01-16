@@ -85,7 +85,7 @@ model.config.forced_decoder_ids = None
 audios = []
 for i in range(int(os.getenv('BS', 1))):
     audios.append(load_audio("sample1.flac", feature_extractor)[0])
-audios = {"input_values": tf.convert_to_tensor(audios)}
+audios = tf.convert_to_tensor(audios)
 
 logits = model.generate(audios, max_new_tokens=1)
 
