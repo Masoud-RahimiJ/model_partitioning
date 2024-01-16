@@ -12,7 +12,6 @@ class TFModelLoader(ModelLoader):
         super().__init__(model_initializer_fn, s3_bucket, config)
         
     def _wrap_model(self, model):
-        return
         self.prams_dict = wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
