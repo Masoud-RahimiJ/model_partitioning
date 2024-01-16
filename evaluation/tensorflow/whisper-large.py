@@ -60,13 +60,15 @@ def load_audio(inputs, feature_extractor):
 set_seed(42)
 processor = WhisperProcessor.from_pretrained('openai/whisper-large-v2')
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-large-v2")
-config = AutoConfig.from_pretrained('openai/whisper-large-v2')
 
 def init_model():
-    return TFWhisperForConditionalGeneration(config)
+    config = AutoConfig.from_pretrained('openai/whisper-large-v2')
+    model = TFWhisperForConditionalGeneration(config)
+    model.build((1500, 1024))
+    return model
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
 if MT == "T":
     model = TFModelLoader(init_model, bucket, config).load()
@@ -80,10 +82,12 @@ model.config.forced_decoder_ids = None
 
 
 
-audio = load_audio("sample2.flac", feature_extractor)
-logits = model(audio).logits[0]
-pred_ids = tf.math.argmax(logits)
-output = processor.batch_decode(pred_ids, skip_special_tokens=True)
+audios = []
+for i in range(int(os.getenv('BS', 1))):
+    audios.append(load_audio("sample1.flac", feature_extractor).input_values[0])
+audios = {"input_values": tf.convert_to_tensor(audios)}
+
+output = logits = model.generate(audios, max_new_tokens=1)
 
 print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)

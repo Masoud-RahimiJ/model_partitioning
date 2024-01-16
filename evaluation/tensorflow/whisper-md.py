@@ -82,8 +82,12 @@ model.config.forced_decoder_ids = None
 
 
 
-audio = load_audio("sample2.flac", feature_extractor)
-logits = model.generate(audio, max_new_tokens=1)
+audios = []
+for i in range(int(os.getenv('BS', 1))):
+    audios.append(load_audio("sample1.flac", feature_extractor).input_values[0])
+audios = {"input_values": tf.convert_to_tensor(audios)}
+
+logits = model.generate(audios, max_new_tokens=1)
 
 # print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)
