@@ -86,6 +86,8 @@ else:
 
 audio = load_audio("sample2.flac", feature_extractor)
 
+print(audio)
+
 model(audio)
 logits = model(audio).logits[0]
 pred_ids = tf.math.argmax(logits)
