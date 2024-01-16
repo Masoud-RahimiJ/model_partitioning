@@ -4,7 +4,7 @@ from transformers import Wav2Vec2Processor, TFWav2Vec2ForCTC, AutoFeatureExtract
 import boto3
 from botocore.client import Config
 import numpy as np
-import time
+import time, os
 import subprocess
 from lib.tf_model_loader import TFModelLoader
 import tensorflow as tf
@@ -12,6 +12,7 @@ import tensorflow as tf
 BUCKET="dnn-models"
 OBJECT_NAME="wav2vec2"
 COUNT_PARTITIONS=27
+MT = os.getenv("MT", "F")
 
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
     """
@@ -72,9 +73,15 @@ def init_model():
     return TFWav2Vec2ForCTC(config)
 
 config = {"download_delay": 6000000,
-          "partition_names": [f"{OBJECT_NAME}{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
+          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
-model = TFModelLoader(init_model, bucket, config).load()
+if MT == "T":
+    model = TFModelLoader(init_model, bucket, config).load()
+else:
+    model = init_model()
+    bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+    model.load_weights(f"{OBJECT_NAME}.h5")
+    os.remove(f"{OBJECT_NAME}.h5")
 
 
 audio = load_audio("sample2.flac", feature_extractor)

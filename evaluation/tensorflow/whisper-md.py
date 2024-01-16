@@ -1,4 +1,5 @@
-import time
+import time, os
+start_time = time.time()
 from transformers import TFWhisperForConditionalGeneration, WhisperProcessor, AutoFeatureExtractor, AutoConfig, pipeline, set_seed
 import boto3
 from botocore.client import Config
@@ -11,6 +12,7 @@ import tensorflow as tf
 BUCKET="dnn-models"
 OBJECT_NAME="whisper-medium"
 COUNT_PARTITIONS=172
+MT = os.getenv("MT", "F")
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
@@ -66,7 +68,13 @@ def init_model():
 config = {"download_delay": 6000000,
           "partition_names": [f"{OBJECT_NAME}{i}.h5" for i in range(1, COUNT_PARTITIONS)]}
 
-model = TorchModelLoader(init_model, bucket, config).load()
+if MT == "T":
+    model = TFModelLoader(init_model, bucket, config).load()
+else:
+    model = init_model()
+    bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+    model.load_weights(f"{OBJECT_NAME}.h5")
+    os.remove(f"{OBJECT_NAME}.h5")
 
 model.config.forced_decoder_ids = None
 
