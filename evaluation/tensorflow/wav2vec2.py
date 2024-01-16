@@ -90,6 +90,7 @@ audios = []
 for i in range(int(os.getenv('BS', 1))):
     audios.append(load_audio("sample1.flac", feature_extractor).input_values)
 audios = {"input_values": tf.convert_to_tensor(audios)}
+audios =np.random.randn(int(os.getenv('BS', 1)), 43807, 512)
 
 logits = model(audios).logits[0]
 pred_ids = tf.math.argmax(logits)
