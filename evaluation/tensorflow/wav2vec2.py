@@ -11,7 +11,7 @@ import tensorflow as tf
 
 BUCKET="dnn-models"
 OBJECT_NAME="wav2vec2"
-COUNT_PARTITIONS=27
+COUNT_PARTITIONS=15
 MT = os.getenv("MT", "F")
 
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
@@ -74,7 +74,7 @@ def init_model():
     model.build((1,32))
     return model
 
-config = {"download_delay": 6000000,
+config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
 if MT == "T":
