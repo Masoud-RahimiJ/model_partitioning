@@ -86,10 +86,12 @@ else:
     os.remove(f"{OBJECT_NAME}.h5")
 
 
-audio = load_audio("sample2.flac", feature_extractor)
+audios = []
+for i in int(os.getenv('BS', 1)):
+    audios.append(load_audio("sample1.flac", feature_extractor))
 
 
-logits = model(audio).logits[0]
+logits = model(audios).logits[0]
 pred_ids = tf.math.argmax(logits)
 output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 print(pred_ids)
