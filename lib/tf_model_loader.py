@@ -16,7 +16,6 @@ class TFModelLoader(ModelLoader):
         self.prams_dict = wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
-        return
         try:
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
