@@ -84,8 +84,6 @@ model.config.forced_decoder_ids = None
 
 audio = load_audio("sample2.flac", feature_extractor)
 logits = model(audio).logits[0]
-pred_ids = tf.math.argmax(logits)
-output = processor.batch_decode(pred_ids, skip_special_tokens=True)
 
-print(pred_ids, output)
+# print(pred_ids, output)
 print("Response time is: ", time.time() - start_time)
