@@ -38,7 +38,7 @@ else:
     model.load_weights(f"{OBJECT_NAME}.h5")
     os.remove(f"{OBJECT_NAME}.h5")
 
-image = feature_extractor(image, return_tensors="tf")
+# image = feature_extractor(image, return_tensors="tf")
 preds = model(image)
 print(preds)
 print("Response time is: ", time.time() - start_time)
