@@ -9,7 +9,7 @@ from lib.tf_model_loader import TFModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="gpt2"
-COUNT_PARTITIONS=26
+COUNT_PARTITIONS=75
 MT = os.getenv("MT", "F")
 
 
