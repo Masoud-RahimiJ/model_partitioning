@@ -28,14 +28,14 @@ def init_model():
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
 
-model = TorchModelLoader(init_model, bucket, config).load()
+# model = TorchModelLoader(init_model, bucket, config).load()
 
 
-# model=init_model()
-# stt = time.time()
-# std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
-# model.load_state_dict(std)
-# del std
+model=init_model()
+stt = time.time()
+std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+model.load_state_dict(std)
+del std
 
 model.eval()
 
