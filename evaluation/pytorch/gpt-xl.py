@@ -11,7 +11,7 @@ from lib.torch_model_loader import TorchModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="gpt-xl"
-COUNT_PARTITIONS=292
+COUNT_PARTITIONS=20
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
@@ -42,7 +42,7 @@ text = ["The cat jumped onto the kitchen counter and meowed", "I can't believe h
 
 generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
 
-output = generator(text[:int(os.getenv('BS', 0))+1], max_length=30, num_return_sequences=1)
+output = generator(text[:int(os.getenv('BS', 0))+1], max_new_tokens=1, num_return_sequences=1)
 
 print(output)
 print("Response time is: ", time.time() - start_time)
