@@ -8,9 +8,9 @@ from pympler import asizeof
 
 BUCKET="dnn-models"
 OBJECT_NAME=os.getenv("OBJECT_NAME")
-MIN_LAYER_SIZE = int(os.getenv("MIN_LAYER_SIZE", 20000))
+MIN_LAYER_SIZE = int(os.getenv("MIN_LAYER_SIZE", 10000))
 
-s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://130.127.134.75:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket(BUCKET)
 
 def extract_layer_name(layer):
