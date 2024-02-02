@@ -11,7 +11,7 @@ from lib.torch_model_loader import TorchModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="labse"
-COUNT_PARTITIONS=104
+COUNT_PARTITIONS=8
 
 session = boto3.Session()
 s3 = session.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)

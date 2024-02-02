@@ -11,15 +11,15 @@ from utils.image_loader import image
 
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19-dcbb9e9d"
-COUNT_PARTITIONS=19
+COUNT_PARTITIONS=2
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
-device = torch.device("cpu")
+device = torch.device("gpu")
 
 def init_model():
     # with init_empty_weights():
-    return torchvision.models.vgg19(weights=None)
+    return torchvision.models.vgg19(weights=None).to(device)
 
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}

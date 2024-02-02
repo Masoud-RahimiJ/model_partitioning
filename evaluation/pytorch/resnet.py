@@ -11,16 +11,16 @@ from utils.image_loader import image
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet101-63fe2227"
-COUNT_PARTITIONS = 209
+COUNT_PARTITIONS = 21
 
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
-device = torch.device("cpu")
+device = torch.device("gpu")
 
 def init_model():
     # with init_empty_weights():
-    return torchvision.models.resnet101(weights=None)
+    return torchvision.models.resnet101(weights=None).to(device)
 
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
@@ -36,7 +36,6 @@ model = TorchModelLoader(init_model, bucket, config).load()
 model.eval()
 image = image.to(device)
 time.sleep(2)
-model.to(device)
 output = model.forward(image)
 probabilities = torch.nn.functional.softmax(output[0], dim=0)
 top5_prob, top5_catid = torch.topk(probabilities, 5)

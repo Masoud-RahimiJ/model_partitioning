@@ -12,7 +12,7 @@ from accelerate import init_empty_weights
 
 BUCKET="dnn-models"
 OBJECT_NAME="whisper-md"
-COUNT_PARTITIONS=512
+COUNT_PARTITIONS=34
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
