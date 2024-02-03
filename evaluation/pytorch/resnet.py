@@ -31,7 +31,6 @@ if MT == "T":
     model = TorchModelLoader(init_model, bucket, config).load()
 else:
     model = init_model()
-    bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
     std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
     model.load_state_dict(std)
     del std
