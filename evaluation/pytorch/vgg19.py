@@ -33,7 +33,6 @@ else:
     std = torch.load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
     model.load_state_dict(std)
     del std
-    os.remove(f"{OBJECT_NAME}.h5")
 
 model.eval()
 
