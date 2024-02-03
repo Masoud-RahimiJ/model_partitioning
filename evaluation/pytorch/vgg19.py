@@ -10,7 +10,7 @@ from lib.torch_model_loader import TorchModelLoader
 from utils.image_loader import image
 
 BUCKET="dnn-models"
-OBJECT_NAME="vgg19-dcbb9e9d"
+OBJECT_NAME="vgg19"
 COUNT_PARTITIONS=2
 MT = os.getenv("MT", "F")
 

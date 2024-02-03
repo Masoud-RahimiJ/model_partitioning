@@ -10,7 +10,7 @@ from lib.torch_model_loader import TorchModelLoader
 from utils.image_loader import image
 
 BUCKET="dnn-models"
-OBJECT_NAME="resnet101-63fe2227"
+OBJECT_NAME="resnet"
 COUNT_PARTITIONS = 21
 MT = os.getenv("MT", "F")
 

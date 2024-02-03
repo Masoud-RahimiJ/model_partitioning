@@ -10,7 +10,7 @@ from lib.torch_model_loader import TorchModelLoader
 from utils.image_loader import image
 
 BUCKET="dnn-models"
-OBJECT_NAME="regnet_y_128gf_swag-c8ce3e52"
+OBJECT_NAME="regnet"
 COUNT_PARTITIONS=22
 MT = os.getenv("MT", "F")
 
