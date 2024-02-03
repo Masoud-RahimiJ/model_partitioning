@@ -10,7 +10,7 @@ from lib.torch_model_loader import TorchModelLoader
 
 
 BUCKET="dnn-models"
-OBJECT_NAME="gpt-xl"
+OBJECT_NAME="gpt2-xl"
 COUNT_PARTITIONS=20
 MT = os.getenv("MT", "F")
 device = torch.device("cuda")
