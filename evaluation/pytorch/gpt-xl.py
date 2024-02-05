@@ -15,7 +15,7 @@ COUNT_PARTITIONS=20
 MT = os.getenv("MT", "F")
 device = torch.device("cuda")
 
-s3 = boto3.resource('s3', endpoint_url='http://130.127.134.75:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 
 set_seed(42)
