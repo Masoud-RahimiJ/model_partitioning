@@ -17,6 +17,7 @@ MT = os.getenv("MT", "F")
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
+device = torch.device("cuda")
 
 
 set_seed(42)
@@ -26,7 +27,7 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base
 def init_model():
     # with init_empty_weights():
     config = AutoConfig.from_pretrained('facebook/wav2vec2-base-960h')
-    return Wav2Vec2ForCTC(config)
+    return Wav2Vec2ForCTC(config).to(device)
 
 
 config = {"download_delay": 8000000,

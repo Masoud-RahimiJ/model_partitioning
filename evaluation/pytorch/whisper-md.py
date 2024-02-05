@@ -14,6 +14,8 @@ BUCKET="dnn-models"
 OBJECT_NAME="whisper-md"
 COUNT_PARTITIONS=34
 MT = os.getenv("MT", "F")
+device = torch.device("cuda")
+
 
 
 s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
@@ -70,7 +72,7 @@ feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-medium"
 def init_model():
     # with init_empty_weights():
     config = AutoConfig.from_pretrained('openai/whisper-medium')
-    return WhisperForConditionalGeneration(config)
+    return WhisperForConditionalGeneration(config).to(device)
 
 config = {"download_delay": 8000000,
           "partition_names": [f"{OBJECT_NAME}_{i}" for i in range(1, COUNT_PARTITIONS+1)]}
