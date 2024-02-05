@@ -2,7 +2,7 @@ import itertools
 from threading import Event
 from lib.model_loader import ModelLoader
 from torch import load, device
-import time,os
+import time
 
 class TorchModelLoader(ModelLoader):
     def __init__(self, model_initializer_fn, s3_bucket, config):
@@ -12,12 +12,10 @@ class TorchModelLoader(ModelLoader):
         wrap_module(model)
         
     def _load_partition(self, partition, partition_name):
-        partition_state_dict = load(partition_name)
+        partition_state_dict = load(partition)
         if not self._model_initialized_event.is_set():
             self._model_initialized_event.wait()
         self._model.load_state_dict(partition_state_dict, strict=False)
-        os.remove(partition_name)
-        
         
         
 

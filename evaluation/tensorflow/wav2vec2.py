@@ -16,6 +16,7 @@ MT = os.getenv("MT", "F")
 
 
 
+
 def ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:
     """
     Helper function to read an audio file through ffmpeg.
