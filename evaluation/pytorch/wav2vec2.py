@@ -44,7 +44,7 @@ generator = pipeline('automatic-speech-recognition', model=model, tokenizer=proc
 
 inp = []
 for i in range(1, int(os.getenv('BS', 1))+1):
-    inp .append(f"sample{i}.flac")
+    inp .append(f"sample1.flac")
 
 output = generator(inp)
 

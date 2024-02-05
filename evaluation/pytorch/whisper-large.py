@@ -53,7 +53,7 @@ def load_audio(feature_extractor):
     inp = []
     for i in range(1, int(os.getenv('BS', 1))+1):
         tmp = 0
-        with open(f"sample{i}.flac", "rb") as f:
+        with open(f"sample1.flac", "rb") as f:
             tmp = f.read()
         tmp = ffmpeg_read(tmp, feature_extractor.sampling_rate)
         inp.append(tmp)
