@@ -11,7 +11,7 @@ import numpy as np
 
 BUCKET="dnn-models"
 OBJECT_NAME="resnet"
-COUNT_PARTITIONS=4
+COUNT_PARTITIONS=2
 MT = os.getenv("MT", "F")
 
 
