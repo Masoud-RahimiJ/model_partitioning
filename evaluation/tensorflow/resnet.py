@@ -29,7 +29,7 @@ with tf.device("/GPU:0"):
         model = TFModelLoader(init_model, bucket, config).load()
     else:
         model = init_model()
-        bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
+        bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}")
         model.load_weights(f"{OBJECT_NAME}.h5")
         os.remove(f"{OBJECT_NAME}.h5")
 
