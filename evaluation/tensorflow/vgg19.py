@@ -10,7 +10,7 @@ import numpy as np
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19"
 MT = os.getenv("MT", "F")
-COUNT_PARTITIONS=26
+COUNT_PARTITIONS=6
 
 s3 = boto3.resource('s3', endpoint_url='http://128.105.144.221:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
