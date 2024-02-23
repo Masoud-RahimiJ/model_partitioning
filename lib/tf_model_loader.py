@@ -35,6 +35,10 @@ class TFModelLoader(ModelLoader):
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
                 if '/'.join(w.split('/')[1:]) in self.prams_dict:
                     weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
+                else:
+                    print('/'.join(w.split('/')[1:]))
+                    print("----------------")
+                    print(self.prams_dict.keys())
         f.close()
         with tf.init_scope():
             backend.batch_set_value(weight_value_tuples)
