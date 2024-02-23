@@ -35,10 +35,6 @@ class TFModelLoader(ModelLoader):
             for w in load_attributes_from_hdf5_group(g, 'weight_names'):
                 if '/'.join(w.split('/')[2:]) in self.prams_dict:
                     weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[2:])], np.asarray(g[w])))
-                else:
-                    print("----------------")
-                    print('/'.join(w.split('/')[2:]))
-                    print("----------------")
         f.close()
         with tf.init_scope():
             backend.batch_set_value(weight_value_tuples)
@@ -98,11 +94,7 @@ def wrap_module_finalize_state(module, finalize_state):
 def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
         if not module.is_loaded.is_set():
-            print("************")
-            print(module.name)
-            module.is_loaded.wait()
-            print("************")
-            
+            module.is_loaded.wait()    
         return call(*args, **kwargs)
     return wrapped_call
         
