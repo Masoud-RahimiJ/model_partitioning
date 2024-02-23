@@ -7,7 +7,7 @@ from botocore.client import Config
 
 BUCKET="dnn-models"
 OBJECT_NAME="convnext_xlarge.h5"
-s3 = boto3.resource('s3', endpoint_url='http://10.10.1.2:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://128.105.144.221:9000',aws_access_key_id='masoud', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
 s=time()
 model = ConvNeXtXLarge( model_name="convnext_xlarge", include_top=True, include_preprocessing=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
