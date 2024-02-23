@@ -19,7 +19,7 @@ bucket = s3.Bucket(BUCKET)
 def get_partition_obj_name(part):
     return OBJECT_NAME + '_' + str(part+1) + ".h5"
 
-bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}.h5")
+bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}")
 file = h5py.File(f"{OBJECT_NAME}.h5", "r")
 layer_names = load_attributes_from_hdf5_group(file, 'layer_names')
 
