@@ -9,7 +9,7 @@ from lib.tf_model_loader import TFModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="labse"
-COUNT_PARTITIONS=107
+COUNT_PARTITIONS=27
 MT = os.getenv("MT", "F")
 
 s3 = boto3.resource('s3', endpoint_url='http://128.105.144.221:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
