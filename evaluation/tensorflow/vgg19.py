@@ -18,19 +18,20 @@ bucket = s3.Bucket("dnn-models")
 def init_model():
     return VGG19(include_top=True, weights=None, input_tensor=None, input_shape=None, pooling=None, classes=1000, classifier_activation="softmax", )
 
-config = {"download_delay": 8000000,
-          "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
+with tf.device("/GPU:0"):
+    config = {"download_delay": 8000000,
+            "partition_names": [f"{OBJECT_NAME}_{i}.h5" for i in range(1, COUNT_PARTITIONS+1)]}
 
-if MT == "T":
-    model = TFModelLoader(init_model, bucket, config).load()
-else:
-    model = init_model()
-    bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}.h5")
-    model.load_weights(f"{OBJECT_NAME}.h5")
-    os.remove(f"{OBJECT_NAME}.h5")
+    if MT == "T":
+        model = TFModelLoader(init_model, bucket, config).load()
+    else:
+        model = init_model()
+        bucket.download_file(Filename = f"{OBJECT_NAME}.h5", Key= f"{OBJECT_NAME}")
+        model.load_weights(f"{OBJECT_NAME}.h5")
+        os.remove(f"{OBJECT_NAME}.h5")
 
-image = preprocess_input(image)
+    image = preprocess_input(image)
 
-preds = model(image)
-print('Predicted:', decode_predictions(np.array(list(preds)), top=1))
-print("Response time is: ", time.time() - start_time)
+    preds = model(image)
+    print('Predicted:', decode_predictions(np.array(list(preds)), top=1))
+    print("Response time is: ", time.time() - start_time)
