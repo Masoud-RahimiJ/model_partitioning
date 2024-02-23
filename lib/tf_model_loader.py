@@ -36,9 +36,9 @@ class TFModelLoader(ModelLoader):
                 if '/'.join(w.split('/')[1:]) in self.prams_dict:
                     weight_value_tuples.append((self.prams_dict['/'.join(w.split('/')[1:])], np.asarray(g[w])))
                 else:
+                    print("----------------")
                     print('/'.join(w.split('/')[1:]))
                     print("----------------")
-                    print(self.prams_dict.keys())
         f.close()
         with tf.init_scope():
             backend.batch_set_value(weight_value_tuples)
@@ -98,7 +98,11 @@ def wrap_module_finalize_state(module, finalize_state):
 def wrap_module_call(module, call):
     def wrapped_call(*args, **kwargs):
         if not module.is_loaded.is_set():
+            print("************")
+            print(module.name)
             module.is_loaded.wait()
+            print("************")
+            
         return call(*args, **kwargs)
     return wrapped_call
         
