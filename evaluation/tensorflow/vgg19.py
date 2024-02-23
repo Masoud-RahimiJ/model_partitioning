@@ -6,6 +6,7 @@ import boto3
 from botocore.client import Config
 from lib.tf_model_loader import TFModelLoader
 import numpy as np
+import tensorflow as tf
 
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19"
