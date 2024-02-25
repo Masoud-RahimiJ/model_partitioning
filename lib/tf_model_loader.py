@@ -48,7 +48,7 @@ def wrap_module(model):
     prams_dict = {}
     for m in model._flatten_layers():
         wrap_layer(m, prams_dict)
-    print(self.prams_dict.keys())
+    print(prams_dict.keys())
     return prams_dict
 
 def wrap_layer(module, prams_dict):
