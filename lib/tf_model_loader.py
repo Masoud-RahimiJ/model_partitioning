@@ -66,7 +66,6 @@ def wrap_layer(module, prams_dict):
         module.is_loaded = Event()
         prams_dict.append(module.is_loaded)
         module.call = wrap_module_call(module, module.call)
-        print(module.name)
         # module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
 def extract_module_params(module):
