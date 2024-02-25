@@ -41,42 +41,42 @@ def extract_layer_names(weight_names):
 
 
 for k, name in enumerate(layer_names):
-    # file.copy(file[name], partition)
-    # if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
-    #     partition.attrs["layer_names"] = list(partition.keys())
-    #     obj_name = get_partition_obj_name(partitions_count)
-    #     partition.close()
-    #     bucket.upload_file(Filename="partition.h5", Key=obj_name)
-    #     os.remove("partition.h5")
-    #     partitions_count += 1 
-    #     partition = h5py.File("partition.h5", 'w')
-    partition.create_group(name)
-    wn = []
-    partition[name].attrs["weight_names"] = wn
-    g = file[name]
-    weight_names = load_attributes_from_hdf5_group(g, 'weight_names')
-    layers = extract_layer_names(weight_names)
-    for i, layer in enumerate(layers.keys()):
-        print(name,layer)
-        if partition[name].get('/'.join(layer.split('/')[:-1]), None) is None:
-            partition[name].create_group('/'.join(layer.split('/')[:-1])) 
-        file.copy(file[name][layer], partition[name]['/'.join(layer.split('/')[:-1])])
-        for w in layers[layer]:
-            wn.append(w)
-            partition[name].attrs["weight_names"] = wn
-        if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
-            partition.attrs["layer_names"] = list(partition.keys())
-            obj_name = get_partition_obj_name(partitions_count)
-            partition.close()
-            bucket.upload_file(Filename="partition.h5", Key=obj_name)
-            os.remove("partition.h5")
-            wn = []
-            partitions_count += 1
-            partition = h5py.File("partition.h5", 'w')
-            partition.attrs['backend'] = 'tensorflow'
-            partition.attrs['keras_version'] = '2.15.0'
-            if i + 1 != len(layers.keys()):
-                partition.create_group(name)
+    file.copy(file[name], partition)
+    if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
+        partition.attrs["layer_names"] = list(partition.keys())
+        obj_name = get_partition_obj_name(partitions_count)
+        partition.close()
+        bucket.upload_file(Filename="partition.h5", Key=obj_name)
+        os.remove("partition.h5")
+        partitions_count += 1 
+        partition = h5py.File("partition.h5", 'w')
+    # partition.create_group(name)
+    # wn = []
+    # partition[name].attrs["weight_names"] = wn
+    # g = file[name]
+    # weight_names = load_attributes_from_hdf5_group(g, 'weight_names')
+    # layers = extract_layer_names(weight_names)
+    # for i, layer in enumerate(layers.keys()):
+    #     print(name,layer)
+    #     if partition[name].get('/'.join(layer.split('/')[:-1]), None) is None:
+    #         partition[name].create_group('/'.join(layer.split('/')[:-1])) 
+    #     file.copy(file[name][layer], partition[name]['/'.join(layer.split('/')[:-1])])
+    #     for w in layers[layer]:
+    #         wn.append(w)
+    #         partition[name].attrs["weight_names"] = wn
+    #     if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
+    #         partition.attrs["layer_names"] = list(partition.keys())
+    #         obj_name = get_partition_obj_name(partitions_count)
+    #         partition.close()
+    #         bucket.upload_file(Filename="partition.h5", Key=obj_name)
+    #         os.remove("partition.h5")
+    #         wn = []
+    #         partitions_count += 1
+    #         partition = h5py.File("partition.h5", 'w')
+    #         partition.attrs['backend'] = 'tensorflow'
+    #         partition.attrs['keras_version'] = '2.15.0'
+    #         if i + 1 != len(layers.keys()):
+    #             partition.create_group(name)
 
 if len(partition.keys()) > 0:
     partition.attrs["layer_names"] = list(partition.keys())
