@@ -39,9 +39,12 @@ def extract_layer_names(weight_names):
         result[layer_name].append(w)
     return result
 
-
+start = True
 for k, name in enumerate(layer_names):
     file.copy(file[name], partition)
+    if start:
+        start = False
+        print(name)
     if os.stat("partition.h5").st_size / 1024 >= MIN_LAYER_SIZE:
         partition.attrs["layer_names"] = list(partition.keys())
         obj_name = get_partition_obj_name(partitions_count)
@@ -50,6 +53,7 @@ for k, name in enumerate(layer_names):
         os.remove("partition.h5")
         partitions_count += 1 
         partition = h5py.File("partition.h5", 'w')
+        start = True
     # partition.create_group(name)
     # wn = []
     # partition[name].attrs["weight_names"] = wn
