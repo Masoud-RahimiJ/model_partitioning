@@ -20,8 +20,8 @@ class TFModelLoader(ModelLoader):
             #     f.write(partition.read())
             if not self._model_initialized_event.is_set():
                 self._model_initialized_event.wait()
-            self.load_partition_tf(partition_name)
-            # self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+            # self.load_partition_tf(partition_name)
+            self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
             os.remove(partition_name)
         except Exception as e:
             print("!!!!!!")
@@ -48,6 +48,7 @@ def wrap_module(model):
     prams_dict = {}
     for m in model._flatten_layers():
         wrap_layer(m, prams_dict)
+    print(self.prams_dict.keys())
     return prams_dict
 
 def wrap_layer(module, prams_dict):
