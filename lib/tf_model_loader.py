@@ -48,13 +48,13 @@ def wrap_module(model):
     prams_dict = {}
     for m in model._flatten_layers():
         wrap_layer(m, prams_dict)
-    print(prams_dict.keys())
     return prams_dict
 
 def wrap_layer(module, prams_dict):
     params = extract_module_params(module)
     if len(params) > 0:
         for param in params:
+            print(param.name)
             prams_dict['/'.join(param.name.split('/')[1:])] = param
             param.is_loaded = False
             if hasattr(param, '_assign_placeholder'):
