@@ -52,8 +52,8 @@ def wrap_module(model):
 
 def wrap_layer(module, prams_dict):
     params = extract_module_params(module)
-    print(module.name)
-    if len(params) > 0:
+    if len(params) > 0 and module.name in ["input_1", "conv4_block10_2_bn", "conv4_block22_1_bn", "conv5_block3_1_bn"]:
+        print("yes")
         for param in params:
             prams_dict['/'.join(param.name.split('/')[1:])] = param
             param.is_loaded = False
