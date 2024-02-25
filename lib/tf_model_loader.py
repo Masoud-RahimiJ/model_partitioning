@@ -22,6 +22,8 @@ class TFModelLoader(ModelLoader):
                 self._model_initialized_event.wait()
             # self.load_partition_tf(partition_name)
             self._model.load_weights(partition_name, by_name=True, skip_mismatch=True)
+            lock = self.prams_dict.pop(0)
+            lock.set()
             os.remove(partition_name)
         except Exception as e:
             print("!!!!!!")
@@ -45,7 +47,8 @@ class TFModelLoader(ModelLoader):
 
 
 def wrap_module(model):
-    prams_dict = {}
+    # prams_dict = {}
+    prams_dict = []
     for m in model._flatten_layers():
         wrap_layer(m, prams_dict)
     return prams_dict
@@ -53,17 +56,17 @@ def wrap_module(model):
 def wrap_layer(module, prams_dict):
     params = extract_module_params(module)
     if len(params) > -1 and module.name in ["input_1", "conv4_block10_2_bn", "conv4_block22_1_bn", "conv5_block3_1_bn"]:
-        print("yes")
-        for param in params:
-            prams_dict['/'.join(param.name.split('/')[1:])] = param
-            param.is_loaded = False
-            if hasattr(param, '_assign_placeholder'):
-                param._assign_op = wrap_param_assign_op(param, param._assign_op)
-            else:
-                param.assign = wrap_param_assign(param, param.assign)
+        # for param in params:
+            # prams_dict['/'.join(param.name.split('/')[1:])] = param
+            # param.is_loaded = False
+            # if hasattr(param, '_assign_placeholder'):
+            #     param._assign_op = wrap_param_assign_op(param, param._assign_op)
+            # else:
+            #     param.assign = wrap_param_assign(param, param.assign)
         module.is_loaded = Event()
+        prams_dict.append(module.is_loaded)
         module.call = wrap_module_call(module, module.call)
-        module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
+        # module.finalize_state = wrap_module_finalize_state(module, module.finalize_state)
 
 def extract_module_params(module):
     return module._trainable_weights
