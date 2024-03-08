@@ -11,10 +11,10 @@ regnet = [8.5, 8.51, 8.65, 9.45, 11.4, 14.5]
 regnet_noP = [12.51, 12.61, 12.8, 13.5, 15.9, 18.2]
 
 gpt = [5.5, 5.6, 5.7, 5.9, 6.2, 6.5]
-gpt_noP = [5.8, 5.85, 5.9, 6.05, 6.35, 6.73]
+gpt_noP = [5.8, 5.85, 5.9, 6.05, 6.35, 6.63]
 
-labse = [14.1, 14.2, 14.45, 14.7, 15.3, 16.55]
-labse_noP = [14.3, 14.45, 14.92, 15, 15.5, 16.71]
+labse = [14.1, 14.2, 14.45, 14.77, 15.3, 16.55]
+labse_noP = [14.3, 14.42, 14.7, 15, 15.5, 16.71]
 
 gpt_xl = [27.35, 27.7, 28.4, 29.9, 32.1, 36.8]
 gpt_xl_noP = [28.4, 28.75, 29.5, 31, 33.2, 38]
@@ -26,7 +26,7 @@ whisper_md = [22.9, 24.2, 32.5, 44.4, 62.7, 102]
 whisper_md_noP = [24.1, 25.46, 32.94, 45.2, 63, 103]
 
 whisper_large = [43.1, 45.5, 58.8, 78.1, 112.8, 173]
-whisper_large_noP = [49.2, 51.06, 67.77, 83.7, 114, 175.7]
+whisper_large_noP = [49.2, 51.06, 64.77, 83.7, 116, 175.7]
 
 "git pull origin gpu && python3 -m evaluation.pytorch.gpt-bse"
 
@@ -52,15 +52,15 @@ def draw(labels, figures, idx, title):
         plt.plot(x_axis, y_axis[i], label=labels[i], marker='o', linestyle='dashed') 
 
     plt.xlabel('Batch Size')
-    plt.ylabel('Speed-up percent')
+    plt.ylabel('Overhead percent')
     plt.title(title) 
-    plt.yticks([0,5,10,15,20,25,30,35,40])
+    plt.yticks([0,5,10,15,20])
     plt.legend() 
   
 draw(vision_label, vision_figures, 1, "Vision")
 draw(nltp_label, nltp_figures, 2, "NLTP")
 draw(voice_label, voice_figures, 3, "Voice")
 # function to show the plot 
-plt.suptitle("Pytorch-CPU")
+plt.suptitle("Pytorch")
 plt.show() 
         

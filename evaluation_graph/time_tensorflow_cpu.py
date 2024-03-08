@@ -10,7 +10,7 @@ vgg19O = [3.47, 3.5, 3.58, 3.77, 4.14, 4.81]
 regnet = [10.4, 10.65, 11.9, 15.15, 20.6, 31.4]
 regnetO = [13.3, 13.7, 14.9, 17.7, 23.2, 33.8]
 
-gpt = [4.8, 4.95, 5.37, 6.1, 7.5, 10.6]
+gpt = [4.8, 4.97, 5.32, 6.05, 7.5, 10.8]
 gptO = [5.1, 5.25, 5.55, 6.2, 7.6, 10.9]
 
 labse = [12.65, 12.9, 14.4, 17.7, 23.6, 36]
@@ -33,12 +33,10 @@ vision_figures = [resnet, resnetO, vgg19, vgg19O, regnet, regnetO]
 vision_label = ["Resnet101", "Vgg19", "Regnet-y-128-gf"]
 nltp_figures = [gpt, gptO, labse, labseO, gpt_xl, gpt_xlO]
 nltp_label = ["Gpt2-base", "Labse", "Gpt2-xl"]
-voice_figures = [wav, wavO, whisper_md, whisper_mdO, whisper_large, whisper_largeO]
-voice_label = ["Wav2vec2-base", "Whisper-medium", "Whisper-large-v2"]
 
 
 def draw(labels, figures, idx, title):
-    plt.subplot(1,3,idx)
+    plt.subplot(1,2,idx)
     x_axis = ["1","2","4","8","16","32"]
     y_axis = []
     for i in range(0, len(figures), 2):
@@ -52,13 +50,12 @@ def draw(labels, figures, idx, title):
     plt.xlabel('Batch Size')
     plt.ylabel('Speed-up percent')
     plt.title(title) 
-    plt.yticks([0,5,10,15,20,25,30,35,40])
+    plt.yticks([0,5,10,15,20,25,30])
     plt.legend() 
   
 draw(vision_label, vision_figures, 1, "Vision")
 draw(nltp_label, nltp_figures, 2, "NLTP")
-draw(voice_label, voice_figures, 3, "Voice")
 # function to show the plot 
-plt.suptitle("Pytorch-CPU")
+plt.suptitle("TensorFlow-CPU")
 plt.show() 
         

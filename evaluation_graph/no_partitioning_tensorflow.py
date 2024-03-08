@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 
 resnet = [4.15, 4.17, 4.2, 4.26, 4.47, 4.93]
-resnetNP = [6.19, 6.22, 6.24, 6.38, 6.62, 6.9]
+resnetNP = [5.19, 5.22, 5.24, 5.38, 5.62, 5.9]
 
 vgg19 = [3.2, 3.21, 3.26, 3.37, 3.53, 3.88]
 vgg19NP = [3.3, 3.32, 3.35, 3.48, 3.68, 4]
@@ -33,12 +33,10 @@ vision_figures = [resnet, resnetNP, vgg19, vgg19NP, regnet, regnetNP]
 vision_label = ["Resnet101", "Vgg19", "Regnet-y-128-gf"]
 nltp_figures = [gpt, gptNP, labse, labseNP, gpt_xl, gpt_xlNP]
 nltp_label = ["Gpt2-base", "Labse", "Gpt2-xl"]
-voice_figures = [wav, wavNP, whisper_md, whisper_mdNP, whisper_large, whisper_largeNP]
-voice_label = ["Wav2vec2-base", "Whisper-medium", "Whisper-large-v2"]
 
 
 def draw(labels, figures, idx, title):
-    plt.subplot(1,3,idx)
+    plt.subplot(1,2,idx)
     x_axis = ["1","2","4","8","16","32"]
     y_axis = []
     for i in range(0, len(figures), 2):
@@ -50,15 +48,13 @@ def draw(labels, figures, idx, title):
         plt.plot(x_axis, y_axis[i], label=labels[i], marker='o', linestyle='dashed') 
 
     plt.xlabel('Batch Size')
-    plt.ylabel('Speed-up percent')
+    plt.ylabel('Overhead percent')
     plt.title(title) 
-    plt.yticks([0,5,10,15,20,25,30,35,40])
+    plt.yticks([0,10,20,30])
     plt.legend() 
   
 draw(vision_label, vision_figures, 1, "Vision")
 draw(nltp_label, nltp_figures, 2, "NLTP")
-draw(voice_label, voice_figures, 3, "Voice")
 # function to show the plot 
-plt.suptitle("Pytorch-CPU")
+plt.suptitle("TensorFlow")
 plt.show() 
-        

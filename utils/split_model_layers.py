@@ -1,5 +1,5 @@
 from torch import load, save
-import os, io
+import os, io, time
 import boto3
 from botocore.client import Config
 from collections import OrderedDict
@@ -10,7 +10,7 @@ BUCKET="dnn-models"
 OBJECT_NAME=os.getenv("OBJECT_NAME")
 MIN_LAYER_SIZE = int(os.getenv("MIN_LAYER_SIZE", 20000))
 
-s3 = boto3.resource('s3', endpoint_url='http://128.105.144.221:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://127.0.0.1:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket(BUCKET)
 
 def extract_layer_name(layer):
@@ -20,7 +20,9 @@ def extract_layer_name(layer):
 def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
-model = load(io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read()))
+model_params = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
+start = time.time()
+model = load(model_params)
 splitted_model = []
 previous_layer_name = ""
 
@@ -38,6 +40,7 @@ for i in range(len(splitted_model)):
     buffer = io.BytesIO()
     save(splitted_model[i], buffer)
     buffer=buffer.getvalue()
-    bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
+    # bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
     
 print(len(splitted_model))
+print(time.time()-start)
