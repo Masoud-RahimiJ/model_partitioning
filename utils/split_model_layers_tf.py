@@ -92,4 +92,4 @@ if len(partition.keys()) > 0:
         
 print(partitions_count)
 os.remove("partition.h5")
-print(time.time(-start_time))
+print(time.time()-start_time)
