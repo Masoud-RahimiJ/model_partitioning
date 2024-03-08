@@ -1,4 +1,4 @@
-import os, io
+import os, io, time
 import boto3
 from botocore.client import Config
 from keras.models import load_model
@@ -12,7 +12,7 @@ BUCKET="dnn-models"
 OBJECT_NAME=os.getenv("OBJECT_NAME")
 MIN_LAYER_SIZE = int(os.getenv("MIN_LAYER_SIZE", 10000))
 
-s3 = boto3.resource('s3', endpoint_url='http://128.105.144.221:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
+s3 = boto3.resource('s3', endpoint_url='http://127.0.0.1:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket(BUCKET)
 
 
@@ -20,6 +20,7 @@ def get_partition_obj_name(part):
     return OBJECT_NAME + '_' + str(part+1) + ".h5"
 
 bucket.download_file(Filename=f"{OBJECT_NAME}.h5", Key=f"{OBJECT_NAME}")
+start_time = time.time()
 file = h5py.File(f"{OBJECT_NAME}.h5", "r")
 layer_names = load_attributes_from_hdf5_group(file, 'layer_names')
 
@@ -49,7 +50,7 @@ for k, name in enumerate(layer_names):
         partition.attrs["layer_names"] = list(partition.keys())
         obj_name = get_partition_obj_name(partitions_count)
         partition.close()
-        bucket.upload_file(Filename="partition.h5", Key=obj_name)
+        # bucket.upload_file(Filename="partition.h5", Key=obj_name)
         os.remove("partition.h5")
         partitions_count += 1 
         partition = h5py.File("partition.h5", 'w')
@@ -86,8 +87,9 @@ if len(partition.keys()) > 0:
     partition.attrs["layer_names"] = list(partition.keys())
     partition.close()
     obj_name = get_partition_obj_name(partitions_count)
-    bucket.upload_file(Filename="partition.h5", Key=obj_name)
+    # bucket.upload_file(Filename="partition.h5", Key=obj_name)
     partitions_count += 1
         
 print(partitions_count)
 os.remove("partition.h5")
+print(time.time(-start_time))
