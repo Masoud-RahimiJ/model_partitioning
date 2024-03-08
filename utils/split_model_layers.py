@@ -14,7 +14,7 @@ s3 = boto3.resource('s3', endpoint_url='http://127.0.0.1:9000',aws_access_key_id
 bucket = s3.Bucket(BUCKET)
 
 def extract_layer_name(layer):
-    print(layer)
+    # print(layer)
     return '.'.join(layer.split('.')[0:-1])
 
 def get_layer_file_name(part):
