@@ -5,4 +5,5 @@ RUN pip install torchvision==0.14.1
 RUN pip install boto3==1.26.94
 RUN pip install transformers
 RUN pip install accelerate
+RUN apt install ffmpeg
 COPY . .
