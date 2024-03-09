@@ -11,7 +11,7 @@ from accelerate import init_empty_weights
 
 BUCKET="dnn-models"
 OBJECT_NAME="wav"
-COUNT_PARTITIONS=8
+COUNT_PARTITIONS=4
 MT = os.getenv("MT", "F")
 
 
