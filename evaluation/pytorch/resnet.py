@@ -12,7 +12,7 @@ from utils.image_loader import image
 BUCKET="dnn-models"
 OBJECT_NAME="resnet"
 COUNT_PARTITIONS = 11
-MT = os.getenv("MT", "T")
+MT = os.getenv("MT", "F")
 
 
 
