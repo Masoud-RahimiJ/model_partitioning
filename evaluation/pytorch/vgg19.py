@@ -12,12 +12,12 @@ from utils.image_loader import image
 BUCKET="dnn-models"
 OBJECT_NAME="vgg19"
 COUNT_PARTITIONS=2
-MT = os.getenv("MT", "F")
+MT = os.getenv("MT", "T")
 
 
 s3 = boto3.resource('s3', endpoint_url='http://128.110.219.188:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
-device = torch.device("cuda")
+device = torch.device("cpu")
 
 def init_model():
     # with init_empty_weights():

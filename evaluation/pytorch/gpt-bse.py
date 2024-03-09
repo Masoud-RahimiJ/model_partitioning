@@ -11,9 +11,9 @@ from lib.torch_model_loader import TorchModelLoader
 
 BUCKET="dnn-models"
 OBJECT_NAME="gpt2"
-COUNT_PARTITIONS=3
+COUNT_PARTITIONS=5
 MT = os.getenv("MT", "T")
-device = torch.device("cuda")
+device = torch.device("cpu")
 
 s3 = boto3.resource('s3', endpoint_url='http://128.110.219.188:9000',aws_access_key_id='admin', aws_secret_access_key='ramzminio', config=Config(signature_version='s3v4'),)
 bucket = s3.Bucket("dnn-models")
