@@ -13,7 +13,7 @@ from accelerate import init_empty_weights
 BUCKET="dnn-models"
 OBJECT_NAME="whisper-large"
 COUNT_PARTITIONS=46
-MT = os.getenv("MT", "T")
+MT = os.getenv("MT", "F")
 device = torch.device("cpu")
 
 

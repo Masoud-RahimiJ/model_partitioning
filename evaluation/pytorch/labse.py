@@ -12,7 +12,7 @@ from lib.torch_model_loader import TorchModelLoader
 BUCKET="dnn-models"
 OBJECT_NAME="labse"
 COUNT_PARTITIONS=8
-MT = os.getenv("MT", "T")
+MT = os.getenv("MT", "F")
 device = torch.device("cpu")
 
 session = boto3.Session()
