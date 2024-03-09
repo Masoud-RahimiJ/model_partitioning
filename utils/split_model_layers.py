@@ -40,7 +40,7 @@ for i in range(len(splitted_model)):
     buffer = io.BytesIO()
     save(splitted_model[i], buffer)
     buffer=buffer.getvalue()
-    # bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
+    bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
     
 print(len(splitted_model))
 print(time.time()-start)
