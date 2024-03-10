@@ -21,8 +21,8 @@ def get_layer_file_name(part):
     return OBJECT_NAME + '_' + str(part+1)
 
 model_params = io.BytesIO(bucket.Object(OBJECT_NAME).get()['Body'].read())
-start = time.time()
 model = load(model_params)
+start = time.time()
 splitted_model = []
 previous_layer_name = ""
 
@@ -36,11 +36,11 @@ for key, value in  model.items():
     previous_layer_name = layer_name
     
 
-for i in range(len(splitted_model)):
-    buffer = io.BytesIO()
-    save(splitted_model[i], buffer)
-    buffer=buffer.getvalue()
-    bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
+# for i in range(len(splitted_model)):
+#     buffer = io.BytesIO()
+#     save(splitted_model[i], buffer)
+#     buffer=buffer.getvalue()
+    # bucket.put_object(Key=get_layer_file_name(i), Body=buffer)
     
 print(len(splitted_model))
 print(time.time()-start)

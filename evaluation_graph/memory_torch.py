@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # method = [780, 1899, 5688, 1704, 5773, 13243, 1133, 6563, 12647]
-method = [653, 1810, 3838, 1704, 5773, 13243, 1133, 6563, 12647]
+method = [653, 1810, 3838, 1298, 5330, 7528, 1011, 4065, 7484]
 original = [806, 1936, 7677, 1733, 8262, 18193, 1390, 9067, 17980]
 
 
@@ -24,5 +24,5 @@ for start in range(3):
     plt.ylabel("Memory")
     plt.title(tt[start])
     
-plt.suptitle("Peak Memory Usage")
+plt.suptitle("Peak Memory Usage PyTorch")
 plt.show()
